@@ -127,77 +127,53 @@ for day_index in range(DAYS_IN_WEEK):
 - Use question form: `is_valid`, `has_permission`, `can_edit`
 - Avoid negatives: `is_enabled` instead of `is_not_disabled`
 
-### 💡 **Vive Coding Prompt: Legacy Code Naming Audit**
+### 💡 **Vive Coding Prompt: Naming Convention Improvement**
 
-**Scenario**: You're leading a code quality initiative and have been asked to improve the naming conventions in a critical e-commerce module.
+**Scenario**: You need to improve the naming conventions in your codebase to make it more readable and maintainable.
 
-**Current Problematic Code**:
-```python
-class OrderMgr:
-    def __init__(self):
-        self.db = DB()
-        self.cfg = Config()
-        
-    def proc(self, data):
-        # Process order data
-        u = self.db.get_user(data['uid'])
-        if not u:
-            return False
-            
-        items = []
-        for i in data['items']:
-            p = self.db.get_product(i['pid'])
-            if p.qty >= i['q']:
-                p.qty -= i['q']
-                items.append({
-                    'p': p,
-                    'q': i['q'],
-                    'amt': p.price * i['q']
-                })
-            else:
-                return False
-                
-        total = sum([item['amt'] for item in items])
-        
-        if u.balance >= total:
-            o = Order()
-            o.uid = u.id
-            o.items = items
-            o.total = total
-            o.ts = datetime.now()
-            
-            self.db.save(o)
-            u.balance -= total
-            self.db.save(u)
-            
-            self.send_conf(u.email, o)
-            return True
-        
-        return False
-        
-    def send_conf(self, email, order):
-        # Send confirmation email
-        pass
+**Your Task - Use this prompt with your actual code**:
+
+```
+I have code with poor naming conventions that make it hard to understand and maintain. Here's a sample of the problematic code: [PASTE YOUR CODE WITH POOR NAMING HERE]
+
+The context of this code is: [DESCRIBE WHAT THE CODE DOES]
+
+Please help me:
+
+1. **Naming Audit**:
+   - Identify all problematic names in my code
+   - Categorize the issues: abbreviations, unclear purpose, missing context, inconsistent conventions
+   - Explain why each name is problematic and how it hurts readability
+
+2. **Improvement Strategy**:
+   - Suggest better names for each problematic identifier
+   - Explain the reasoning behind each suggested name
+   - Ensure names follow consistent conventions for the language/framework
+
+3. **Refactoring Plan**:
+   - Create a prioritized list of naming changes based on impact and frequency of use
+   - Suggest a step-by-step approach to implement the changes safely
+   - Recommend tools or techniques for automated renaming where possible
+
+4. **Context and Domain Alignment**:
+   - Ensure names reflect the business domain and are meaningful to stakeholders
+   - Suggest names that make the code self-documenting
+   - Recommend how to handle domain-specific terminology consistently
+
+5. **Team Guidelines**:
+   - Create naming convention guidelines for my team
+   - Suggest code review checklist items for naming quality
+   - Recommend how to maintain consistency across the codebase
+
+6. **Testing Strategy**:
+   - Suggest how to ensure refactoring doesn't break functionality
+   - Recommend testing approaches for large-scale naming changes
+   - Identify potential risks and mitigation strategies
+
+Please provide specific, actionable advice that will make my code more readable and self-documenting.
 ```
 
-**Your Task**:
-
-1. **Naming Audit**: 
-   - Identify all problematic names in the code
-   - Categorize issues: abbreviations, unclear purpose, missing context
-   - Rate each issue's impact on readability (High/Medium/Low)
-
-2. **Refactoring Plan**:
-   - Create a mapping from old names to new names
-   - Prioritize changes based on frequency of use and clarity impact
-   - Consider backward compatibility if this is a public API
-
-3. **Implementation Strategy**:
-   - Develop a step-by-step refactoring approach
-   - Identify dependencies that might be affected
-   - Plan testing strategy to ensure no functionality is broken
-
-4. **Team Guidelines**:
+**How to Use**: Replace the placeholders with your actual code and context to get specific guidance on improving naming conventions.
    - Create naming convention guidelines for your team
    - Design a code review checklist for naming quality
    - Propose tooling (linters, IDE plugins) to enforce standards
@@ -329,74 +305,65 @@ user_notification = NotificationService.send_email(
 | **C#** | EditorConfig, StyleCop | `.editorconfig` |
 | **Go** | gofmt (built-in) | No configuration needed |
 
-### 💡 **Vive Coding Prompt: Code Style Standardization Project**
+### 💡 **Vive Coding Prompt: Code Style Standardization**
 
-**Scenario**: Your growing development team has inconsistent code formatting across projects, causing friction in code reviews and making code harder to maintain.
+**Scenario**: Your team has inconsistent code formatting that's causing friction in development and code reviews.
 
-**Current Situation**:
-- 5 developers with different IDE preferences and settings
-- 3 different JavaScript projects with varying formatting styles
-- Code reviews frequently get derailed by style discussions
-- New team members struggle with inconsistent patterns
+**Your Task - Use this prompt with your actual situation**:
 
-**Sample Inconsistent Code**:
-```javascript
-// Developer A's style
-function calculateTax(income,deductions,taxRate) {
-  const taxableIncome=income-deductions;
-  return taxableIncome*taxRate;
-}
-
-// Developer B's style
-function calculateTax( income, deductions, taxRate ) 
-{
-    const taxableIncome = income - deductions ;
-    return taxableIncome * taxRate ;
-}
-
-// Developer C's style
-function calculateTax(
-    income,
-    deductions,
-    taxRate
-) {
-    const taxableIncome = (income - deductions);
-    return (taxableIncome * taxRate);
-}
 ```
+My development team has inconsistent code formatting and style that's causing problems. Here's my situation:
 
-**Your Task**:
+Team context: [DESCRIBE YOUR TEAM - size, experience levels, current tools and practices]
 
-1. **Style Analysis**:
-   - Document the current style variations across the team
-   - Identify the most contentious formatting issues
-   - Research industry standards for your tech stack
+Current style problems: [LIST SPECIFIC ISSUES - inconsistent formatting, style debates in reviews, etc.]
+
+Technology stack: [LIST YOUR LANGUAGES, FRAMEWORKS, AND TOOLS]
+
+Sample of inconsistent code: [PASTE EXAMPLES OF DIFFERENT STYLES FROM YOUR CODEBASE]
+
+Please help me:
+
+1. **Style Analysis and Standards**:
+   - Analyze the style inconsistencies in my code examples
+   - Recommend industry-standard formatting conventions for my technology stack
+   - Suggest which style decisions are most important to standardize
+   - Help me balance team preferences with established best practices
 
 2. **Tool Selection and Configuration**:
-   - Choose appropriate formatting tools (Prettier, ESLint, etc.)
-   - Create configuration files that balance team preferences with industry standards
-   - Set up pre-commit hooks to enforce formatting
+   - Recommend appropriate formatting and linting tools for my tech stack
+   - Help me create configuration files that enforce consistent style
+   - Suggest IDE/editor plugins and settings for team members
+   - Recommend automated formatting tools that integrate with my workflow
 
-3. **Migration Strategy**:
-   - Plan how to apply formatting to existing codebases
-   - Address potential merge conflicts during the transition
-   - Communicate changes to stakeholders
+3. **Implementation Strategy**:
+   - Create a plan for applying formatting standards to existing code
+   - Suggest how to handle potential merge conflicts during the transition
+   - Recommend a phased rollout approach that minimizes disruption
+   - Design processes for maintaining consistency going forward
 
-4. **Team Adoption Plan**:
-   - Create IDE setup guides for team members
-   - Design training sessions on the new standards
-   - Establish code review guidelines that focus on logic over style
+4. **Team Adoption and Training**:
+   - Create setup guides for team members' development environments
+   - Suggest how to communicate the changes and get team buy-in
+   - Recommend training approaches for new standards
+   - Design code review guidelines that focus on logic over style
 
-5. **Maintenance and Evolution**:
-   - Plan for updating standards as the team grows
-   - Design a process for proposing style changes
-   - Set up monitoring to ensure continued compliance
+5. **Automation and Enforcement**:
+   - Set up pre-commit hooks and CI/CD integration for style enforcement
+   - Recommend how to handle style violations in the development workflow
+   - Suggest monitoring approaches to ensure continued compliance
+   - Create processes for updating standards as the team evolves
 
-**Deliverable**: 
-- Complete style guide with tool configurations
-- Team onboarding documentation
-- Automated enforcement setup (CI/CD integration)
-- Rollout timeline and communication plan
+6. **Change Management**:
+   - Help me communicate the benefits of standardization to stakeholders
+   - Suggest how to handle resistance to style changes
+   - Recommend metrics to measure the success of standardization efforts
+   - Create processes for proposing future style changes
+
+Please provide specific, actionable recommendations that will result in consistent, maintainable code style across my team.
+```
+
+**How to Use**: Replace the placeholders with your specific team context and style issues to get customized guidance on code standardization.
 
 ---
 
@@ -538,85 +505,63 @@ def calculate_tax(income):
 
 ### 💡 **Vive Coding Prompt: Documentation Quality Improvement**
 
-**Scenario**: Your team has been asked to improve the documentation of a critical financial calculation module before handing it off to a new team for maintenance.
+**Scenario**: You need to improve the documentation of code that's poorly documented and hard to understand.
 
-**Current Under-Documented Code**:
-```python
-class InvestmentCalculator:
-    def __init__(self, strategy="conservative"):
-        self.strategy = strategy
-        self.rates = {"conservative": 0.04, "moderate": 0.07, "aggressive": 0.12}
-        
-    def calc_future_value(self, principal, years, contributions=0, freq=12):
-        r = self.rates[self.strategy] / freq
-        n = years * freq
-        
-        # Compound interest formula
-        fv_principal = principal * (1 + r) ** n
-        
-        # Future value of annuity formula  
-        if contributions > 0:
-            fv_contributions = contributions * (((1 + r) ** n - 1) / r)
-        else:
-            fv_contributions = 0
-            
-        return fv_principal + fv_contributions
-    
-    def withdrawal_analysis(self, balance, years, inflation=0.03):
-        # Safe withdrawal rate analysis
-        swr = 0.04  # 4% rule
-        annual_withdrawal = balance * swr
-        
-        # Adjust for inflation
-        real_purchasing_power = []
-        for year in range(years):
-            adjusted_power = annual_withdrawal / ((1 + inflation) ** year)
-            real_purchasing_power.append(adjusted_power)
-            
-        return {
-            'annual_withdrawal': annual_withdrawal,
-            'purchasing_power': real_purchasing_power,
-            'total_withdrawn': annual_withdrawal * years
-        }
+**Your Task - Use this prompt with your actual code**:
+
+```
+I have code that's poorly documented and needs better documentation before it can be maintained by others. Here's my situation:
+
+Code that needs documentation: [PASTE YOUR UNDER-DOCUMENTED CODE HERE]
+
+Context and purpose: [DESCRIBE WHAT THE CODE DOES AND WHY IT EXISTS]
+
+Target audience: [DESCRIBE WHO WILL MAINTAIN THIS CODE - their experience level, domain knowledge, etc.]
+
+Current documentation problems: [LIST SPECIFIC ISSUES - missing comments, unclear variable names, no docstrings, etc.]
+
+Please help me:
+
+1. **Documentation Audit and Strategy**:
+   - Analyze my code and identify where documentation would add the most value
+   - Distinguish between areas that need comments vs. areas that need better self-documenting code
+   - Suggest what types of documentation are most important for my specific context
+   - Recommend the right balance between comments, docstrings, and external documentation
+
+2. **Self-Documenting Code Improvements**:
+   - Suggest better names for variables, functions, and classes that make the code more self-explanatory
+   - Recommend how to break down complex logic into well-named intermediate steps
+   - Suggest type hints and parameter improvements that clarify intent
+   - Identify opportunities to make the code structure more intuitive
+
+3. **Strategic Comments and Explanations**:
+   - Identify where comments would genuinely help future maintainers
+   - Suggest what business rules, algorithms, or domain knowledge should be documented
+   - Recommend how to explain complex formulas, calculations, or logic
+   - Help me avoid redundant comments that just restate the code
+
+4. **Comprehensive Docstrings**:
+   - Create detailed function and class documentation with clear examples
+   - Include parameter descriptions, return value formats, and usage examples
+   - Document any assumptions, preconditions, or side effects
+   - Suggest how to make docstrings useful for both developers and tools
+
+5. **External Documentation Planning**:
+   - Recommend what higher-level documentation is needed (module overview, architecture, etc.)
+   - Suggest how to document complex domain concepts or mathematical formulas
+   - Create usage examples and common scenarios
+   - Design documentation that stays current as code evolves
+
+6. **Documentation Maintenance**:
+   - Suggest processes to keep documentation current as code changes
+   - Recommend tools or practices that help maintain documentation quality
+   - Create guidelines for future documentation standards
+   - Design review processes that ensure documentation quality
+
+Please provide specific, actionable recommendations that will make my code understandable and maintainable by others.
 ```
 
-**Your Task**:
-
-1. **Documentation Audit**:
-   - Identify areas where comments would add genuine value
-   - Find places where self-documenting code improvements could eliminate need for comments
-   - Determine what external documentation is needed
-
-2. **Improve Self-Documentation**:
-   - Refactor variable and function names for clarity
-   - Break down complex calculations into well-named intermediate steps
-   - Add type hints and meaningful parameter names
-
-3. **Add Strategic Comments**:
-   - Explain complex financial formulas and their sources
-   - Document business rules and assumptions
-   - Clarify any non-obvious algorithmic choices
-
-4. **Create Comprehensive Docstrings**:
-   - Write detailed function documentation with examples
-   - Include parameter validation requirements
-   - Document expected return value formats
-   - Add usage examples for complex scenarios
-
-5. **External Documentation**:
-   - Create a module-level overview explaining the financial concepts
-   - Document the mathematical formulas with references
-   - Provide usage examples for common scenarios
-
-**Constraints**:
-- New team has financial knowledge but limited programming experience
-- Code must be maintainable by developers who didn't write it
-- Documentation must remain accurate as code evolves
-
-**Deliverable**: 
-- Fully documented code with improved self-documentation
-- Module-level documentation with examples
-- Documentation maintenance guidelines
+**How to Use**: Replace the placeholders with your actual under-documented code and context to get specific guidance on improving documentation quality.
 
 ---
 

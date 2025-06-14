@@ -61,46 +61,42 @@ To identify whether a class violates SRP, ask these questions:
 
 ### 💡 **Vive Coding Prompt: SRP Refactoring Challenge**
 
-**Scenario**: You've inherited a legacy `UserReport` class that has grown over time to handle multiple responsibilities.
+**Scenario**: You've identified a class in your codebase that handles multiple responsibilities and violates the Single Responsibility Principle.
 
-```python
-class UserReport:
-    def __init__(self, user_id):
-        self.user_id = user_id
-        self.db_connection = Database.connect()
-    
-    def fetch_user_data(self):
-        # Database queries
-        pass
-    
-    def generate_pdf(self):
-        # PDF generation logic
-        pass
-    
-    def send_email(self):
-        # Email sending logic
-        pass
-    
-    def validate_user_permissions(self):
-        # Permission checking
-        pass
-    
-    def log_report_generation(self):
-        # Logging logic
-        pass
+**Your Task - Use this prompt with your actual code**:
+
+```
+I have a class that seems to be doing too many things and violates the Single Responsibility Principle. Here's the class: [PASTE YOUR CLASS CODE HERE]
+
+Please help me:
+
+1. **Responsibility Analysis**: 
+   - List all the different responsibilities this class currently handles
+   - Identify the stakeholders who would request changes for each responsibility
+   - Explain why each responsibility should be separate
+
+2. **Refactoring Strategy**:
+   - Suggest how to split this class into focused, single-responsibility classes
+   - Recommend which responsibility to extract first and why
+   - Propose clear, descriptive names for the new classes
+
+3. **Implementation Plan**:
+   - Provide a step-by-step migration approach that won't break existing functionality
+   - Suggest how to handle dependencies between the new classes
+   - Recommend interfaces or abstractions to maintain flexibility
+
+4. **Testing Improvements**:
+   - Explain how the new design will improve testability
+   - Suggest what types of tests should be written for each new class
+
+5. **Team Guidelines**:
+   - Create a checklist to help identify SRP violations in future code reviews
+   - Suggest naming conventions that make single responsibilities clear
+
+Please provide practical, actionable advice that I can implement immediately in my project.
 ```
 
-**Your Task**:
-1. **Identify Responsibilities**: List all the different responsibilities this class handles
-2. **Identify Stakeholders**: For each responsibility, identify who would request changes
-3. **Design New Structure**: Create a class diagram showing how you would split these responsibilities
-4. **Implementation Plan**: 
-   - Which class would you extract first? Why?
-   - How would you handle dependencies between the new classes?
-   - What interfaces would you create to maintain flexibility?
-5. **Testing Strategy**: How would your new design improve testability?
-
-**Deliverable**: A refactored design with clear separation of responsibilities and a migration plan.
+**How to Use**: Replace [PASTE YOUR CLASS CODE HERE] with your actual problematic class and run this prompt with your AI assistant or use it as a code review checklist.
 
 ---
 
@@ -150,34 +146,52 @@ class NotificationService:
 - **Better Testing**: New behavior can be tested independently
 - **Improved Modularity**: Clear extension points make architecture more understandable
 
-### 💡 **Vive Coding Prompt: Payment Processing Extension**
+### 💡 **Vive Coding Prompt: Open-Closed Principle Implementation**
 
-**Scenario**: Your e-commerce system currently supports credit card payments, but you need to add PayPal, Apple Pay, and cryptocurrency options.
+**Scenario**: You need to extend functionality in your system without modifying existing, tested code.
 
-**Current Implementation** (violates OCP):
-```python
-class PaymentProcessor:
-    def process_payment(self, amount, payment_type, details):
-        if payment_type == "credit_card":
-            return self._process_credit_card(amount, details)
-        elif payment_type == "paypal":
-            return self._process_paypal(amount, details)
-        # More if-else statements for each new payment type
+**Your Task - Use this prompt with your actual code**:
+
+```
+I have a system that needs to be extended with new functionality, but I want to follow the Open-Closed Principle (open for extension, closed for modification). Here's my current implementation: [PASTE YOUR CODE HERE]
+
+The new functionality I need to add is: [DESCRIBE NEW REQUIREMENTS]
+
+Please help me:
+
+1. **OCP Analysis**:
+   - Identify where my current code violates the Open-Closed Principle
+   - Explain why the current design makes it hard to add new features
+   - Point out any if-else chains or switch statements that indicate OCP violations
+
+2. **Extension Strategy**:
+   - Design an interface-based architecture that allows extension without modification
+   - Suggest appropriate abstractions and interfaces
+   - Recommend design patterns that support OCP (Strategy, Template Method, etc.)
+
+3. **Refactoring Plan**:
+   - Provide a step-by-step approach to refactor existing code
+   - Show how to extract interfaces from concrete implementations
+   - Suggest how to handle backward compatibility during the transition
+
+4. **Implementation Guidelines**:
+   - Create a template for adding new implementations
+   - Suggest naming conventions for extensible components
+   - Recommend configuration approaches for managing extensions
+
+5. **Validation Framework**:
+   - Design a way to ensure all implementations follow the same contracts
+   - Suggest testing strategies for extensible systems
+   - Recommend documentation standards for extension points
+
+6. **Future-Proofing**:
+   - Identify other areas in my codebase that might benefit from OCP
+   - Suggest guidelines for writing extension-friendly code from the start
+
+Please provide concrete, implementable solutions that I can apply to my specific use case.
 ```
 
-**Your Task**:
-1. **Design Extension-Friendly Architecture**: Create an interface-based design that supports adding new payment methods without modifying existing code
-2. **Implement Core Interfaces**: Define the abstractions needed for payment processing
-3. **Migration Strategy**: How would you refactor the existing code to use your new design?
-4. **Validation Framework**: How would you ensure all payment processors follow the same validation rules?
-5. **Configuration Management**: Design a system for dynamically enabling/disabling payment methods
-
-**Bonus Challenge**: Design the system to support:
-- Different fee structures per payment method
-- Region-specific payment method availability
-- A/B testing of payment flows
-
-**Deliverable**: A complete payment processing architecture that demonstrates OCP compliance.
+**How to Use**: Replace the placeholders with your actual code and requirements, then use this prompt to get specific guidance for implementing OCP in your project.
 
 ---
 
@@ -262,50 +276,53 @@ class Square(Shape):
         return self._side ** 2
 ```
 
-### 💡 **Vive Coding Prompt: Vehicle Hierarchy Design**
+### 💡 **Vive Coding Prompt: Liskov Substitution Principle Validation**
 
-**Scenario**: You're designing a vehicle management system for a transportation company that handles cars, trucks, motorcycles, and electric vehicles.
+**Scenario**: You need to design or fix an inheritance hierarchy that properly follows the Liskov Substitution Principle.
 
-**Current Problematic Design**:
-```python
-class Vehicle:
-    def start_engine(self):
-        print("Engine started")
-    
-    def fuel_up(self, amount):
-        self.fuel_level += amount
-    
-    def shift_gear(self, gear):
-        self.current_gear = gear
+**Your Task - Use this prompt with your actual code**:
 
-class ElectricCar(Vehicle):
-    def start_engine(self):  # LSP violation - no engine!
-        print("Battery system activated")
-    
-    def fuel_up(self, amount):  # LSP violation - no fuel!
-        raise NotSupportedError("Electric cars don't use fuel")
+```
+I'm working on an inheritance hierarchy and want to ensure it follows the Liskov Substitution Principle (LSP). Here's my current design: [PASTE YOUR INHERITANCE HIERARCHY HERE]
 
-class Motorcycle(Vehicle):
-    def shift_gear(self, gear):  # Some motorcycles are automatic
-        if self.is_automatic:
-            raise NotSupportedError("Automatic transmission")
-        super().shift_gear(gear)
+The specific use cases I need to support are: [DESCRIBE YOUR REQUIREMENTS]
+
+Please help me:
+
+1. **LSP Violation Analysis**:
+   - Identify any violations of the Liskov Substitution Principle in my current design
+   - Explain why each violation breaks the "substitutability" requirement
+   - Point out any methods that throw "NotImplemented" or "NotSupported" exceptions
+
+2. **Contract Definition**:
+   - Define clear preconditions, postconditions, and invariants for each class
+   - Specify what behaviors must be preserved in subclasses
+   - Identify which methods should be abstract vs concrete
+
+3. **Design Alternatives**:
+   - Suggest alternative inheritance structures that respect LSP
+   - Recommend when to use composition instead of inheritance
+   - Propose interface segregation to avoid forcing unwanted dependencies
+
+4. **Substitution Testing**:
+   - Create test scenarios that verify subclasses can replace parent classes
+   - Suggest automated tests to catch LSP violations
+   - Provide guidelines for validating behavioral compatibility
+
+5. **Implementation Strategy**:
+   - Recommend a step-by-step approach to fix LSP violations
+   - Suggest how to handle existing code that depends on the current design
+   - Provide naming conventions that make contracts clear
+
+6. **Future Guidelines**:
+   - Create a checklist for evaluating LSP compliance in code reviews
+   - Suggest design patterns that naturally support LSP
+   - Recommend documentation standards for inheritance hierarchies
+
+Please provide specific, actionable advice that ensures my inheritance hierarchy is truly substitutable and maintainable.
 ```
 
-**Your Task**:
-1. **Identify LSP Violations**: List all the ways the current design violates LSP
-2. **Redesign the Hierarchy**: Create a proper inheritance structure that respects LSP
-3. **Define Contracts**: Specify preconditions, postconditions, and invariants for each abstraction
-4. **Composition vs Inheritance**: Decide which behaviors should be inherited vs composed
-5. **Validation**: Write test cases that verify LSP compliance
-
-**Design Constraints**:
-- Support both fuel-based and electric vehicles
-- Handle both manual and automatic transmissions
-- Account for different starting mechanisms (key, button, app)
-- Support vehicles with different numbers of wheels
-
-**Deliverable**: A vehicle hierarchy that passes the LSP substitution test with comprehensive documentation of contracts.
+**How to Use**: Replace the placeholders with your actual inheritance hierarchy and requirements to get specific guidance on LSP compliance.
 
 ---
 
@@ -364,56 +381,53 @@ class Manager(Supervisable, Eatable, Sleepable):
     pass
 ```
 
-### 💡 **Vive Coding Prompt: API Gateway Interface Design**
+### 💡 **Vive Coding Prompt: Interface Segregation Implementation**
 
-**Scenario**: You're designing interfaces for an API Gateway that serves different types of clients: mobile apps, web applications, third-party integrations, and internal services.
+**Scenario**: You have a large, monolithic interface that forces clients to depend on methods they don't use.
 
-**Current Monolithic Interface**:
-```python
-class APIGatewayInterface:
-    # Authentication
-    def authenticate_user(self, credentials): pass
-    def authenticate_service(self, api_key): pass
-    def validate_jwt_token(self, token): pass
-    
-    # Rate Limiting
-    def check_rate_limit(self, client_id): pass
-    def update_rate_limit(self, client_id): pass
-    
-    # Caching
-    def get_cached_response(self, key): pass
-    def set_cached_response(self, key, value): pass
-    def invalidate_cache(self, pattern): pass
-    
-    # Analytics
-    def log_request(self, request_data): pass
-    def get_analytics_data(self, filters): pass
-    def generate_reports(self, parameters): pass
-    
-    # Admin Functions
-    def manage_clients(self, action, client_data): pass
-    def configure_routing(self, rules): pass
-    def update_security_policies(self, policies): pass
+**Your Task - Use this prompt with your actual code**:
+
+```
+I have an interface that's become too large and forces clients to implement or depend on methods they don't actually need. Here's my current interface: [PASTE YOUR INTERFACE CODE HERE]
+
+The different types of clients that use this interface are: [DESCRIBE YOUR CLIENT TYPES AND THEIR NEEDS]
+
+Please help me:
+
+1. **Interface Analysis**:
+   - Identify which methods are actually used by each client type
+   - Point out where clients are forced to implement methods they don't need
+   - Explain how the current design violates the Interface Segregation Principle
+
+2. **Segregation Strategy**:
+   - Design focused, client-specific interfaces that contain only relevant methods
+   - Suggest meaningful names for the segregated interfaces
+   - Show how to group related methods logically
+
+3. **Implementation Approach**:
+   - Demonstrate how a single class can implement multiple segregated interfaces
+   - Suggest how clients should receive only the interfaces they need
+   - Recommend dependency injection patterns for interface segregation
+
+4. **Migration Plan**:
+   - Provide a step-by-step approach to refactor existing code
+   - Suggest how to maintain backward compatibility during transition
+   - Recommend testing strategies to ensure nothing breaks
+
+5. **Client-Interface Mapping**:
+   - Create a clear mapping showing which clients use which interfaces
+   - Suggest how to handle clients that need multiple interfaces
+   - Recommend patterns for composing interfaces when needed
+
+6. **Future Evolution**:
+   - Design the interfaces to support adding new client types easily
+   - Suggest versioning strategies for interface evolution
+   - Recommend documentation standards for interface contracts
+
+Please provide concrete, implementable solutions that make my interfaces more focused and client-friendly.
 ```
 
-**Your Task**:
-1. **Client Analysis**: Identify what each client type actually needs
-   - Mobile apps: Authentication, basic rate limiting
-   - Web apps: Authentication, caching, basic analytics
-   - Third-party: Service authentication, strict rate limiting
-   - Internal services: No rate limiting, full caching, admin functions
-
-2. **Interface Segregation**: Design focused interfaces for each client type
-3. **Implementation Strategy**: Show how a single gateway class can implement multiple interfaces
-4. **Dependency Management**: Design how clients will receive only their required interfaces
-5. **Evolution Plan**: How would you add new client types without affecting existing ones?
-
-**Advanced Challenges**:
-- Design interfaces that support both sync and async operations
-- Handle partial implementations (some clients need read-only access)
-- Support interface versioning for backward compatibility
-
-**Deliverable**: A set of segregated interfaces with clear client-to-interface mapping and implementation examples.
+**How to Use**: Replace the placeholders with your actual interface and client information to get specific guidance on implementing ISP.
 
 ---
 
@@ -490,46 +504,58 @@ class DatabaseFactory:
 - **Reduced Coupling**: Business logic is independent of technical details
 - **Better Architecture**: Clear separation between policy and implementation
 
-### 💡 **Vive Coding Prompt: E-commerce Order Processing System**
+### 💡 **Vive Coding Prompt: Dependency Inversion Implementation**
 
-**Scenario**: You're building an order processing system that needs to handle payments, inventory management, shipping, and notifications. Currently, everything is tightly coupled to specific implementations.
+**Scenario**: You have high-level business logic that's tightly coupled to low-level implementation details.
 
-**Current Problematic Code**:
-```python
-class OrderProcessor:
-    def __init__(self):
-        self.payment_gateway = StripePaymentGateway()  # Tight coupling
-        self.inventory_system = MySQLInventoryDB()     # Tight coupling
-        self.shipping_service = FedExShippingAPI()     # Tight coupling
-        self.notification_service = SMTPEmailService() # Tight coupling
-    
-    def process_order(self, order_data):
-        # Business logic mixed with implementation details
-        if self.inventory_system.check_stock(order_data['items']):
-            payment_result = self.payment_gateway.charge_card(
-                order_data['payment_info']
-            )
-            if payment_result.success:
-                self.inventory_system.reserve_items(order_data['items'])
-                shipping_label = self.shipping_service.create_label(
-                    order_data['shipping']
-                )
-                self.notification_service.send_confirmation_email(
-                    order_data['customer_email']
-                )
+**Your Task - Use this prompt with your actual code**:
+
+```
+I have business logic that's tightly coupled to specific implementations, making it hard to test and modify. Here's my current code: [PASTE YOUR TIGHTLY COUPLED CODE HERE]
+
+The external dependencies my code currently uses are: [LIST YOUR DEPENDENCIES: databases, APIs, file systems, etc.]
+
+Please help me:
+
+1. **Dependency Analysis**:
+   - Identify all the low-level dependencies in my current code
+   - Explain how these dependencies make the code hard to test and maintain
+   - Point out where business logic is mixed with implementation details
+
+2. **Abstraction Design**:
+   - Create appropriate interfaces/abstractions for each dependency
+   - Define clear contracts that capture essential operations without implementation details
+   - Suggest meaningful names for the abstractions
+
+3. **Inversion Strategy**:
+   - Show how to refactor the business logic to depend only on abstractions
+   - Demonstrate dependency injection patterns (constructor, setter, or interface injection)
+   - Recommend how to structure the code for maximum flexibility
+
+4. **Implementation Management**:
+   - Suggest how to organize concrete implementations
+   - Recommend patterns for creating and wiring dependencies
+   - Show how to handle complex dependency graphs
+
+5. **Testing Strategy**:
+   - Demonstrate how the new design enables easy unit testing
+   - Suggest mocking strategies for the abstracted dependencies
+   - Recommend integration testing approaches
+
+6. **Configuration and Environment Management**:
+   - Design a system for managing different implementations across environments
+   - Suggest configuration patterns for dependency selection
+   - Recommend how to handle environment-specific settings
+
+7. **Migration Plan**:
+   - Provide a step-by-step approach to refactor existing code
+   - Suggest how to maintain functionality during the transition
+   - Recommend testing strategies to ensure correctness
+
+Please provide concrete, implementable solutions that make my code more testable and flexible.
 ```
 
-**Your Task**:
-1. **Identify Dependencies**: List all the low-level dependencies in the current code
-2. **Design Abstractions**: Create interfaces that capture the essential operations without implementation details
-3. **Refactor Business Logic**: Rewrite the OrderProcessor to depend only on abstractions
-4. **Dependency Injection**: Design a system for injecting dependencies (constructor, setter, or framework-based)
-5. **Configuration Management**: How will you manage different implementations for different environments (dev, staging, prod)?
-
-**Advanced Requirements**:
-- Support multiple payment processors with fallback logic
-- Handle partial order fulfillment (some items out of stock)
-- Support different shipping options with different carriers
+**How to Use**: Replace the placeholders with your actual tightly coupled code and dependencies to get specific guidance on implementing DIP.
 - Implement retry logic for failed external service calls
 - Add comprehensive logging and monitoring
 
@@ -576,46 +602,53 @@ DRY isn't just about avoiding duplicate code—it's about avoiding duplicate *kn
 | **WET** (Write Everything Twice) | Allow some duplication | When unsure if similarities are coincidental |
 | **AHA** (Avoid Hasty Abstractions) | Abstract after patterns emerge | When you see the same thing three times |
 
-### 💡 **Vive Coding Prompt: User Validation Refactoring**
+### 💡 **Vive Coding Prompt: DRY Principle Implementation**
 
-**Scenario**: Your application has user validation logic scattered across multiple components.
+**Scenario**: You've identified code duplication in your project that violates the DRY principle.
 
-**Current Duplication**:
-```python
-# In UserRegistrationController
-def register_user(self, user_data):
-    if not user_data.get('email') or '@' not in user_data['email']:
-        raise ValidationError("Invalid email")
-    if not user_data.get('password') or len(user_data['password']) < 8:
-        raise ValidationError("Password too short")
-    # ... rest of registration logic
+**Your Task - Use this prompt with your actual code**:
 
-# In UserUpdateController  
-def update_user(self, user_id, user_data):
-    if user_data.get('email') and '@' not in user_data['email']:
-        raise ValidationError("Invalid email")
-    if user_data.get('password') and len(user_data['password']) < 8:
-        raise ValidationError("Password too short")
-    # ... rest of update logic
+```
+I have code duplication in my project that's making maintenance difficult. Here are the duplicated sections: [PASTE YOUR DUPLICATED CODE HERE]
 
-# In UserImportService
-def import_users(self, user_list):
-    for user_data in user_list:
-        if not user_data.get('email') or '@' not in user_data['email']:
-            continue  # Skip invalid users
-        if not user_data.get('password') or len(user_data['password']) < 8:
-            continue  # Skip invalid users
-        # ... rest of import logic
+The contexts where this duplication appears are: [DESCRIBE WHERE THE DUPLICATION OCCURS]
+
+Please help me:
+
+1. **Duplication Analysis**:
+   - Identify what specific knowledge or logic is being duplicated
+   - Explain why this duplication is problematic for maintenance
+   - Distinguish between true duplication and coincidental similarity
+
+2. **Abstraction Strategy**:
+   - Design a reusable solution that eliminates the duplication
+   - Suggest appropriate abstractions (functions, classes, modules)
+   - Recommend meaningful names for the extracted components
+
+3. **Variation Handling**:
+   - Identify how the duplicated code differs across contexts
+   - Design a flexible solution that handles these variations
+   - Suggest configuration or parameter approaches for differences
+
+4. **Implementation Plan**:
+   - Provide a step-by-step refactoring approach
+   - Show how each original location would use the new abstraction
+   - Recommend testing strategies to ensure correctness
+
+5. **Flexibility Design**:
+   - Make the solution extensible for future variations
+   - Suggest how to add new rules or behaviors easily
+   - Recommend documentation for the abstracted component
+
+6. **Maintenance Guidelines**:
+   - Create guidelines to prevent similar duplication in the future
+   - Suggest code review checklist items for DRY violations
+   - Recommend when duplication might be acceptable (WET principle)
+
+Please provide concrete, implementable solutions that eliminate duplication while maintaining flexibility.
 ```
 
-**Your Task**:
-1. **Identify Knowledge Duplication**: What specific knowledge is duplicated?
-2. **Design Abstraction**: Create a reusable validation system
-3. **Handle Variations**: Different contexts have slightly different validation needs
-4. **Maintain Flexibility**: Support adding new validation rules easily
-5. **Error Handling**: Provide consistent error messages across all usages
-
-**Deliverable**: A DRY validation system with examples of how each original component would use it.
+**How to Use**: Replace the placeholders with your actual duplicated code and contexts to get specific guidance on implementing DRY.
 
 ---
 
@@ -641,44 +674,53 @@ The KISS principle, originating from the U.S. Navy, emphasizes that systems work
 - Changes in one area unexpectedly break other areas
 - Unit tests are difficult to write or understand
 
-### 💡 **Vive Coding Prompt: Algorithm Simplification**
+### 💡 **Vive Coding Prompt: KISS Principle Implementation**
 
-**Scenario**: A team member has implemented a custom sorting algorithm for user rankings, but it's causing confusion and bugs.
+**Scenario**: You have code that's become unnecessarily complex and hard to understand or maintain.
 
-**Current Complex Implementation**:
-```python
-class UserRankingSorter:
-    def __init__(self):
-        self.comparison_strategies = {
-            'score': ScoreComparisonStrategy(),
-            'time': TimeComparisonStrategy(),
-            'hybrid': HybridComparisonStrategy()
-        }
-        self.sort_algorithms = {
-            'quick': QuickSortAlgorithm(),
-            'merge': MergeSortAlgorithm(),
-            'heap': HeapSortAlgorithm()
-        }
-    
-    def sort_users(self, users, strategy='hybrid', algorithm='quick'):
-        comparator = self.comparison_strategies[strategy]
-        sorter = self.sort_algorithms[algorithm]
-        return sorter.sort(users, comparator.compare)
+**Your Task - Use this prompt with your actual code**:
+
+```
+I have code that seems overly complex for what it's trying to accomplish. Here's the current implementation: [PASTE YOUR COMPLEX CODE HERE]
+
+The actual requirements this code needs to fulfill are: [DESCRIBE THE REAL REQUIREMENTS]
+
+Please help me:
+
+1. **Complexity Analysis**:
+   - Identify what makes this code unnecessarily complex
+   - Point out over-engineering or premature optimization
+   - Explain how complexity is hurting maintainability
+
+2. **Requirements Validation**:
+   - Help me distinguish between actual requirements and assumed future needs
+   - Identify which features are currently used vs. theoretically useful
+   - Suggest which complexity can be removed without losing functionality
+
+3. **Simplification Strategy**:
+   - Propose a simpler solution that meets the actual requirements
+   - Suggest using standard library functions instead of custom implementations
+   - Recommend removing unnecessary abstractions or design patterns
+
+4. **Trade-off Analysis**:
+   - Explain what we gain by simplifying (maintainability, readability, etc.)
+   - Identify what we might lose (flexibility, performance, etc.)
+   - Help me decide if the trade-offs are worth it
+
+5. **Implementation Plan**:
+   - Provide a step-by-step approach to simplify the code
+   - Suggest how to test that the simplified version works correctly
+   - Recommend how to handle any lost functionality if it becomes needed later
+
+6. **Simplicity Guidelines**:
+   - Create guidelines to prevent over-engineering in the future
+   - Suggest code review questions that promote simplicity
+   - Recommend when complexity is justified vs. when it should be avoided
+
+Please provide concrete, implementable solutions that make my code simpler while maintaining necessary functionality.
 ```
 
-**Your Task**:
-1. **Complexity Analysis**: Identify what makes this code complex
-2. **Requirements Gathering**: What does the system actually need to do?
-3. **Simple Solution**: Propose a KISS-compliant alternative
-4. **Trade-off Analysis**: What do you gain/lose with the simpler approach?
-5. **Migration Strategy**: How would you transition from complex to simple?
-
-**Constraints**:
-- Must handle 3 different ranking criteria
-- Performance is important (1000+ users)
-- New ranking criteria might be added in the future
-
-**Deliverable**: A simplified ranking system with justification for design choices.
+**How to Use**: Replace the placeholders with your actual complex code and requirements to get specific guidance on applying KISS.
 
 ---
 
@@ -703,31 +745,55 @@ YAGNI doesn't mean ignoring good design principles:
 - **Do**: Design for change and extension
 - **Don't**: Over-engineer for hypothetical requirements
 
-### 💡 **Vive Coding Prompt: Feature Scope Management**
+### 💡 **Vive Coding Prompt: YAGNI Principle Implementation**
 
-**Scenario**: Your team is building a user notification system. The product manager has outlined current needs, but developers are suggesting additional "future-proofing" features.
+**Scenario**: You're facing pressure to add features "for the future" that aren't currently needed.
 
-**Current Requirements**:
-- Send email notifications for password resets
-- Send email notifications for account verification
-- Basic logging of sent notifications
+**Your Task - Use this prompt with your actual situation**:
 
-**Proposed "Future-Proofing" Features**:
-- Support for SMS notifications (no current requirement)
-- Multi-language template system (only English needed now)
-- Advanced analytics dashboard (just basic logging requested)
-- Plugin architecture for custom notification types
-- Rate limiting and batching system
-- A/B testing framework for notifications
+```
+I'm working on a feature and there's discussion about adding extra functionality "for the future" that isn't currently required. Here's the current situation:
 
-**Your Task**:
-1. **YAGNI Analysis**: Categorize each proposed feature as "build now," "build later," or "don't build"
-2. **Cost-Benefit Assessment**: Estimate the cost of building vs. cost of adding later
-3. **Design Foundation**: What minimal foundation would make future additions easier?
-4. **Implementation Plan**: Create a phased implementation approach
-5. **Decision Framework**: Develop criteria for when to add complexity
+Current actual requirements: [LIST WHAT'S ACTUALLY NEEDED NOW]
 
-**Deliverable**: A notification system design that satisfies current needs while remaining extensible.
+Proposed additional features: [LIST SUGGESTED "FUTURE-PROOFING" FEATURES]
+
+Please help me:
+
+1. **YAGNI Analysis**:
+   - Categorize each proposed feature as "build now," "build later," or "don't build"
+   - Explain why each feature does or doesn't violate YAGNI
+   - Identify which features are based on speculation vs. real needs
+
+2. **Cost-Benefit Assessment**:
+   - Estimate the cost of building each feature now vs. adding it later
+   - Identify the risks of building features that might never be used
+   - Calculate the opportunity cost of time spent on speculative features
+
+3. **Minimal Foundation Design**:
+   - Suggest what minimal foundation would make future additions easier
+   - Recommend design patterns that support extension without over-engineering
+   - Identify which abstractions are worth creating now vs. later
+
+4. **Decision Framework**:
+   - Create criteria for when to add complexity vs. when to wait
+   - Suggest questions to ask when evaluating "future-proofing" proposals
+   - Recommend how to handle pressure from stakeholders who want "just in case" features
+
+5. **Implementation Strategy**:
+   - Design a phased approach that delivers value incrementally
+   - Suggest how to structure code to make future additions easier
+   - Recommend documentation for future enhancement points
+
+6. **Communication Guidelines**:
+   - Help me explain YAGNI benefits to stakeholders
+   - Suggest how to handle pushback about "short-sighted" decisions
+   - Recommend how to track and validate assumptions about future needs
+
+Please provide practical advice for applying YAGNI while maintaining good relationships with stakeholders.
+```
+
+**How to Use**: Replace the placeholders with your actual requirements and proposed features to get specific guidance on applying YAGNI.
 
 ---
 

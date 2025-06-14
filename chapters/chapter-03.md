@@ -222,64 +222,61 @@ class HighAvailabilityArchitecture:
 
 ### 💡 **Vive Coding Prompt: Architecture Assessment Framework**
 
-**Scenario**: You've been asked to create an architecture assessment framework that can be used to evaluate the quality and effectiveness of software architectures across different projects in your organization.
+**Scenario**: You need to systematically evaluate and improve the architecture of your software system.
 
-**Current Challenge**: Your organization has multiple development teams working on different projects with varying architectural approaches. There's no standardized way to assess architectural quality, leading to:
-- Inconsistent architectural decisions across teams
-- Difficulty in sharing architectural knowledge
-- No clear criteria for architectural improvement
-- Challenges in evaluating architectural trade-offs
+**Your Task - Use this prompt with your actual system**:
 
-**Assessment Scope**: The framework should evaluate architectures across multiple dimensions:
-- Technical quality (modularity, coupling, cohesion)
-- Quality attributes (performance, security, maintainability)
-- Business alignment (cost, time-to-market, scalability)
-- Team and organizational factors (skill requirements, development velocity)
+```
+I need to assess the architecture of my software system to identify strengths, weaknesses, and improvement opportunities. Here's information about my system:
 
-**Your Task**:
+System description: [DESCRIBE YOUR SYSTEM - what it does, key components, technology stack]
 
-1. **Assessment Criteria Design**:
-   - Define measurable criteria for architectural quality
-   - Create scoring rubrics for different architectural aspects
-   - Design both quantitative and qualitative assessment methods
-   - Plan for different types of systems (web apps, microservices, mobile, etc.)
+Current challenges I'm facing: [LIST SPECIFIC PROBLEMS - performance issues, maintenance difficulties, scalability concerns, etc.]
 
-2. **Evaluation Framework**:
-   - Create a systematic process for conducting architectural assessments
-   - Design templates and checklists for consistent evaluation
-   - Plan for both self-assessment and peer review processes
-   - Include stakeholder feedback mechanisms
+Stakeholders involved: [LIST WHO CARES ABOUT THE ARCHITECTURE - developers, operations, business stakeholders, etc.]
 
-3. **Metrics and Measurement**:
-   - Define architectural metrics that can be automatically collected
-   - Create manual assessment procedures for subjective qualities
-   - Design trend analysis and improvement tracking
-   - Plan for benchmarking against industry standards
+Please help me:
 
-4. **Reporting and Recommendations**:
-   - Design report templates for different audiences (technical, management)
-   - Create action item prioritization frameworks
-   - Plan for architectural improvement roadmaps
-   - Design communication strategies for assessment results
+1. **Architecture Assessment Framework**:
+   - Create a systematic approach to evaluate my system's architecture
+   - Define specific criteria for assessing architectural quality in my context
+   - Suggest both quantitative metrics and qualitative evaluation methods
+   - Recommend assessment techniques appropriate for my system type
 
-5. **Tool and Process Integration**:
-   - Integrate with existing development tools and processes
-   - Plan for regular assessment cycles
-   - Create training materials for assessment execution
-   - Design governance processes for architectural decisions
+2. **Quality Attribute Analysis**:
+   - Help me identify which quality attributes are most critical for my system
+   - Suggest how to measure and evaluate these quality attributes
+   - Recommend architectural patterns that support my key quality requirements
+   - Identify potential conflicts between different quality attributes
 
-**Constraints**:
-- Must work across different technology stacks
-- Should integrate with existing development workflows
-- Must be practical for busy development teams
-- Should provide actionable insights, not just scores
+3. **Technical Assessment**:
+   - Evaluate the modularity, coupling, and cohesion of my system
+   - Assess the appropriateness of my current architectural patterns
+   - Identify technical debt and architectural smells
+   - Suggest improvements to system structure and organization
 
-**Deliverable**: 
-- Complete architectural assessment framework
-- Assessment templates and checklists
-- Scoring rubrics and measurement criteria
-- Sample assessment reports and improvement plans
-- Implementation guide for rolling out across teams
+4. **Business and Team Alignment**:
+   - Evaluate how well the architecture supports business goals
+   - Assess the architecture's impact on development team productivity
+   - Identify skills gaps or organizational challenges
+   - Suggest how to align architecture with business priorities
+
+5. **Improvement Roadmap**:
+   - Prioritize architectural improvements based on impact and effort
+   - Create a phased approach for implementing changes
+   - Suggest quick wins and long-term strategic improvements
+   - Recommend how to measure progress and success
+
+6. **Documentation and Communication**:
+   - Suggest how to document the current architecture effectively
+   - Recommend ways to communicate architectural decisions to stakeholders
+   - Create templates for ongoing architectural documentation
+   - Design processes for maintaining architectural knowledge
+
+Please provide specific, actionable recommendations that I can implement to improve my system's architecture.
+```
+
+**How to Use**: Replace the placeholders with information about your actual system to get a customized architecture assessment framework.
 
 ---
 
@@ -546,69 +543,65 @@ class QualityAttributeTradeoffs:
         return patterns.get(quality_attribute, [])
 ```
 
-### 💡 **Vive Coding Prompt: Trade-off Decision Framework**
+### 💡 **Vive Coding Prompt: Architectural Trade-off Decision Framework**
 
-**Scenario**: You're leading the architecture design for a new financial trading platform that needs to balance multiple critical quality attributes: ultra-low latency performance, regulatory compliance, high availability, and security.
+**Scenario**: You need to make architectural decisions that involve trade-offs between competing quality attributes and requirements.
 
-**System Requirements**:
-- **Performance**: Sub-millisecond trade execution latency
-- **Compliance**: Must meet MiFID II, GDPR, and SOX requirements
-- **Availability**: 99.99% uptime during trading hours
-- **Security**: Handle sensitive financial data and prevent fraud
-- **Scalability**: Support 100,000+ concurrent users
-- **Maintainability**: Easy to update for regulatory changes
+**Your Task - Use this prompt with your actual situation**:
 
-**Conflicting Requirements**:
-- Ultra-low latency vs. comprehensive security logging
-- High availability vs. regulatory data residency requirements
-- Performance optimization vs. maintainable code structure
-- Real-time processing vs. audit trail completeness
-- Cost efficiency vs. regulatory compliance overhead
+```
+I'm facing architectural decisions that involve trade-offs between competing requirements and quality attributes. Here's my situation:
 
-**Your Task**:
+System context: [DESCRIBE YOUR SYSTEM AND ITS PURPOSE]
+
+Competing requirements I need to balance: [LIST THE CONFLICTING REQUIREMENTS - e.g., performance vs security, cost vs reliability, etc.]
+
+Stakeholders and their priorities: [LIST STAKEHOLDERS AND WHAT THEY CARE ABOUT MOST]
+
+Constraints I must work within: [LIST NON-NEGOTIABLE CONSTRAINTS - budget, timeline, regulations, etc.]
+
+Please help me:
 
 1. **Trade-off Analysis Framework**:
-   - Create a systematic approach for analyzing architectural trade-offs
-   - Design criteria for evaluating trade-off decisions
-   - Develop a scoring system for different architectural options
-   - Plan for handling conflicting stakeholder priorities
+   - Create a systematic approach for analyzing the trade-offs in my specific situation
+   - Help me identify all the implications of different architectural choices
+   - Suggest criteria for evaluating different options objectively
+   - Recommend how to quantify the impact of different trade-offs
 
-2. **Stakeholder Alignment Process**:
-   - Design a process for engaging different stakeholders in trade-off decisions
-   - Create communication materials for non-technical stakeholders
-   - Plan for conflict resolution when stakeholder priorities clash
-   - Design approval processes for architectural decisions
+2. **Stakeholder Alignment Strategy**:
+   - Design a process for engaging stakeholders in trade-off decisions
+   - Suggest how to communicate technical trade-offs to non-technical stakeholders
+   - Recommend approaches for handling conflicting stakeholder priorities
+   - Create a framework for building consensus around difficult decisions
 
-3. **Architecture Option Evaluation**:
-   - Generate multiple architectural options that handle trade-offs differently
-   - Create detailed evaluation criteria for each quality attribute
-   - Design sensitivity analysis for key architectural decisions
-   - Plan for iterative refinement of architectural options
+3. **Option Generation and Evaluation**:
+   - Help me generate multiple architectural options that handle trade-offs differently
+   - Create evaluation criteria specific to my quality attributes and constraints
+   - Suggest how to prototype or validate key architectural assumptions
+   - Recommend sensitivity analysis for critical decisions
 
-4. **Decision Documentation**:
-   - Create templates for documenting architectural decisions and rationale
-   - Design traceability from requirements to architectural decisions
-   - Plan for decision review and revision processes
-   - Create communication strategies for architectural decisions
+4. **Decision Documentation and Communication**:
+   - Create templates for documenting my architectural decisions and rationale
+   - Suggest how to maintain traceability from requirements to decisions
+   - Recommend communication strategies for different audiences
+   - Design processes for reviewing and revising decisions as new information emerges
 
-5. **Implementation and Validation**:
-   - Design prototypes to validate key architectural decisions
-   - Plan for measuring and monitoring quality attributes in production
-   - Create feedback loops for architectural decision effectiveness
-   - Design processes for architectural evolution over time
+5. **Implementation and Validation Planning**:
+   - Suggest how to validate architectural decisions through prototyping or testing
+   - Recommend metrics and monitoring for tracking quality attributes
+   - Create feedback loops for assessing decision effectiveness
+   - Plan for architectural evolution as requirements change
 
-**Constraints**:
-- Regulatory requirements are non-negotiable
-- System must be operational within 18 months
-- Limited budget for specialized hardware
-- Existing team has mixed experience with high-performance systems
+6. **Risk Management**:
+   - Help me identify risks associated with different architectural choices
+   - Suggest mitigation strategies for high-risk decisions
+   - Recommend contingency plans for critical trade-offs
+   - Create early warning systems for architectural problems
 
-**Deliverable**: 
-- Comprehensive trade-off analysis framework
-- Detailed evaluation of architectural options
-- Stakeholder communication materials
-- Decision documentation templates
-- Implementation and validation plan
+Please provide specific, actionable guidance for making informed architectural trade-offs in my situation.
+```
+
+**How to Use**: Replace the placeholders with your specific system context and competing requirements to get customized guidance on architectural trade-offs.
 
 ---
 
@@ -1015,66 +1008,63 @@ class ArchitectureDocumentationGenerator:
 
 ### 💡 **Vive Coding Prompt: Architecture Documentation Strategy**
 
-**Scenario**: Your organization is struggling with inconsistent and outdated architecture documentation across multiple projects. Teams spend significant time trying to understand existing systems, and architectural knowledge is often lost when team members leave.
+**Scenario**: You need to create or improve architecture documentation that actually gets used and stays current.
 
-**Current Problems**:
-- Architecture documentation is often created after the fact
-- Documentation becomes outdated quickly and is rarely maintained
-- Different teams use different documentation formats and tools
-- No clear process for keeping documentation current
-- Difficulty onboarding new team members due to poor documentation
+**Your Task - Use this prompt with your actual situation**:
 
-**Organization Context**:
-- 15 development teams across 3 product lines
-- Mix of legacy systems and modern microservices
-- Hybrid cloud deployment (AWS, Azure, on-premises)
-- Regulatory requirements for some systems (healthcare, financial)
-- Agile development practices with 2-week sprints
+```
+I need to improve the architecture documentation for my system/organization. Here's my current situation:
 
-**Your Task**:
+System/organization context: [DESCRIBE YOUR SYSTEM OR ORGANIZATION - size, complexity, technology stack, team structure]
 
-1. **Documentation Framework Design**:
-   - Create a standardized framework for architecture documentation
-   - Define what should be documented for different types of systems
-   - Design templates and formats that work across different project types
-   - Plan for both technical and non-technical stakeholder needs
+Current documentation problems: [LIST SPECIFIC ISSUES - outdated docs, inconsistent formats, missing information, etc.]
 
-2. **Automation and Tooling Strategy**:
-   - Identify opportunities for automated documentation generation
-   - Design integration with existing development tools and workflows
-   - Plan for documentation validation and consistency checking
-   - Create processes for keeping documentation current
+Stakeholders who need documentation: [LIST WHO USES THE DOCS - developers, architects, operations, business stakeholders, etc.]
 
-3. **Documentation Lifecycle Management**:
-   - Design processes for creating documentation as part of development
-   - Plan for documentation review and approval workflows
-   - Create strategies for handling documentation evolution
-   - Design governance processes for architectural documentation
+Current tools and processes: [DESCRIBE EXISTING DEVELOPMENT TOOLS, WORKFLOWS, AND DOCUMENTATION PRACTICES]
 
-4. **Team Adoption and Training**:
-   - Create training materials for effective architecture documentation
-   - Design incentive structures for maintaining documentation quality
-   - Plan for documentation quality assessment and improvement
-   - Create communities of practice for documentation excellence
+Please help me:
 
-5. **Measurement and Improvement**:
-   - Define metrics for documentation quality and usefulness
-   - Design feedback mechanisms from documentation consumers
-   - Plan for continuous improvement of documentation processes
+1. **Documentation Strategy Design**:
+   - Create a practical documentation framework for my specific context
+   - Define what should be documented and at what level of detail
+   - Suggest documentation formats and templates that work for my stakeholders
+   - Recommend how to balance comprehensiveness with maintainability
+
+2. **Content and Structure Planning**:
+   - Help me identify the most critical architectural information to document
+   - Suggest how to organize documentation for easy navigation and updates
+   - Recommend different views and perspectives to include
+   - Design templates that encourage consistent, useful documentation
+
+3. **Automation and Tooling**:
+   - Identify opportunities to generate documentation automatically from code/infrastructure
+   - Suggest tools that integrate with my existing development workflow
+   - Recommend approaches for keeping documentation synchronized with reality
+   - Design validation processes to catch outdated or inconsistent documentation
+
+4. **Team Adoption and Process Integration**:
+   - Create processes for making documentation part of regular development work
+   - Suggest how to incentivize and maintain documentation quality
+   - Recommend training approaches for effective architecture documentation
+   - Design review processes that ensure documentation stays current
+
+5. **Lifecycle Management**:
+   - Create processes for creating, updating, and retiring documentation
+   - Suggest governance approaches for architectural documentation
+   - Recommend how to handle documentation evolution as systems change
+   - Design feedback mechanisms to improve documentation usefulness
+
+6. **Success Measurement**:
+   - Define metrics to measure documentation quality and usefulness
+   - Suggest ways to gather feedback from documentation users
+   - Recommend approaches for continuous improvement
    - Create success criteria for the documentation initiative
 
-**Constraints**:
-- Must work with existing development tools and processes
-- Cannot significantly slow down development velocity
-- Must accommodate different team sizes and technical capabilities
-- Should leverage existing expertise and avoid vendor lock-in
+Please provide specific, actionable recommendations that will result in documentation that actually gets used and maintained.
+```
 
-**Deliverable**: 
-- Comprehensive architecture documentation framework
-- Automated documentation generation tools and processes
-- Team training and adoption materials
-- Governance and lifecycle management procedures
-- Success metrics and improvement plans
+**How to Use**: Replace the placeholders with your specific context and challenges to get customized guidance on architecture documentation strategy.
 
 ---
 
