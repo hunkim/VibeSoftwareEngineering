@@ -181,7 +181,7 @@ class UserReportGenerator:
 5. **Create a checklist** I can use in future code reviews to catch SRP violations early.
 
 Please generate working, production-ready code that I can immediately use in my project. Focus on practical implementation rather than theoretical explanations.
-```
+
 
 **Follow-up Prompts for Iteration**:
 - "Add logging to track how these classes interact"
