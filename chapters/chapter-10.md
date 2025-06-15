@@ -278,7 +278,7 @@ For critical deployments, manual approval gates provide human oversight:
     issue-title: "Production Deployment: ${{ github.sha }}"
 ```
 
-### 💡 **Vive Coding Prompt: Comprehensive CI/CD Pipeline Design**
+### 💡 **Vibe Coding Prompt: Comprehensive CI/CD Pipeline Design**
 
 **Scenario**: You need to design a comprehensive CI/CD pipeline for your application or system.
 
@@ -525,7 +525,7 @@ steps:
     DATABASE_URL: postgresql://postgres:testpass@localhost:5432/testdb
 ```
 
-### 💡 **Vive Coding Prompt: Microservices CI Optimization**
+### 💡 **Vibe Coding Prompt: Microservices CI Optimization**
 
 **Scenario**: Your development team is struggling with slow CI pipelines for a microservices architecture. The current pipeline takes 45 minutes to complete, blocking developer productivity and slowing down releases.
 
@@ -828,7 +828,7 @@ environments:
     fi
 ```
 
-### 💡 **Vive Coding Prompt: Multi-Environment CD Pipeline Strategy**
+### 💡 **Vibe Coding Prompt: Multi-Environment CD Pipeline Strategy**
 
 **Scenario**: You need to design a CD pipeline that handles multiple environments and complex deployment requirements.
 
@@ -1109,7 +1109,7 @@ metrics_collection:
     - technical_debt_accumulation_rate
 ```
 
-### 💡 **Vive Coding Prompt: CI/CD Monitoring and Excellence Framework**
+### 💡 **Vibe Coding Prompt: CI/CD Monitoring and Excellence Framework**
 
 **Scenario**: You want to establish comprehensive monitoring and continuous improvement for your CI/CD practices.
 

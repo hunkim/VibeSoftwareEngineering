@@ -8,8 +8,28 @@ Secure coding practices are indispensable for building software that is resilien
 
 This proactive stance involves conducting source code analysis throughout the entire Software Development Life Cycle (SDLC) and implementing security automation to identify and address vulnerabilities early. The integration of security practices throughout the SDLC signifies a fundamental shift from reactive "fix-it-later" security to proactive, embedded security.
 
-**Vive Coding Prompt Example:**
-Before writing any code for the new 'User Profile' feature, create a threat model. Identify potential security risks (e.g., unauthorized data access, cross-site scripting) and define the specific security controls (e.g., access control checks, input validation) that must be implemented from the start.
+**Vibe Coding Prompt:**
+```
+I'm building a new User Profile feature and need to implement security by design from the ground up. Help me create a comprehensive security framework before writing any code.
+
+Requirements:
+- User profile creation, editing, and viewing
+- Profile picture uploads
+- Privacy settings (public/private profiles)
+- Social connections and messaging
+- Admin moderation capabilities
+
+Please generate:
+1. Comprehensive threat model identifying all potential security risks
+2. Security controls for each identified threat (access control, input validation, etc.)
+3. Authentication and authorization framework
+4. Secure file upload handling for profile pictures
+5. Privacy controls and data access patterns
+6. Security testing strategy and automated security checks
+7. Incident response procedures for security breaches
+
+Use Python/FastAPI with JWT authentication. Include OWASP Top 10 considerations, secure coding guidelines, and automated security scanning integration. Show how to build security into every layer from the start.
+```
 
 ## 8.2 Input Validation and Output Encoding
 
@@ -17,8 +37,34 @@ A critical secure coding practice involves identifying all data inputs and sourc
 
 Similarly, applying a standard routine for output encoding is crucial. Output encoding transforms data before it is rendered or displayed to users, neutralizing any malicious code that might have been injected, thereby preventing XSS and other client-side vulnerabilities.
 
-**Vive Coding Prompt Example:**
-Ensure that all user-supplied data in the new comment submission form is rigorously validated on the server-side to prevent SQL injection. Additionally, ensure all comment text is properly HTML-encoded before it is rendered on the page to mitigate XSS attacks.
+**Vibe Coding Prompt:**
+```
+I need to secure a comment submission system that's currently vulnerable to SQL injection and XSS attacks. Help me implement comprehensive input validation and output encoding.
+
+Current Vulnerabilities:
+- User comments are directly inserted into database queries
+- Comment text is rendered without HTML encoding
+- No input validation on comment length or content
+- File attachments accepted without validation
+
+Security Requirements:
+- Prevent SQL injection attacks
+- Mitigate XSS vulnerabilities
+- Validate all user inputs
+- Secure file upload handling
+- Rate limiting for comment submission
+
+Please generate:
+1. Comprehensive input validation framework
+2. Parameterized queries and ORM usage
+3. HTML encoding and sanitization for output
+4. File upload validation and scanning
+5. Rate limiting and abuse prevention
+6. Content Security Policy (CSP) headers
+7. Security testing for injection vulnerabilities
+
+Use Python with SQLAlchemy ORM and include automated security testing. Show how to validate, sanitize, and encode data at every boundary. Include examples of malicious inputs and how they're handled.
+```
 
 ## 8.3 Access Control and Password Management
 
@@ -26,8 +72,30 @@ Robust access control mechanisms are essential for protecting sensitive data. A 
 
 Password management is another critical area, as passwords often represent a weak point in many software systems. Secure coding practices dictate that passwords should never be stored in plain text; instead, only salted cryptographic hashes of passwords should be stored. Systems should enforce password length and complexity requirements and implement policies such as disabling password entry after multiple incorrect login attempts to mitigate brute-force attacks.
 
-**Vive Coding Prompt Example:**
-Implement a role-based access control check for the admin dashboard. Ensure that any request to this endpoint first verifies that the authenticated user has the 'admin' role. Also, verify that our user database does not store passwords in plain text and instead uses a strong, salted hashing algorithm like Argon2 or bcrypt.
+**Vibe Coding Prompt:**
+```
+I need to implement a secure role-based access control system for an admin dashboard with proper password management. Help me build a comprehensive authentication and authorization system.
+
+Requirements:
+- Role-based access control (admin, moderator, user roles)
+- Secure password storage and validation
+- Multi-factor authentication support
+- Session management and token handling
+- Account lockout and brute force protection
+- Password reset functionality
+
+Please generate:
+1. Role-based access control (RBAC) system with permissions
+2. Secure password hashing using Argon2 or bcrypt
+3. JWT token management with refresh tokens
+4. Multi-factor authentication (TOTP/SMS)
+5. Account lockout and rate limiting mechanisms
+6. Secure password reset flow with email verification
+7. Session management and security headers
+8. Audit logging for security events
+
+Use Python/FastAPI with proper cryptographic libraries. Include password strength validation, secure session handling, and comprehensive security logging. Show how to implement principle of least privilege and defense in depth.
+```
 
 ## 8.4 Threat Modeling and Vulnerability Management
 
@@ -35,5 +103,32 @@ Threat modeling is a structured, multi-stage process that should be integrated t
 
 Vulnerability management complements threat modeling by ensuring that all working software is updated with current versions and patches, as outdated software is a major source of vulnerabilities and security breaches. Furthermore, encrypting data with modern cryptographic algorithms and following secure key management best practices significantly increases the security of code in the event of a breach.
 
-**Vive Coding Prompt Example:**
-Our automated dependency scanner has flagged that we are using an outdated version of the log4j library with a known critical vulnerability. Your task is to update this dependency to the latest patched version across all relevant services, test for regressions, and deploy the fix. 
+**Vibe Coding Prompt:**
+```
+Our security scanner flagged a critical vulnerability in our log4j dependency, and we need to implement a comprehensive vulnerability management system. Help me build an automated security pipeline.
+
+Current Issues:
+- Outdated dependencies with known vulnerabilities
+- No automated vulnerability scanning
+- Manual security updates are slow and error-prone
+- No security monitoring in production
+
+Requirements:
+- Automated dependency vulnerability scanning
+- Security patch management pipeline
+- Runtime security monitoring
+- Incident response automation
+- Security compliance reporting
+
+Please generate:
+1. Automated dependency scanning with tools like Snyk or OWASP Dependency Check
+2. CI/CD pipeline integration for security checks
+3. Automated security patch deployment system
+4. Runtime Application Self-Protection (RASP) implementation
+5. Security incident detection and alerting
+6. Vulnerability assessment and remediation workflow
+7. Security compliance dashboard and reporting
+8. Emergency security patch deployment procedures
+
+Use Python with security scanning tools and include integration with GitHub Security Advisories. Show how to automate the entire vulnerability lifecycle from detection to remediation. Include rollback procedures and security testing automation.
+``` 

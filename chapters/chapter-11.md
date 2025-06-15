@@ -8,8 +8,35 @@ Version control systems (VCS), such as Git, Team Foundation Server (TFS), or Sub
 
 A well-managed version control system facilitates branching, merging, and reverting to previous states, providing a safety net for development efforts and ensuring the integrity of the codebase.
 
-**Vive Coding Prompt Example:**
-Create a new feature branch in Git named feature/user-authentication from the develop branch. As you work, make small, logical commits with clear, imperative messages (e.g., "Add password hashing utility"). This will create a clean and understandable history of your work.
+**Vibe Coding Prompt:**
+```
+I need to set up a comprehensive Git workflow for our team that supports feature development, code reviews, and safe deployments. Help me create a complete version control strategy.
+
+Current Challenges:
+- Team members have inconsistent Git practices
+- No standardized branching strategy
+- Merge conflicts happen frequently
+- Commit messages are unclear and inconsistent
+- No automated checks before merging
+
+Requirements:
+- Feature branch workflow with clear naming conventions
+- Automated pre-commit hooks for code quality
+- Standardized commit message format
+- Conflict resolution strategies
+- Integration with CI/CD pipeline
+
+Please generate:
+1. Git workflow documentation and branching strategy
+2. Pre-commit hooks for linting, testing, and formatting
+3. Commit message templates and validation
+4. Automated merge conflict detection and resolution
+5. Git aliases and helper scripts for common operations
+6. Branch protection rules and merge requirements
+7. Git hooks for automated quality checks
+
+Include examples of good vs bad commit messages, branching strategies for different team sizes, and integration with GitHub/GitLab. Show how to automate quality checks and maintain clean history.
+```
 
 ## 11.2 Code Reviews and Pair Programming
 
@@ -17,7 +44,35 @@ Code reviews are a highly effective practice for enhancing code quality and main
 
 Pair programming involves two developers working together at one workstation on the same code. One developer writes code while the other reviews each line as it is typed, providing real-time feedback and brainstorming solutions. This collaborative coding technique fosters immediate knowledge transfer, improves code quality by catching errors on the fly, and can lead to more robust and well-thought-out designs.
 
-While many software engineering principles and practices focus on individual code quality, practices like version control, code reviews, and pair programming highlight that "vive coding" is fundamentally a team endeavor. These collaborative practices ensure shared understanding, collective ownership of quality, and continuous learning across the entire development team.
+While many software engineering principles and practices focus on individual code quality, practices like version control, code reviews, and pair programming highlight that "vibe coding" is fundamentally a team endeavor. These collaborative practices ensure shared understanding, collective ownership of quality, and continuous learning across the entire development team.
 
-**Vive Coding Prompt Example:**
-Submit a pull request for your shopping-cart feature. Before it can be merged, it must be reviewed and approved by at least one other team member. Separately, let's schedule a 1-hour pair programming session to tackle the complex state management logic together to ensure we arrive at the best possible design. 
+**Vibe Coding Prompt:**
+```
+I need to implement a comprehensive code review and pair programming system that leverages AI assistance for better collaboration. Help me create tools and processes that enhance team productivity.
+
+Current Issues:
+- Code reviews are inconsistent and sometimes superficial
+- No standardized review checklist or criteria
+- Pair programming sessions lack structure
+- Knowledge sharing is limited
+- Review feedback is often unclear
+
+Requirements:
+- AI-assisted code review tools
+- Structured pair programming sessions
+- Automated review checklist generation
+- Knowledge sharing and documentation
+- Remote collaboration support
+
+Please generate:
+1. AI-powered code review assistant that analyzes PRs
+2. Automated review checklist based on code changes
+3. Pair programming session templates and guidelines
+4. Real-time collaboration tools for remote teams
+5. Code quality metrics and review analytics
+6. Knowledge base integration for context sharing
+7. Automated documentation generation from reviews
+8. Mentoring and learning path recommendations
+
+Use GitHub Actions for automation and include integration with AI tools like GitHub Copilot. Show how to structure effective code reviews, create learning opportunities, and maintain code quality standards. Include templates for different types of reviews (bug fixes, features, refactoring).
+``` 

@@ -116,44 +116,52 @@ graph LR
 | **God Classes** | `OrderManager` handles validation, persistence, notifications, and calculations | Multiple stakeholders, multiple reasons to change | Break into focused services following domain boundaries |
 | **Utility Classes** | `Utils` class with unrelated helper methods | Grows without bounds, unclear purpose | Create specific utility classes for related functions |
 
-### 💡 **Vive Coding Prompt: SRP Refactoring Challenge**
+### 💡 **Vibe Coding Prompt: SRP Refactoring Challenge**
 
-**Scenario**: You've identified a class in your codebase that handles multiple responsibilities and violates the Single Responsibility Principle.
+**Scenario**: You've identified a class that violates the Single Responsibility Principle and want to use AI to help refactor it properly.
 
-**Your Task - Use this prompt with your actual code**:
+**Your Vibe Coding Prompt**:
 
 ```
-I have a class that seems to be doing too many things and violates the Single Responsibility Principle. Here's the class: [PASTE YOUR CLASS CODE HERE]
+I have a class that's doing too many things and violates the Single Responsibility Principle. I want to refactor it using SRP best practices.
 
-Please help me:
+**Current problematic class**: [PASTE YOUR CLASS CODE HERE]
 
-1. **Responsibility Analysis**: 
-   - List all the different responsibilities this class currently handles
-   - Identify the stakeholders who would request changes for each responsibility
-   - Explain why each responsibility should be separate
+**What I need you to do**:
 
-2. **Refactoring Strategy**:
-   - Suggest how to split this class into focused, single-responsibility classes
-   - Recommend which responsibility to extract first and why
-   - Propose clear, descriptive names for the new classes
+1. **Generate a refactored version** that follows SRP by:
+   - Splitting responsibilities into separate, focused classes
+   - Creating clear interfaces between the new classes
+   - Maintaining the same external API so existing code doesn't break
 
-3. **Implementation Plan**:
-   - Provide a step-by-step migration approach that won't break existing functionality
-   - Suggest how to handle dependencies between the new classes
-   - Recommend interfaces or abstractions to maintain flexibility
+2. **Provide the complete refactored code** including:
+   - All new classes with single responsibilities
+   - Proper dependency injection where needed
+   - Clear, descriptive class and method names
+   - Basic error handling
 
-4. **Testing Improvements**:
-   - Explain how the new design will improve testability
-   - Suggest what types of tests should be written for each new class
+3. **Include unit tests** for each new class that demonstrate:
+   - How each class can be tested in isolation
+   - Mock objects for dependencies
+   - Edge cases and error conditions
 
-5. **Team Guidelines**:
-   - Create a checklist to help identify SRP violations in future code reviews
-   - Suggest naming conventions that make single responsibilities clear
+4. **Add documentation** explaining:
+   - What each class is responsible for
+   - How the classes work together
+   - Migration steps from the old design
 
-Please provide practical, actionable advice that I can implement immediately in my project.
+5. **Create a checklist** I can use in future code reviews to catch SRP violations early.
+
+Please generate working, production-ready code that I can immediately use in my project. Focus on practical implementation rather than theoretical explanations.
 ```
 
-**How to Use**: Replace [PASTE YOUR CLASS CODE HERE] with your actual problematic class and run this prompt with your AI assistant or use it as a code review checklist.
+**Follow-up Prompts for Iteration**:
+- "Add logging to track how these classes interact"
+- "Create a factory pattern to manage the creation of these objects"
+- "Add configuration options to make the behavior more flexible"
+- "Generate integration tests that verify the classes work together correctly"
+
+**How to Use**: Replace [PASTE YOUR CLASS CODE HERE] with your actual code and use this with AI coding assistants like Cursor, GitHub Copilot, or ChatGPT to get immediate, working refactored code.
 
 ---
 
@@ -230,52 +238,60 @@ graph TD
 - **Better Testing**: New behavior can be tested independently
 - **Improved Modularity**: Clear extension points make architecture more understandable
 
-### 💡 **Vive Coding Prompt: Open-Closed Principle Implementation**
+### 💡 **Vibe Coding Prompt: Open-Closed Principle Implementation**
 
-**Scenario**: You need to extend functionality in your system without modifying existing, tested code.
+**Scenario**: You need to add new functionality to your system without modifying existing code, following the Open-Closed Principle.
 
-**Your Task - Use this prompt with your actual code**:
+**Your Vibe Coding Prompt**:
 
 ```
-I have a system that needs to be extended with new functionality, but I want to follow the Open-Closed Principle (open for extension, closed for modification). Here's my current implementation: [PASTE YOUR CODE HERE]
+I need to extend my system with new functionality while following the Open-Closed Principle (open for extension, closed for modification).
 
-The new functionality I need to add is: [DESCRIBE NEW REQUIREMENTS]
+**Current code**: [PASTE YOUR CODE HERE]
 
-Please help me:
+**New functionality needed**: [DESCRIBE WHAT YOU WANT TO ADD]
 
-1. **OCP Analysis**:
-   - Identify where my current code violates the Open-Closed Principle
-   - Explain why the current design makes it hard to add new features
-   - Point out any if-else chains or switch statements that indicate OCP violations
+**Generate for me**:
 
-2. **Extension Strategy**:
-   - Design an interface-based architecture that allows extension without modification
-   - Suggest appropriate abstractions and interfaces
-   - Recommend design patterns that support OCP (Strategy, Template Method, etc.)
+1. **Refactored extensible architecture** that:
+   - Creates proper abstractions/interfaces for extension points
+   - Converts any if-else chains or switch statements to polymorphic designs
+   - Uses appropriate design patterns (Strategy, Template Method, Factory, etc.)
+   - Maintains backward compatibility with existing code
 
-3. **Refactoring Plan**:
-   - Provide a step-by-step approach to refactor existing code
-   - Show how to extract interfaces from concrete implementations
-   - Suggest how to handle backward compatibility during the transition
+2. **Complete working implementation** including:
+   - Abstract base classes or interfaces
+   - Existing functionality converted to the new pattern
+   - The new functionality implemented as an extension
+   - Proper dependency injection and configuration
 
-4. **Implementation Guidelines**:
-   - Create a template for adding new implementations
-   - Suggest naming conventions for extensible components
-   - Recommend configuration approaches for managing extensions
+3. **Extension template** showing:
+   - How to add future implementations easily
+   - Code structure and naming conventions
+   - Required methods and contracts
+   - Example of adding another extension
 
-5. **Validation Framework**:
-   - Design a way to ensure all implementations follow the same contracts
-   - Suggest testing strategies for extensible systems
-   - Recommend documentation standards for extension points
+4. **Comprehensive tests** covering:
+   - All existing functionality still works
+   - New functionality works correctly
+   - Multiple extensions can coexist
+   - Edge cases and error handling
 
-6. **Future-Proofing**:
-   - Identify other areas in my codebase that might benefit from OCP
-   - Suggest guidelines for writing extension-friendly code from the start
+5. **Configuration system** that:
+   - Allows runtime selection of implementations
+   - Supports multiple active extensions
+   - Provides clear error messages for misconfigurations
 
-Please provide concrete, implementable solutions that I can apply to my specific use case.
+Please provide complete, runnable code that I can immediately integrate into my project. Include clear comments explaining the OCP benefits of this design.
 ```
 
-**How to Use**: Replace the placeholders with your actual code and requirements, then use this prompt to get specific guidance for implementing OCP in your project.
+**Follow-up Prompts for Enhancement**:
+- "Add a plugin system that can load extensions dynamically"
+- "Create a registry pattern to manage all available implementations"
+- "Add validation to ensure new extensions meet the required contracts"
+- "Generate documentation for how other developers can add extensions"
+
+**How to Use**: Replace the placeholders with your specific code and requirements, then use this with AI assistants to get a complete, extensible implementation.
 
 ---
 
@@ -386,53 +402,61 @@ class Square(Shape):
         return self._side ** 2
 ```
 
-### 💡 **Vive Coding Prompt: Liskov Substitution Principle Validation**
+### 💡 **Vibe Coding Prompt: Liskov Substitution Principle Validation**
 
-**Scenario**: You need to design or fix an inheritance hierarchy that properly follows the Liskov Substitution Principle.
+**Scenario**: You need to create or fix an inheritance hierarchy that properly follows the Liskov Substitution Principle.
 
-**Your Task - Use this prompt with your actual code**:
+**Your Vibe Coding Prompt**:
 
 ```
-I'm working on an inheritance hierarchy and want to ensure it follows the Liskov Substitution Principle (LSP). Here's my current design: [PASTE YOUR INHERITANCE HIERARCHY HERE]
+I need to design an inheritance hierarchy that follows the Liskov Substitution Principle (LSP) - where subclasses can be substituted for their parent classes without breaking functionality.
 
-The specific use cases I need to support are: [DESCRIBE YOUR REQUIREMENTS]
+**Current inheritance design**: [PASTE YOUR INHERITANCE HIERARCHY HERE]
 
-Please help me:
+**Use cases that must work**: [DESCRIBE WHAT THE CLASSES NEED TO DO]
 
-1. **LSP Violation Analysis**:
-   - Identify any violations of the Liskov Substitution Principle in my current design
-   - Explain why each violation breaks the "substitutability" requirement
-   - Point out any methods that throw "NotImplemented" or "NotSupported" exceptions
+**Generate for me**:
 
-2. **Contract Definition**:
-   - Define clear preconditions, postconditions, and invariants for each class
-   - Specify what behaviors must be preserved in subclasses
-   - Identify which methods should be abstract vs concrete
+1. **LSP-compliant inheritance hierarchy** that:
+   - Ensures all subclasses can truly substitute their parent class
+   - Eliminates any "NotImplemented" or "NotSupported" exceptions
+   - Maintains behavioral contracts (preconditions, postconditions, invariants)
+   - Uses composition over inheritance where appropriate
 
-3. **Design Alternatives**:
-   - Suggest alternative inheritance structures that respect LSP
-   - Recommend when to use composition instead of inheritance
-   - Propose interface segregation to avoid forcing unwanted dependencies
+2. **Complete working implementation** including:
+   - Abstract base classes with proper contracts
+   - Concrete implementations that respect LSP
+   - Clear method signatures and return types
+   - Proper error handling that doesn't violate LSP
 
-4. **Substitution Testing**:
-   - Create test scenarios that verify subclasses can replace parent classes
-   - Suggest automated tests to catch LSP violations
-   - Provide guidelines for validating behavioral compatibility
+3. **Comprehensive test suite** that:
+   - Verifies substitutability by testing parent references with child objects
+   - Validates that all subclasses behave consistently
+   - Tests edge cases and boundary conditions
+   - Includes property-based tests for contract verification
 
-5. **Implementation Strategy**:
-   - Recommend a step-by-step approach to fix LSP violations
-   - Suggest how to handle existing code that depends on the current design
-   - Provide naming conventions that make contracts clear
+4. **Alternative design options** showing:
+   - When to use composition instead of inheritance
+   - Interface-based designs that avoid LSP issues
+   - Factory patterns for creating appropriate implementations
+   - Strategy patterns for varying behaviors
 
-6. **Future Guidelines**:
-   - Create a checklist for evaluating LSP compliance in code reviews
-   - Suggest design patterns that naturally support LSP
-   - Recommend documentation standards for inheritance hierarchies
+5. **Usage examples** demonstrating:
+   - How client code can work with any subclass
+   - Polymorphic behavior in action
+   - Error handling that works across all implementations
+   - Performance considerations for different implementations
 
-Please provide specific, actionable advice that ensures my inheritance hierarchy is truly substitutable and maintainable.
+Please provide complete, runnable code that I can immediately use. Include comments explaining how the design ensures LSP compliance and why certain decisions were made.
 ```
 
-**How to Use**: Replace the placeholders with your actual inheritance hierarchy and requirements to get specific guidance on LSP compliance.
+**Follow-up Prompts for Enhancement**:
+- "Add validation to ensure new subclasses maintain LSP compliance"
+- "Create a testing framework that automatically checks LSP violations"
+- "Generate documentation explaining the behavioral contracts"
+- "Add logging to track which implementations are being used"
+
+**How to Use**: Replace the placeholders with your specific inheritance needs and use this with AI assistants to get a complete, LSP-compliant design.
 
 ---
 
@@ -491,7 +515,7 @@ class Manager(Supervisable, Eatable, Sleepable):
     pass
 ```
 
-### 💡 **Vive Coding Prompt: Interface Segregation Implementation**
+### 💡 **Vibe Coding Prompt: Interface Segregation Implementation**
 
 **Scenario**: You have a large, monolithic interface that forces clients to depend on methods they don't use.
 
@@ -614,7 +638,7 @@ class DatabaseFactory:
 - **Reduced Coupling**: Business logic is independent of technical details
 - **Better Architecture**: Clear separation between policy and implementation
 
-### 💡 **Vive Coding Prompt: Dependency Inversion Implementation**
+### 💡 **Vibe Coding Prompt: Dependency Inversion Implementation**
 
 **Scenario**: You have high-level business logic that's tightly coupled to low-level implementation details.
 
@@ -712,7 +736,7 @@ DRY isn't just about avoiding duplicate code—it's about avoiding duplicate *kn
 | **WET** (Write Everything Twice) | Allow some duplication | When unsure if similarities are coincidental |
 | **AHA** (Avoid Hasty Abstractions) | Abstract after patterns emerge | When you see the same thing three times |
 
-### 💡 **Vive Coding Prompt: DRY Principle Implementation**
+### 💡 **Vibe Coding Prompt: DRY Principle Implementation**
 
 **Scenario**: You've identified code duplication in your project that violates the DRY principle.
 
@@ -784,7 +808,7 @@ The KISS principle, originating from the U.S. Navy, emphasizes that systems work
 - Changes in one area unexpectedly break other areas
 - Unit tests are difficult to write or understand
 
-### 💡 **Vive Coding Prompt: KISS Principle Implementation**
+### 💡 **Vibe Coding Prompt: KISS Principle Implementation**
 
 **Scenario**: You have code that's become unnecessarily complex and hard to understand or maintain.
 
@@ -855,7 +879,7 @@ YAGNI doesn't mean ignoring good design principles:
 - **Do**: Design for change and extension
 - **Don't**: Over-engineer for hypothetical requirements
 
-### 💡 **Vive Coding Prompt: YAGNI Principle Implementation**
+### 💡 **Vibe Coding Prompt: YAGNI Principle Implementation**
 
 **Scenario**: You're facing pressure to add features "for the future" that aren't currently needed.
 
@@ -935,7 +959,7 @@ Payment Context  → Payment processing, billing
 Order Context    → Order management, fulfillment
 ```
 
-### 💡 **Vive Coding Prompt: Separation of Concerns Implementation**
+### 💡 **Vibe Coding Prompt: Separation of Concerns Implementation**
 
 **Scenario**: You have code that mixes multiple responsibilities and violates separation of concerns principles.
 
@@ -1025,7 +1049,7 @@ Coupling and cohesion are inversely related quality metrics that together determ
 | **Sequential** | Output of one is input to next | Data processing pipeline | High |
 | **Functional** | Elements contribute to single task | Calculate tax for order | Highest (Best) |
 
-### 💡 **Vive Coding Prompt: Coupling and Cohesion Improvement**
+### 💡 **Vibe Coding Prompt: Coupling and Cohesion Improvement**
 
 **Scenario**: You have modules or classes with poor coupling and cohesion that need restructuring for better maintainability.
 

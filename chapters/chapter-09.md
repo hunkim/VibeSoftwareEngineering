@@ -217,65 +217,66 @@ class ShoppingCart:
 
 Each Red-Green-Refactor cycle builds upon the previous ones, creating a foundation of tested functionality that supports future development. This iterative approach allows each chunk of code to be tested as soon as possible, making it significantly easier to diagnose bugs and preventing the accumulation of technical debt.
 
-### 💡 **Vive Coding Prompt: TDD Implementation Practice**
+### 💡 **Vibe Coding Prompt: TDD Implementation Practice**
 
-**Scenario**: You want to implement a feature using Test-Driven Development (TDD) methodology.
+**Scenario**: You want to implement a feature using Test-Driven Development (TDD) with AI assistance to generate both tests and implementation.
 
-**Your Task - Use this prompt with your actual feature**:
+**Your Vibe Coding Prompt**:
 
 ```
-I want to implement a new feature using TDD methodology. Here's what I need to build:
+I want to implement a feature using strict TDD methodology (Red-Green-Refactor). I need you to generate both the tests and implementation following TDD principles.
 
-Feature requirements: [DESCRIBE THE FEATURE YOU NEED TO IMPLEMENT]
+**Feature to implement**: [DESCRIBE THE FEATURE YOU NEED]
 
-Business rules and constraints: [LIST THE SPECIFIC BUSINESS RULES AND VALIDATION REQUIREMENTS]
+**Business requirements**: [LIST SPECIFIC BUSINESS RULES AND CONSTRAINTS]
 
-Expected inputs and outputs: [DESCRIBE WHAT THE FEATURE SHOULD ACCEPT AND RETURN]
+**Technical context**: [DESCRIBE THE TECHNOLOGY STACK AND EXISTING CODEBASE]
 
-Integration points: [LIST ANY EXTERNAL SYSTEMS, DATABASES, OR SERVICES THE FEATURE NEEDS TO INTERACT WITH]
+**Generate for me**:
 
-Please help me:
+1. **Complete TDD implementation** following Red-Green-Refactor:
+   - Start with the simplest failing test
+   - Implement minimal code to make it pass
+   - Refactor for better design
+   - Repeat for each requirement
 
-1. **TDD Planning and Breakdown**:
-   - Help me break down the feature requirements into small, testable units
-   - Suggest the order in which I should implement different parts of the feature
-   - Recommend how to structure my tests to express business requirements clearly
-   - Identify the simplest possible starting point for my first test
+2. **Full test suite** including:
+   - Unit tests for all business logic
+   - Edge cases and error conditions
+   - Integration tests for external dependencies
+   - Property-based tests where appropriate
+   - Clear, descriptive test names that express business intent
 
-2. **Red-Green-Refactor Strategy**:
-   - Guide me through the TDD cycle for my specific feature
-   - Suggest how to write failing tests that drive the implementation
-   - Recommend how to make tests pass with the simplest possible implementation
-   - Show me when and how to refactor for better design
+3. **Production-ready code** that:
+   - Follows SOLID principles naturally emerging from TDD
+   - Has proper error handling and validation
+   - Includes comprehensive logging
+   - Uses dependency injection for testability
+   - Has clean, readable interfaces
 
-3. **Test Design Guidance**:
-   - Help me write tests that are independent and can run in any order
-   - Suggest how to test both positive cases (happy path) and negative cases (error conditions)
-   - Recommend how to handle edge cases and boundary conditions
-   - Show me how to test interactions with external dependencies
+4. **TDD progression documentation** showing:
+   - Each Red-Green-Refactor cycle
+   - How the design evolved through testing
+   - Why certain refactoring decisions were made
+   - How tests drove the API design
 
-4. **Implementation Approach**:
-   - Guide me on writing just enough code to make each test pass
-   - Suggest how to avoid over-engineering during the implementation phase
-   - Recommend when to introduce abstractions and design patterns
-   - Show me how to maintain focus on the current test without getting ahead of myself
+5. **Mock and stub implementations** for:
+   - External service dependencies
+   - Database interactions
+   - File system operations
+   - Network calls
 
-5. **Refactoring and Design Evolution**:
-   - Help me identify when refactoring is needed during the TDD process
-   - Suggest how to improve the design while keeping all tests passing
-   - Recommend how to extract methods, classes, or modules as the code grows
-   - Show me how TDD naturally leads to better API design
-
-6. **Testing Best Practices**:
-   - Suggest naming conventions for tests that clearly express intent
-   - Recommend how to organize test code for maintainability
-   - Show me how to use mocks and stubs for external dependencies
-   - Guide me on writing assertions that provide clear failure messages
-
-Please provide specific, step-by-step guidance that helps me successfully implement my feature using strict TDD methodology.
+Please generate the complete implementation step-by-step, showing each TDD cycle. Start with the absolute simplest test case and build up complexity gradually. Include comments explaining the TDD decisions at each step.
 ```
 
-**How to Use**: Replace the placeholders with your specific feature requirements to get customized TDD implementation guidance.
+**Follow-up Prompts for TDD Enhancement**:
+- "Add performance tests and optimize the implementation"
+- "Generate mutation tests to verify test quality"
+- "Add contract tests for external service interactions"
+- "Create property-based tests for complex business rules"
+- "Generate load tests for the implemented feature"
+
+**How to Use**: Replace the placeholders with your specific feature requirements and use this with AI assistants to get a complete TDD implementation with full test coverage.
 
 ---
 
@@ -430,7 +431,7 @@ When tests handle verification, developers can focus on implementation:
 - **Incremental Progress**: Small, verified steps build confidence
 - **Objective Success Criteria**: Tests provide clear pass/fail indicators
 
-### 💡 **Vive Coding Prompt: TDD Benefits Analysis**
+### 💡 **Vibe Coding Prompt: TDD Benefits Analysis**
 
 **Scenario**: Your team is debating whether to adopt TDD for a new project. Some developers are concerned about the initial time investment, while others advocate for the long-term benefits.
 
@@ -682,7 +683,7 @@ class TestCanaryDeployment:
         assert v2_result.performance_metrics.response_time < v1_result.performance_metrics.response_time
 ```
 
-### 💡 **Vive Coding Prompt: TDD-Driven CI/CD Pipeline Design**
+### 💡 **Vibe Coding Prompt: TDD-Driven CI/CD Pipeline Design**
 
 **Scenario**: You want to set up a CI/CD pipeline that integrates TDD practices effectively.
 
@@ -943,7 +944,7 @@ Apply TDD strategically to high-value areas:
 - **UI Layer**: Use visual and manual testing approaches
 - **Integration Points**: Use TDD for service boundaries and APIs
 
-### 💡 **Vive Coding Prompt: TDD Decision Framework**
+### 💡 **Vibe Coding Prompt: TDD Decision Framework**
 
 **Scenario**: You're the technical lead for a team building a comprehensive project management application. The application includes various components with different characteristics, and you need to decide where to apply TDD and where to use alternative approaches.
 

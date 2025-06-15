@@ -18,8 +18,34 @@ Robust error handling adheres to several key principles designed to ensure trans
 
 - **Raise errors immediately:** Errors should be identified and reported as early as possible in the execution flow. Delaying the reporting of errors significantly increases debugging costs and complexity, as the context of the error may be lost.
 
-**Vive Coding Prompt Example:**
-The current API endpoint fails silently with a generic 500 error when the database is unavailable. Modify it to never fail silently. Instead, catch the database exception and return a specific, documented 503 Service Unavailable error with a clear JSON payload like { "error_code": "DB_UNAVAILABLE", "message": "The service is temporarily unavailable. Please try again later." }.
+**Vibe Coding Prompt:**
+```
+I have an API endpoint that currently fails silently with a generic 500 error when the database is unavailable. Help me implement proper error handling that never fails silently.
+
+Current Problem:
+- Generic 500 errors with no context
+- Database connection failures are swallowed
+- No structured error responses
+- Difficult for support team to diagnose issues
+
+Please generate:
+1. Proper exception handling for database connectivity issues
+2. Structured error response format with specific error codes
+3. HTTP status code mapping (503 for service unavailable, etc.)
+4. Error logging with sufficient context for debugging
+5. User-friendly error messages that don't expose internal details
+6. Error documentation for the API
+
+Example desired response:
+{
+  "error_code": "DB_UNAVAILABLE",
+  "message": "The service is temporarily unavailable. Please try again later.",
+  "timestamp": "2024-01-15T10:30:00Z",
+  "request_id": "req_123456"
+}
+
+Use Python/FastAPI and include proper exception middleware.
+```
 
 ## 6.2 Strategies for Error Catching and Recovery
 
@@ -35,8 +61,34 @@ Beyond the core principles, specific strategies enhance error catching and recov
 
 - **Restore state and resources:** After recovering from an error, the program's state must be restored to a correct and consistent condition. This includes fixing or reverting any partial changes and closing any side effects or resources that were initiated by the erroring code.
 
-**Vive Coding Prompt Example:**
-Implement a try...catch...finally block for the file processing job. The try block should contain only the file read/write operations. The catch block should log the specific I/O error. The finally block must ensure that the file handle is always closed, whether an error occurred or not, to prevent resource leaks.
+**Vibe Coding Prompt:**
+```
+I need to implement robust error handling for a file processing job that currently has poor error recovery. Help me build a comprehensive error handling system.
+
+Current Issues:
+- Large try blocks that make it hard to identify error sources
+- File handles not properly closed on errors
+- No state restoration after partial failures
+- Errors not caught early enough in the process
+
+Requirements:
+- Process large CSV files with user data
+- Validate each row before processing
+- Handle I/O errors, validation errors, and network timeouts
+- Ensure file handles are always closed
+- Restore system state if processing fails midway
+
+Please generate:
+1. Granular try-catch blocks with specific error handling
+2. Resource management with proper cleanup (context managers)
+3. State restoration mechanisms for partial failures
+4. Early validation and error detection
+5. Retry logic for transient failures
+6. Comprehensive error logging with context
+7. Progress tracking and rollback capabilities
+
+Use Python with proper exception hierarchy and include unit tests for error scenarios.
+```
 
 ## 6.3 Structured Logging for Debugging and Monitoring
 
@@ -44,5 +96,34 @@ Logging is an indispensable practice for documenting failures, exceptions, and e
 
 Structured logging, where log entries are formatted consistently (e.g., JSON), makes it easier to analyze and query log data programmatically. Integrating logging with automated monitoring and alerting systems allows for real-time tracking of key metrics and proactive notification of abnormalities, preventing major downtime and ensuring the software system remains robust and scalable.
 
-**Vive Coding Prompt Example:**
-Convert all log outputs in the payment service to a structured JSON format. Each log entry must include a timestamp, log level (INFO, ERROR, etc.), a descriptive message, and a transaction_id to allow for easy filtering and tracing of a single transaction across multiple log entries. 
+**Vibe Coding Prompt:**
+```
+I need to convert our payment service from unstructured logging to a comprehensive structured logging system. Help me implement this transformation.
+
+Current Problems:
+- Inconsistent log formats across the service
+- Difficult to trace transactions across multiple log entries
+- No correlation IDs for debugging
+- Logs not suitable for automated analysis
+- Missing important context in error logs
+
+Requirements:
+- JSON-formatted log entries
+- Correlation IDs for transaction tracing
+- Consistent log levels and structure
+- Integration with monitoring tools (ELK stack)
+- Performance metrics logging
+- Security-aware logging (no sensitive data)
+
+Please generate:
+1. Structured logging configuration and setup
+2. Log entry schema with required fields
+3. Correlation ID generation and propagation
+4. Context managers for automatic log enrichment
+5. Performance and business metrics logging
+6. Error logging with stack traces and context
+7. Log aggregation and monitoring integration
+8. Security filters to prevent sensitive data logging
+
+Use Python with structlog library and include examples for payment processing, user authentication, and error scenarios. Show how to query and analyze the structured logs.
+``` 

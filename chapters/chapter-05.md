@@ -241,7 +241,7 @@ for day_index in range(DAYS_IN_WEEK):
 - Use question form: `is_valid`, `has_permission`, `can_edit`
 - Avoid negatives: `is_enabled` instead of `is_not_disabled`
 
-### 💡 **Vive Coding Prompt: Naming Convention Improvement**
+### 💡 **Vibe Coding Prompt: Naming Convention Improvement**
 
 **Scenario**: You need to improve the naming conventions in your codebase to make it more readable and maintainable.
 
@@ -419,7 +419,7 @@ user_notification = NotificationService.send_email(
 | **C#** | EditorConfig, StyleCop | `.editorconfig` |
 | **Go** | gofmt (built-in) | No configuration needed |
 
-### 💡 **Vive Coding Prompt: Code Style Standardization**
+### 💡 **Vibe Coding Prompt: Code Style Standardization**
 
 **Scenario**: Your team has inconsistent code formatting that's causing friction in development and code reviews.
 
@@ -617,7 +617,7 @@ def calculate_tax(income):
     return TaxCalculator.calculate_progressive_tax(income)
 ```
 
-### 💡 **Vive Coding Prompt: Documentation Quality Improvement**
+### 💡 **Vibe Coding Prompt: Documentation Quality Improvement**
 
 **Scenario**: You need to improve the documentation of code that's poorly documented and hard to understand.
 
@@ -811,7 +811,7 @@ def format_currency_for_api(amount):
     return f"${amount:.2f}"  # API response formatting
 ```
 
-### 💡 **Vive Coding Prompt: Data Validation Consolidation**
+### 💡 **Vibe Coding Prompt: Data Validation Consolidation**
 
 **Scenario**: You have validation logic scattered across your codebase that needs to be consolidated to eliminate duplication and inconsistencies.
 
@@ -1088,7 +1088,7 @@ class PaymentProcessor:
 - Automated refactoring reduces the risk of introducing errors
 - Manual verification is still essential
 
-### 💡 **Vive Coding Prompt: Legacy Code Refactoring**
+### 💡 **Vibe Coding Prompt: Legacy Code Refactoring**
 
 **Scenario**: You have legacy code that works but is difficult to maintain, extend, and test.
 

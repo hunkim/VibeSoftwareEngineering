@@ -29,7 +29,7 @@ This isn't just another programming book—it's a complete framework for buildin
 ### 🧠 **Holistic Approach to Software Quality**
 Unlike books that focus on single aspects of development, we integrate design principles, architecture patterns, testing strategies, and delivery practices into a cohesive methodology.
 
-### 🎯 **Real-World Vive Coding Prompts**
+### 🎯 **Real-World Vibe Coding Prompts**
 Each chapter includes comprehensive, industry-realistic scenarios that challenge you to apply concepts in complex, multi-faceted situations—just like you'll face in professional development.
 
 ### 🔄 **Integration-Focused Learning**
@@ -48,21 +48,21 @@ Every recommendation is backed by industry research, real-world case studies, an
 - The philosophy and economics of quality software
 - The six pillars of high-quality software and their interdependencies
 - Building a comprehensive framework for engineering excellence
-- **Vive Coding Prompt**: Quarterly Quality Assessment & Team Charter Creation
+- **Vibe Coding Prompt**: Quarterly Quality Assessment & Team Charter Creation
 
 #### [🏗️ Chapter 2: Core Design Principles](chapters/chapter-02.md)
 - **SOLID Principles**: Complete coverage with advanced scenarios
 - **DRY, KISS, YAGNI**: Practical application and trade-off analysis
 - **Separation of Concerns**: Modular design strategies
 - **Coupling and Cohesion**: Achieving optimal system structure
-- **Vive Coding Prompts**: SRP Refactoring, Payment Processing Architecture, Vehicle Hierarchy Design
+- **Vibe Coding Prompts**: SRP Refactoring, Payment Processing Architecture, Vehicle Hierarchy Design
 
 #### [🏛️ Chapter 3: Understanding Software Architecture](chapters/chapter-03.md)
 - Architecture as communication, risk management, and quality enablement
 - Systematic architectural thinking and design processes
 - The 4+1 architectural view model with practical examples
 - Trade-off analysis frameworks for complex decisions
-- **Vive Coding Prompts**: Architecture Assessment Framework, Trade-off Decision Framework
+- **Vibe Coding Prompts**: Architecture Assessment Framework, Trade-off Decision Framework
 
 ### **Part II: Architectural Patterns for Scalable Systems**
 
@@ -78,7 +78,7 @@ Every recommendation is backed by industry research, real-world case studies, an
 - **Code Style and Formatting**: Automated consistency and cognitive load reduction
 - **Documentation Strategies**: Self-documenting code and strategic commenting
 - **Refactoring Excellence**: Systematic improvement without breaking functionality
-- **Vive Coding Prompts**: Legacy Code Naming Audit, Code Style Standardization, Documentation Quality Improvement
+- **Vibe Coding Prompts**: Legacy Code Naming Audit, Code Style Standardization, Documentation Quality Improvement
 
 #### [🛡️ Chapter 6: Robust Error Handling and Logging](chapters/chapter-06.md)
 - Comprehensive error handling strategies and patterns
@@ -102,14 +102,14 @@ Every recommendation is backed by industry research, real-world case studies, an
 - **Quality and Design Benefits**: How TDD improves code architecture
 - **Agile and DevOps Integration**: TDD in modern development workflows
 - **Strategic Application**: When to use TDD and when to consider alternatives
-- **Vive Coding Prompts**: E-commerce Order Processing, TDD Benefits Analysis, CI/CD Pipeline Integration
+- **Vibe Coding Prompts**: E-commerce Order Processing, TDD Benefits Analysis, CI/CD Pipeline Integration
 
 #### [🔄 Chapter 10: Continuous Integration and Continuous Delivery (CI/CD)](chapters/chapter-10.md)
 - **Pipeline Architecture**: Designing comprehensive CI/CD workflows
 - **Deployment Strategies**: Blue-Green, Canary, and Rolling deployments
 - **Quality Gates**: Automated testing and security integration
 - **Monitoring and Feedback**: Continuous improvement through metrics
-- **Vive Coding Prompts**: E-commerce Platform Pipeline, Microservices CI Optimization, Multi-Environment CD Pipeline
+- **Vibe Coding Prompts**: E-commerce Platform Pipeline, Microservices CI Optimization, Multi-Environment CD Pipeline
 
 #### [👥 Chapter 11: Collaboration and Version Control](chapters/chapter-11.md)
 - Advanced Git workflows and branching strategies
@@ -145,14 +145,14 @@ After completing this book, you will be able to:
 
 ### Quick Start Guide
 
-1. **📖 Start with the Fundamentals**: Begin with [Chapter 1](chapters/chapter-01.md) to understand the "Vive Coding" philosophy
+1. **📖 Start with the Fundamentals**: Begin with [Chapter 1](chapters/chapter-01.md) to understand the "Vibe Coding" philosophy
 2. **🏗️ Master the Principles**: Work through [Chapter 2](chapters/chapter-02.md) to build your design foundation
 3. **🏛️ Think Architecturally**: Dive into [Chapter 3](chapters/chapter-03.md) for system-level thinking
 4. **🎯 Choose Your Path**: Focus on areas most relevant to your current role and challenges
 
-### 💡 How to Use the Vive Coding Prompts
+### 💡 How to Use the Vibe Coding Prompts
 
-Each chapter includes comprehensive **Vive Coding Prompts**—realistic, industry-level scenarios that challenge you to apply multiple concepts simultaneously. These aren't simple exercises; they're complex, multi-faceted problems that mirror real-world software development challenges.
+Each chapter includes comprehensive **Vibe Coding Prompts**—realistic, industry-level scenarios that challenge you to apply multiple concepts simultaneously. These aren't simple exercises; they're complex, multi-faceted problems that mirror real-world software development challenges.
 
 **Example Prompt Structure:**
 - **Scenario**: Realistic business context and technical challenges
@@ -190,7 +190,7 @@ We believe that great software engineering knowledge should be collaborative and
 ### Ways to Contribute
 
 - **📝 Content Improvements**: Enhance explanations, add examples, fix errors
-- **💡 New Vive Coding Prompts**: Contribute realistic scenarios from your experience
+- **💡 New Vibe Coding Prompts**: Contribute realistic scenarios from your experience
 - **🔧 Code Examples**: Add implementations in different programming languages
 - **📖 Case Studies**: Share real-world applications of the principles
 - **🌐 Translations**: Help make this content accessible globally
@@ -209,7 +209,7 @@ See our [Contributing Guide](CONTRIBUTING.md) for detailed instructions.
 
 ## 📊 Success Stories
 
-> *"Implementing the Vive Coding principles reduced our bug reports by 40% and increased our deployment frequency from weekly to daily. The comprehensive approach helped our team think more systematically about quality."*
+> *"Implementing the Vibe Coding principles reduced our bug reports by 40% and increased our deployment frequency from weekly to daily. The comprehensive approach helped our team think more systematically about quality."*
 > 
 > **— Sarah Chen, Senior Engineering Manager at TechCorp**
 
@@ -217,7 +217,7 @@ See our [Contributing Guide](CONTRIBUTING.md) for detailed instructions.
 > 
 > **— Marcus Rodriguez, Principal Software Architect**
 
-> *"The Vive Coding Prompts are incredibly realistic. Working through them prepared me for the complex challenges I face daily as a tech lead. This book bridges the gap between theory and practice better than anything else I've read."*
+> *"The Vibe Coding Prompts are incredibly realistic. Working through them prepared me for the complex challenges I face daily as a tech lead. This book bridges the gap between theory and practice better than anything else I've read."*
 > 
 > **— Dr. Aisha Patel, Technical Lead at FinanceFlow**
 
@@ -235,7 +235,7 @@ See our [Contributing Guide](CONTRIBUTING.md) for detailed instructions.
 
 - **📚 Supplementary Materials**: Additional examples and templates
 - **🎥 Video Walkthroughs**: Visual explanations of complex concepts
-- **🔧 Tool Recommendations**: Curated list of tools that support Vive Coding practices
+- **🔧 Tool Recommendations**: Curated list of tools that support Vibe Coding practices
 - **📈 Assessment Templates**: Self-evaluation frameworks for teams and individuals
 
 ---
@@ -259,7 +259,7 @@ This book builds upon the wisdom and experience of countless software engineerin
 
 ## 🎯 Start Your Journey to Software Engineering Excellence
 
-Ready to transform your approach to software development? Start with [Chapter 1: Introduction to Vive Software Engineering](chapters/chapter-01.md) and begin building software that truly comes alive.
+Ready to transform your approach to software development? Start with [Chapter 1: Introduction to Vibe Software Engineering](chapters/chapter-01.md) and begin building software that truly comes alive.
 
 **Remember**: Great software isn't just about solving today's problems—it's about creating solutions that can grow, evolve, and inspire the developers who work with them.
 
