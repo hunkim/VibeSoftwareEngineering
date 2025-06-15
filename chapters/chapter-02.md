@@ -126,7 +126,7 @@ graph LR
 I have a class that's doing too many things and violates the Single Responsibility Principle. I want to refactor it using SRP best practices.
 
 **Current problematic class**: 
-```python
+
 class UserReportGenerator:
     def __init__(self, database_connection):
         self.db = database_connection
@@ -153,7 +153,7 @@ class UserReportGenerator:
         server.quit()
         
         return html_content
-```
+
 
 **What I need you to do**:
 
@@ -276,7 +276,7 @@ graph TD
 I need to extend my system with new functionality while following the Open-Closed Principle (open for extension, closed for modification).
 
 **Current code**: 
-```python
+
 class ReportGenerator:
     def generate_pdf_report(self, data):
         # Generate PDF report
@@ -286,7 +286,6 @@ class ReportGenerator:
     def create_pdf(self, data):
         # PDF creation logic
         return f"PDF: {data}"
-```
 
 **New functionality needed**: Add Excel and CSV export capabilities without modifying existing PDF functionality
 
