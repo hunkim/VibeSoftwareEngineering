@@ -114,157 +114,64 @@ graph TD
 ```
 
 #### **Decision Documentation**
-Architecture captures and communicates critical decisions:
+Architecture captures and communicates critical decisions through Architectural Decision Records (ADRs):
 
-```markdown
-# Architectural Decision Record (ADR)
-
-## Title: Use Event-Driven Architecture for Order Processing
-
-### Status: Accepted
-
-### Context
-Our e-commerce platform needs to handle complex order processing workflows 
-involving inventory management, payment processing, shipping coordination, 
-and customer notifications. The current synchronous approach is creating 
-bottlenecks and tight coupling between services.
-
-### Decision
-We will implement an event-driven architecture using Apache Kafka as the 
-message broker for order processing workflows.
-
-### Consequences
-**Positive:**
-- Improved scalability and performance
-- Reduced coupling between services
-- Better fault tolerance and resilience
-- Easier to add new processing steps
-
-**Negative:**
-- Increased complexity in debugging and monitoring
-- Need for eventual consistency handling
-- Additional infrastructure requirements
-- Team learning curve for event-driven patterns
-
-### Alternatives Considered
-1. **Synchronous microservices** - Rejected due to coupling and performance issues
-2. **Monolithic approach** - Rejected due to scalability limitations
-3. **Message queues (RabbitMQ)** - Rejected due to limited scalability for our volume
-```
+**ADR Template Structure:**
+- **Title**: Clear, descriptive name for the decision
+- **Status**: Proposed, Accepted, Deprecated, or Superseded
+- **Context**: The situation that led to the decision
+- **Decision**: What was decided and why
+- **Consequences**: Expected positive and negative outcomes
+- **Alternatives**: Other options that were considered
 
 ### Architecture as a Risk Management Tool
 
 #### **Technical Risk Mitigation**
 Architecture helps identify and mitigate technical risks early:
 
-```python
-# Example: Architecture decision to mitigate single point of failure
-class OrderProcessingArchitecture:
-    def __init__(self):
-        # Multiple payment processor integration to mitigate vendor risk
-        self.payment_processors = [
-            StripePaymentProcessor(),
-            PayPalPaymentProcessor(),
-            BraintreePaymentProcessor()
-        ]
-        
-        # Circuit breaker pattern to handle service failures
-        self.circuit_breakers = {
-            'inventory_service': CircuitBreaker(failure_threshold=5),
-            'payment_service': CircuitBreaker(failure_threshold=3),
-            'notification_service': CircuitBreaker(failure_threshold=10)
-        }
-    
-    def process_order(self, order):
-        # Fallback processing strategy
-        for processor in self.payment_processors:
-            try:
-                if self.circuit_breakers['payment_service'].is_closed():
-                    return processor.process_payment(order.payment_info)
-            except PaymentProcessorError:
-                continue
-        
-        raise PaymentProcessingError("All payment processors unavailable")
-```
+**Common Technical Risks:**
+- **Single Points of Failure**: Components whose failure brings down the entire system
+- **Scalability Bottlenecks**: Components that cannot handle increased load
+- **Security Vulnerabilities**: Weak points that could be exploited
+- **Technology Lock-in**: Dependencies that limit future flexibility
+- **Integration Complexity**: Difficult connections between components
+
+**Risk Mitigation Strategies:**
+- **Redundancy**: Multiple instances of critical components
+- **Circuit Breakers**: Automatic failure detection and isolation
+- **Graceful Degradation**: Reduced functionality rather than complete failure
+- **Monitoring and Alerting**: Early detection of problems
+- **Fallback Mechanisms**: Alternative paths when primary systems fail
 
 #### **Business Risk Mitigation**
 Architecture supports business continuity and compliance:
 
-```yaml
-# Example: Multi-region architecture for business continuity
-business_continuity_architecture:
-  regions:
-    primary:
-      location: "us-east-1"
-      services: ["web", "api", "database", "cache"]
-      capacity: "100%"
-    
-    secondary:
-      location: "us-west-2"
-      services: ["web", "api", "database-replica", "cache"]
-      capacity: "50%"
-    
-    disaster_recovery:
-      location: "eu-west-1"
-      services: ["database-backup", "essential-services"]
-      capacity: "25%"
-  
-  failover_strategy:
-    automatic_failover: true
-    rto: "15 minutes"  # Recovery Time Objective
-    rpo: "5 minutes"   # Recovery Point Objective
-    
-  compliance_requirements:
-    data_residency: "GDPR compliant"
-    audit_logging: "SOX compliant"
-    encryption: "AES-256 at rest and in transit"
-```
+**Business Continuity Considerations:**
+- **Disaster Recovery**: Plans for recovering from catastrophic failures
+- **Data Backup and Restoration**: Protecting against data loss
+- **Geographic Distribution**: Reducing risk from localized disasters
+- **Compliance Requirements**: Meeting regulatory and legal obligations
+- **Vendor Risk Management**: Reducing dependence on single suppliers
 
 ### Architecture as a Quality Attribute Enabler
 
 #### **Quality Attribute Scenarios**
 Architecture enables specific quality attributes through design decisions:
 
-```python
-# Example: Architecture for high availability
-class HighAvailabilityArchitecture:
-    def __init__(self):
-        # Load balancing for availability
-        self.load_balancer = LoadBalancer(
-            algorithm='round_robin',
-            health_check_interval=30,
-            failover_threshold=3
-        )
-        
-        # Database clustering for data availability
-        self.database_cluster = DatabaseCluster(
-            primary_nodes=3,
-            replica_nodes=6,
-            backup_strategy='continuous'
-        )
-        
-        # Caching for performance and availability
-        self.cache_cluster = CacheCluster(
-            nodes=5,
-            replication_factor=2,
-            eviction_policy='LRU'
-        )
-    
-    def calculate_availability(self):
-        # Calculate system availability based on component reliabilities
-        lb_availability = 0.999  # Load balancer availability
-        app_availability = 0.995  # Application server availability
-        db_availability = 0.999   # Database cluster availability
-        cache_availability = 0.997 # Cache cluster availability
-        
-        # Series reliability (all components must work)
-        system_availability = (lb_availability * 
-                             app_availability * 
-                             db_availability * 
-                             cache_availability)
-        
-        return system_availability  # ~0.990 (99.0% availability)
-```
+**Performance Scenarios:**
+- Normal load: System handles expected traffic with acceptable response times
+- Peak load: System maintains functionality during traffic spikes
+- Stress conditions: System degrades gracefully under extreme load
+
+**Security Scenarios:**
+- Authentication: Users are properly identified and verified
+- Authorization: Access is controlled based on user permissions
+- Data protection: Sensitive information is encrypted and secured
+
+**Availability Scenarios:**
+- Component failure: System continues operating when parts fail
+- Maintenance: System remains available during updates
+- Disaster recovery: System can be restored after major incidents
 
 ### 💡 **Vibe Coding Prompt: Architecture Assessment Framework**
 
@@ -325,260 +232,101 @@ Architectural thinking is a systematic approach to understanding and solving com
 
 #### **1. Requirements Analysis and Stakeholder Identification**
 
-```python
-# Example: Stakeholder requirements analysis
-class ArchitecturalRequirements:
-    def __init__(self):
-        self.stakeholders = {}
-        self.functional_requirements = []
-        self.quality_attributes = {}
-        self.constraints = []
-    
-    def add_stakeholder(self, name, role, concerns):
-        self.stakeholders[name] = {
-            'role': role,
-            'primary_concerns': concerns,
-            'influence_level': self.assess_influence(role),
-            'involvement_level': self.assess_involvement(role)
-        }
-    
-    def add_quality_attribute(self, attribute, scenarios):
-        """
-        Quality attribute scenarios define specific, measurable requirements
-        """
-        self.quality_attributes[attribute] = {
-            'scenarios': scenarios,
-            'priority': self.assess_priority(attribute),
-            'measurable_criteria': self.define_criteria(attribute)
-        }
+**Understanding Stakeholder Needs:**
+- **Business Stakeholders**: Focus on features, time-to-market, and cost
+- **End Users**: Care about performance, usability, and reliability
+- **Developers**: Need maintainable, testable, and understandable code
+- **Operations**: Require deployable, monitorable, and scalable systems
+- **Security Teams**: Demand secure, compliant, and auditable systems
 
-# Example usage
-requirements = ArchitecturalRequirements()
+**Quality Attribute Scenarios:**
+Quality attributes should be specified as concrete, measurable scenarios:
 
-# Add stakeholders
-requirements.add_stakeholder(
-    "Product Manager", 
-    "Business",
-    ["Time to market", "Feature flexibility", "Cost efficiency"]
-)
-
-requirements.add_stakeholder(
-    "Operations Team",
-    "Technical",
-    ["System reliability", "Monitoring capabilities", "Deployment automation"]
-)
-
-# Add quality attribute scenarios
-requirements.add_quality_attribute("Performance", [
-    {
-        "scenario": "Normal load handling",
-        "stimulus": "1000 concurrent users",
-        "response": "Page load time < 2 seconds",
-        "measure": "95th percentile response time"
-    },
-    {
-        "scenario": "Peak load handling", 
-        "stimulus": "5000 concurrent users",
-        "response": "System remains responsive",
-        "measure": "Response time < 5 seconds, no errors"
-    }
-])
-```
+**Performance Example:**
+- **Source**: 1000 concurrent users
+- **Stimulus**: Submit order requests
+- **Environment**: Normal operating conditions
+- **Artifact**: Order processing system
+- **Response**: Process orders successfully
+- **Measure**: 95% of requests complete within 2 seconds
 
 #### **2. Architectural Constraint Analysis**
 
-```python
-class ArchitecturalConstraints:
-    def __init__(self):
-        self.technical_constraints = []
-        self.business_constraints = []
-        self.regulatory_constraints = []
-        self.organizational_constraints = []
-    
-    def analyze_constraints(self):
-        """
-        Analyze how constraints impact architectural decisions
-        """
-        constraint_analysis = {
-            'technology_stack': self.assess_technology_constraints(),
-            'budget_limitations': self.assess_budget_constraints(),
-            'compliance_requirements': self.assess_regulatory_constraints(),
-            'team_capabilities': self.assess_team_constraints(),
-            'time_constraints': self.assess_schedule_constraints()
-        }
-        
-        return self.prioritize_constraints(constraint_analysis)
-    
-    def assess_technology_constraints(self):
-        return {
-            'existing_systems': "Must integrate with legacy SAP system",
-            'technology_standards': "Must use approved cloud services only",
-            'security_requirements': "Must meet SOC 2 Type II compliance",
-            'performance_requirements': "Must handle 10,000 TPS peak load"
-        }
-    
-    def assess_budget_constraints(self):
-        return {
-            'development_budget': "$500K for initial development",
-            'operational_budget': "$50K/month for cloud infrastructure",
-            'licensing_costs': "Prefer open-source solutions",
-            'maintenance_budget': "Limited budget for ongoing maintenance"
-        }
-```
+**Types of Constraints:**
+
+**Technical Constraints:**
+- Existing systems that must be integrated
+- Technology standards and approved platforms
+- Performance and scalability requirements
+- Security and compliance mandates
+
+**Business Constraints:**
+- Budget limitations for development and operations
+- Timeline constraints for delivery
+- Skill availability within the team
+- Organizational policies and procedures
+
+**Regulatory Constraints:**
+- Data privacy regulations (GDPR, CCPA)
+- Industry-specific compliance (HIPAA, SOX)
+- Geographic restrictions on data storage
+- Audit and reporting requirements
 
 #### **3. Architecture Option Generation and Evaluation**
 
-```python
-class ArchitecturalOptions:
-    def __init__(self):
-        self.options = []
-        self.evaluation_criteria = []
-    
-    def generate_options(self, requirements, constraints):
-        """
-        Generate multiple architectural options based on requirements
-        """
-        options = [
-            self.generate_monolithic_option(requirements, constraints),
-            self.generate_microservices_option(requirements, constraints),
-            self.generate_serverless_option(requirements, constraints),
-            self.generate_hybrid_option(requirements, constraints)
-        ]
-        
-        return [option for option in options if option.is_feasible()]
-    
-    def evaluate_options(self, options, criteria):
-        """
-        Evaluate options against multiple criteria
-        """
-        evaluation_matrix = {}
-        
-        for option in options:
-            evaluation_matrix[option.name] = {}
-            
-            for criterion in criteria:
-                score = self.calculate_criterion_score(option, criterion)
-                weight = criterion.weight
-                weighted_score = score * weight
-                
-                evaluation_matrix[option.name][criterion.name] = {
-                    'raw_score': score,
-                    'weighted_score': weighted_score,
-                    'rationale': self.get_evaluation_rationale(option, criterion)
-                }
-        
-        return self.rank_options(evaluation_matrix)
+**Generating Architectural Options:**
 
-# Example architectural option
-class MicroservicesArchitectureOption:
-    def __init__(self):
-        self.name = "Microservices Architecture"
-        self.description = "Decompose system into independently deployable services"
-        self.components = self.define_components()
-        self.benefits = self.identify_benefits()
-        self.risks = self.identify_risks()
-        self.costs = self.estimate_costs()
-    
-    def define_components(self):
-        return {
-            'user_service': {
-                'responsibilities': ['Authentication', 'User management', 'Profiles'],
-                'technology': 'Node.js + Express',
-                'database': 'PostgreSQL',
-                'apis': ['REST', 'GraphQL']
-            },
-            'order_service': {
-                'responsibilities': ['Order processing', 'Order history', 'Order status'],
-                'technology': 'Java + Spring Boot',
-                'database': 'PostgreSQL',
-                'apis': ['REST', 'Event streaming']
-            },
-            'payment_service': {
-                'responsibilities': ['Payment processing', 'Billing', 'Refunds'],
-                'technology': 'Python + Django',
-                'database': 'PostgreSQL',
-                'apis': ['REST', 'Webhooks']
-            },
-            'api_gateway': {
-                'responsibilities': ['Routing', 'Authentication', 'Rate limiting'],
-                'technology': 'Kong',
-                'database': 'Redis',
-                'apis': ['REST', 'GraphQL']
-            }
-        }
-    
-    def identify_benefits(self):
-        return [
-            "Independent deployment and scaling",
-            "Technology diversity and team autonomy",
-            "Improved fault isolation",
-            "Better alignment with business domains"
-        ]
-    
-    def identify_risks(self):
-        return [
-            "Increased operational complexity",
-            "Network latency and reliability issues",
-            "Distributed system debugging challenges",
-            "Data consistency complexity"
-        ]
-```
+**Monolithic Architecture:**
+- **Benefits**: Simple deployment, easier debugging, better performance for small systems
+- **Drawbacks**: Difficult to scale, technology lock-in, large team coordination challenges
+- **Best for**: Small teams, simple applications, rapid prototyping
+
+**Microservices Architecture:**
+- **Benefits**: Independent scaling, technology diversity, team autonomy
+- **Drawbacks**: Operational complexity, network latency, distributed system challenges
+- **Best for**: Large teams, complex domains, high scalability requirements
+
+**Serverless Architecture:**
+- **Benefits**: No server management, automatic scaling, pay-per-use pricing
+- **Drawbacks**: Vendor lock-in, cold start latency, limited execution time
+- **Best for**: Event-driven workloads, variable traffic, cost optimization
+
+**Hybrid Architecture:**
+- **Benefits**: Combines advantages of different approaches
+- **Drawbacks**: Increased complexity, multiple operational models
+- **Best for**: Large systems with diverse requirements
 
 ### Architectural Trade-off Analysis
 
-#### **Quality Attribute Trade-off Analysis**
+#### **Quality Attribute Trade-offs**
 
-```python
-class QualityAttributeTradeoffs:
-    def __init__(self):
-        self.trade_off_matrix = self.create_trade_off_matrix()
-    
-    def create_trade_off_matrix(self):
-        """
-        Matrix showing how quality attributes affect each other
-        """
-        return {
-            'performance': {
-                'vs_security': 'Often conflicting - security measures add overhead',
-                'vs_maintainability': 'Performance optimizations can reduce readability',
-                'vs_portability': 'Platform-specific optimizations reduce portability'
-            },
-            'security': {
-                'vs_usability': 'Strong security can impact user experience',
-                'vs_performance': 'Encryption and validation add latency',
-                'vs_availability': 'Security measures can create single points of failure'
-            },
-            'maintainability': {
-                'vs_performance': 'Clean code may sacrifice micro-optimizations',
-                'vs_cost': 'Good architecture requires upfront investment',
-                'vs_time_to_market': 'Proper design takes more initial time'
-            }
-        }
-    
-    def analyze_trade_offs(self, primary_quality_attributes):
-        """
-        Analyze trade-offs for given quality attributes
-        """
-        analysis = {}
-        
-        for attr in primary_quality_attributes:
-            analysis[attr] = {
-                'supportive_patterns': self.get_supportive_patterns(attr),
-                'conflicting_patterns': self.get_conflicting_patterns(attr),
-                'mitigation_strategies': self.get_mitigation_strategies(attr)
-            }
-        
-        return analysis
-    
-    def get_supportive_patterns(self, quality_attribute):
-        patterns = {
-            'performance': ['Caching', 'Load balancing', 'Database optimization'],
-            'security': ['Defense in depth', 'Least privilege', 'Secure by design'],
-            'maintainability': ['Modular design', 'Clean architecture', 'SOLID principles'],
-            'scalability': ['Microservices', 'Event-driven architecture', 'Horizontal scaling']
-        }
-        return patterns.get(quality_attribute, [])
-```
+**Common Trade-offs:**
+
+**Performance vs. Security:**
+- Security measures (encryption, authentication) add processing overhead
+- Mitigation: Hardware acceleration, efficient algorithms, caching strategies
+
+**Maintainability vs. Performance:**
+- Clean, readable code may not be the most optimized
+- Mitigation: Profile-guided optimization, performance testing in CI/CD
+
+**Availability vs. Consistency:**
+- Distributed systems must choose between immediate consistency and high availability
+- Mitigation: Eventual consistency models, conflict resolution strategies
+
+**Cost vs. Performance:**
+- Higher performance often requires more expensive infrastructure
+- Mitigation: Auto-scaling, performance monitoring, cost optimization
+
+#### **Trade-off Analysis Framework**
+
+**Multi-Criteria Decision Analysis (MCDA):**
+
+1. **Identify Criteria**: List all important quality attributes
+2. **Weight Criteria**: Assign importance weights based on stakeholder priorities
+3. **Score Options**: Rate each architectural option against each criterion
+4. **Calculate Weighted Scores**: Multiply scores by weights and sum
+5. **Sensitivity Analysis**: Test how changes in weights affect the ranking
 
 ### 💡 **Vibe Coding Prompt: Architectural Trade-off Decision Framework**
 
@@ -642,400 +390,154 @@ Effective architectural documentation communicates the architecture to different
 
 ### The 4+1 Architectural View Model
 
-#### **1. Logical View - The Functionality**
-The logical view describes the system's functionality and structure from the end-user's perspective:
+The 4+1 view model, developed by Philippe Kruchten, provides a comprehensive framework for documenting software architecture through five interconnected views.
 
-```python
-# Example: Logical view of an e-commerce system
-class ECommerceLogicalView:
-    def __init__(self):
-        self.business_components = {
-            'user_management': {
-                'responsibilities': [
-                    'User registration and authentication',
-                    'Profile management',
-                    'Preference management'
-                ],
-                'key_entities': ['User', 'Profile', 'Preferences'],
-                'business_rules': [
-                    'Users must verify email before activation',
-                    'Profiles can be private or public',
-                    'Users can have multiple delivery addresses'
-                ]
-            },
-            'catalog_management': {
-                'responsibilities': [
-                    'Product information management',
-                    'Category management',
-                    'Search and filtering'
-                ],
-                'key_entities': ['Product', 'Category', 'Brand'],
-                'business_rules': [
-                    'Products must belong to at least one category',
-                    'Product prices are set by sellers',
-                    'Products can have multiple variants'
-                ]
-            },
-            'order_management': {
-                'responsibilities': [
-                    'Shopping cart management',
-                    'Order processing',
-                    'Order fulfillment tracking'
-                ],
-                'key_entities': ['Cart', 'Order', 'OrderItem'],
-                'business_rules': [
-                    'Orders cannot be modified after payment',
-                    'Partial shipments are allowed',
-                    'Orders can be cancelled within 24 hours'
-                ]
-            }
-        }
-    
-    def get_component_interactions(self):
-        return {
-            'user_management → catalog_management': [
-                'Provide user preferences for personalized recommendations',
-                'Validate user permissions for restricted products'
-            ],
-            'catalog_management → order_management': [
-                'Provide product information for cart items',
-                'Validate product availability during checkout'
-            ],
-            'order_management → user_management': [
-                'Update user order history',
-                'Provide order status notifications'
-            ]
-        }
-```
+#### **1. Logical View - The Functionality**
+
+**Purpose**: Describes the system's functionality and structure from the end-user's perspective.
+
+**Key Elements:**
+- **Business Components**: Major functional areas of the system
+- **Component Responsibilities**: What each component does
+- **Component Relationships**: How components interact
+- **Business Rules**: Constraints and policies that govern behavior
+
+**Example - E-commerce System Logical View:**
+- **User Management**: Registration, authentication, profile management
+- **Catalog Management**: Product information, categories, search
+- **Order Management**: Shopping cart, checkout, order processing
+- **Payment Processing**: Payment methods, billing, refunds
+- **Inventory Management**: Stock tracking, availability, reservations
+
+**Component Interactions:**
+- User Management provides authentication for all other components
+- Catalog Management supplies product information to Order Management
+- Order Management triggers Payment Processing and Inventory updates
 
 #### **2. Development View - The Software Management**
-The development view describes the system's organization from the developer's perspective:
 
-```yaml
-# Development view showing module organization
-development_view:
-  modules:
-    presentation_layer:
-      components:
-        - web_ui
-        - mobile_app
-        - admin_console
-      technologies:
-        - React.js
-        - React Native
-        - Angular
-      team_ownership: "Frontend Team"
-    
-    business_logic_layer:
-      components:
-        - user_service
-        - catalog_service
-        - order_service
-        - payment_service
-      technologies:
-        - Java Spring Boot
-        - Node.js Express
-        - Python Flask
-      team_ownership: "Backend Team"
-    
-    data_access_layer:
-      components:
-        - user_repository
-        - catalog_repository
-        - order_repository
-      technologies:
-        - JPA/Hibernate
-        - MongoDB drivers
-        - Redis clients
-      team_ownership: "Backend Team"
-    
-    integration_layer:
-      components:
-        - api_gateway
-        - message_bus
-        - external_service_adapters
-      technologies:
-        - Kong Gateway
-        - Apache Kafka
-        - REST clients
-      team_ownership: "Platform Team"
+**Purpose**: Describes the system's organization from the developer's perspective.
 
-  build_and_deployment:
-    build_tools:
-      - Maven (Java services)
-      - npm (Node.js services)
-      - Docker (containerization)
-    
-    deployment_pipeline:
-      - Source control (Git)
-      - CI/CD (GitHub Actions)
-      - Container registry (Docker Hub)
-      - Orchestration (Kubernetes)
-    
-    testing_strategy:
-      - Unit tests (JUnit, Jest)
-      - Integration tests (TestContainers)
-      - End-to-end tests (Cypress)
-```
+**Key Elements:**
+- **Module Organization**: How code is structured and packaged
+- **Team Ownership**: Which teams are responsible for which components
+- **Build Dependencies**: How modules depend on each other
+- **Development Tools**: Technologies and frameworks used
+
+**Typical Module Structure:**
+- **Presentation Layer**: User interfaces (web, mobile, admin)
+- **Business Logic Layer**: Core application services
+- **Data Access Layer**: Database and external service integration
+- **Infrastructure Layer**: Cross-cutting concerns (logging, security)
+
+**Team Organization Patterns:**
+- **Feature Teams**: Cross-functional teams owning complete features
+- **Component Teams**: Specialized teams owning specific technical components
+- **Platform Teams**: Teams providing shared infrastructure and tools
 
 #### **3. Process View - The Dynamic Behavior**
-The process view shows how the system behaves at runtime:
 
-```python
-# Example: Process view showing order processing workflow
-class OrderProcessingWorkflow:
-    def __init__(self):
-        self.process_steps = [
-            {
-                'step': 'cart_to_order',
-                'description': 'Convert shopping cart to order',
-                'participants': ['Order Service', 'Catalog Service'],
-                'duration': '< 500ms',
-                'error_handling': 'Retry with exponential backoff'
-            },
-            {
-                'step': 'inventory_check',
-                'description': 'Verify product availability',
-                'participants': ['Order Service', 'Inventory Service'],
-                'duration': '< 200ms',
-                'error_handling': 'Return availability error to user'
-            },
-            {
-                'step': 'payment_processing',
-                'description': 'Process payment authorization',
-                'participants': ['Order Service', 'Payment Service', 'External Payment Gateway'],
-                'duration': '< 3000ms',
-                'error_handling': 'Implement payment retry logic'
-            },
-            {
-                'step': 'order_confirmation',
-                'description': 'Confirm order and send notifications',
-                'participants': ['Order Service', 'Notification Service'],
-                'duration': '< 1000ms',
-                'error_handling': 'Queue notifications for retry'
-            }
-        ]
-    
-    def define_concurrency_model(self):
-        return {
-            'synchronous_operations': [
-                'User authentication',
-                'Cart validation',
-                'Payment authorization'
-            ],
-            'asynchronous_operations': [
-                'Order confirmation emails',
-                'Inventory updates',
-                'Analytics event publishing'
-            ],
-            'parallel_operations': [
-                'Multiple payment method validation',
-                'Shipping cost calculation',
-                'Tax calculation'
-            ]
-        }
-    
-    def define_error_handling(self):
-        return {
-            'timeout_handling': {
-                'payment_service': '30 seconds',
-                'inventory_service': '10 seconds',
-                'notification_service': '5 seconds'
-            },
-            'retry_policies': {
-                'payment_processing': 'Exponential backoff, max 3 retries',
-                'inventory_check': 'Immediate retry, max 2 attempts',
-                'notifications': 'Queue for later processing'
-            },
-            'fallback_strategies': {
-                'payment_failure': 'Offer alternative payment methods',
-                'inventory_unavailable': 'Suggest similar products',
-                'notification_failure': 'Log for manual follow-up'
-            }
-        }
-```
+**Purpose**: Shows how the system behaves at runtime, including processes, threads, and interactions.
+
+**Key Elements:**
+- **Process Structure**: How the system is divided into processes
+- **Thread Management**: Concurrency and synchronization
+- **Communication Patterns**: How processes interact
+- **Performance Characteristics**: Response times and throughput
+
+**Common Process Patterns:**
+- **Synchronous Processing**: Request-response interactions with immediate results
+- **Asynchronous Processing**: Fire-and-forget operations with eventual completion
+- **Event-Driven Processing**: Reactive systems responding to events
+- **Batch Processing**: Scheduled operations on large data sets
+
+**Concurrency Considerations:**
+- **Thread Safety**: Ensuring correct behavior with multiple threads
+- **Deadlock Prevention**: Avoiding circular dependencies in resource locking
+- **Load Balancing**: Distributing work across multiple processes
+- **Fault Tolerance**: Handling process failures gracefully
 
 #### **4. Physical View - The Deployment**
-The physical view shows how software components are deployed to hardware:
 
-```yaml
-# Physical deployment view
-physical_deployment:
-  environments:
-    production:
-      regions:
-        us_east:
-          load_balancer:
-            type: "AWS Application Load Balancer"
-            instances: 2
-            configuration: "High availability across AZs"
-          
-          web_servers:
-            type: "Kubernetes pods"
-            instances: 6
-            resources: "2 CPU, 4GB RAM per pod"
-            auto_scaling: "2-10 pods based on CPU utilization"
-          
-          application_servers:
-            type: "Kubernetes pods"
-            instances: 8
-            resources: "4 CPU, 8GB RAM per pod"
-            auto_scaling: "4-20 pods based on request volume"
-          
-          databases:
-            primary:
-              type: "AWS RDS PostgreSQL"
-              instance: "db.r5.2xlarge"
-              storage: "1TB SSD"
-              backup: "Daily automated backups"
-            
-            read_replicas:
-              count: 2
-              type: "AWS RDS PostgreSQL"
-              instance: "db.r5.xlarge"
-          
-          cache:
-            type: "AWS ElastiCache Redis"
-            instances: 3
-            configuration: "Cluster mode with replication"
-          
-          message_queue:
-            type: "AWS MSK (Apache Kafka)"
-            brokers: 3
-            topics: ["orders", "inventory", "notifications"]
-        
-        us_west:
-          # Similar configuration for disaster recovery
-          status: "Hot standby"
-          capacity: "50% of primary region"
+**Purpose**: Shows how software components are deployed to hardware infrastructure.
 
-  network_architecture:
-    cdn: "CloudFront with global edge locations"
-    dns: "Route 53 with health checks and failover"
-    security: "WAF and DDoS protection"
-    monitoring: "CloudWatch and custom metrics"
+**Key Elements:**
+- **Hardware Architecture**: Servers, networks, and infrastructure
+- **Software Deployment**: How applications are installed and configured
+- **Network Topology**: Communication paths and protocols
+- **Operational Concerns**: Monitoring, backup, and maintenance
 
-  data_flow:
-    user_request: "CDN → Load Balancer → Web Server → App Server → Database"
-    static_assets: "CDN → S3 bucket"
-    api_requests: "API Gateway → Microservices → Message Queue → Databases"
-```
+**Deployment Patterns:**
+- **Single Server**: All components on one machine (simple but not scalable)
+- **Multi-Tier**: Separate tiers for presentation, application, and data
+- **Microservices**: Independent deployment of small services
+- **Cloud-Native**: Containerized applications in cloud environments
+
+**Infrastructure Considerations:**
+- **Scalability**: Ability to handle increased load
+- **Availability**: Redundancy and failover mechanisms
+- **Security**: Network isolation and access controls
+- **Monitoring**: Observability and alerting systems
 
 #### **5. Scenario View - The Use Cases**
-The scenario view (the "+1") validates the other views through specific scenarios:
 
-```python
-# Example scenarios for architecture validation
-class ArchitecturalScenarios:
-    def __init__(self):
-        self.performance_scenarios = self.define_performance_scenarios()
-        self.availability_scenarios = self.define_availability_scenarios()
-        self.security_scenarios = self.define_security_scenarios()
-        self.maintainability_scenarios = self.define_maintainability_scenarios()
-    
-    def define_performance_scenarios(self):
-        return [
-            {
-                'name': 'Peak Shopping Load',
-                'description': 'Handle Black Friday traffic spike',
-                'stimulus': '10x normal traffic load',
-                'expected_response': 'Maintain < 2s page load times',
-                'architecture_validation': [
-                    'Auto-scaling configuration',
-                    'Database read replica utilization',
-                    'CDN cache hit rates',
-                    'Load balancer distribution'
-                ]
-            },
-            {
-                'name': 'Payment Processing Load',
-                'description': 'Handle concurrent payment processing',
-                'stimulus': '1000 simultaneous payment requests',
-                'expected_response': 'Process within 5 seconds',
-                'architecture_validation': [
-                    'Payment service scaling',
-                    'Database connection pooling',
-                    'External payment gateway limits',
-                    'Queue processing capacity'
-                ]
-            }
-        ]
-    
-    def define_availability_scenarios(self):
-        return [
-            {
-                'name': 'Database Failover',
-                'description': 'Primary database becomes unavailable',
-                'stimulus': 'Database instance failure',
-                'expected_response': 'Automatic failover within 30 seconds',
-                'architecture_validation': [
-                    'Read replica promotion',
-                    'Connection string updates',
-                    'Application reconnection logic',
-                    'Data consistency verification'
-                ]
-            },
-            {
-                'name': 'Service Degradation',
-                'description': 'Recommendation service becomes slow',
-                'stimulus': 'Service response time > 5 seconds',
-                'expected_response': 'Graceful degradation without recommendations',
-                'architecture_validation': [
-                    'Circuit breaker implementation',
-                    'Timeout configuration',
-                    'Fallback content strategy',
-                    'User experience preservation'
-                ]
-            }
-        ]
-```
+**Purpose**: Validates the other views through specific scenarios and use cases.
+
+**Key Elements:**
+- **Use Case Scenarios**: Specific user interactions with the system
+- **Quality Attribute Scenarios**: Specific quality requirements
+- **Failure Scenarios**: How the system handles errors and failures
+- **Performance Scenarios**: Load and stress testing scenarios
+
+**Scenario Types:**
+
+**Functional Scenarios:**
+- User registration and login
+- Product search and purchase
+- Order fulfillment and tracking
+- Customer support interactions
+
+**Quality Attribute Scenarios:**
+- **Performance**: System handles 10,000 concurrent users
+- **Security**: Unauthorized access attempts are blocked
+- **Availability**: System recovers from database failure in 30 seconds
+- **Usability**: New users can complete purchase in under 5 minutes
 
 ### Documentation Best Practices
 
-#### **Living Documentation**
-Architecture documentation should be living documents that evolve with the system:
+#### **Living Documentation Principles**
 
-```python
-# Example: Automated architecture documentation
-class ArchitectureDocumentationGenerator:
-    def __init__(self):
-        self.code_analyzers = [
-            DependencyAnalyzer(),
-            ComponentAnalyzer(),
-            InterfaceAnalyzer()
-        ]
-        self.documentation_generators = [
-            ComponentDiagramGenerator(),
-            SequenceDiagramGenerator(),
-            DeploymentDiagramGenerator()
-        ]
-    
-    def generate_documentation(self, source_code_path):
-        """
-        Generate up-to-date architecture documentation from source code
-        """
-        analysis_results = self.analyze_source_code(source_code_path)
-        
-        documentation = {
-            'component_diagram': self.generate_component_diagram(analysis_results),
-            'sequence_diagrams': self.generate_sequence_diagrams(analysis_results),
-            'deployment_diagram': self.generate_deployment_diagram(analysis_results),
-            'interface_documentation': self.generate_interface_docs(analysis_results)
-        }
-        
-        return documentation
-    
-    def analyze_source_code(self, source_path):
-        """
-        Analyze source code to extract architectural information
-        """
-        results = {}
-        
-        for analyzer in self.code_analyzers:
-            results[analyzer.name] = analyzer.analyze(source_path)
-        
-        return results
-```
+**Automation Over Manual Effort:**
+- Generate diagrams from code when possible
+- Extract documentation from source code comments
+- Integrate documentation updates with code changes
+- Use tools that maintain consistency automatically
+
+**Audience-Specific Content:**
+- **Developers**: Focus on implementation details and APIs
+- **Architects**: Emphasize design decisions and trade-offs
+- **Operations**: Highlight deployment and monitoring aspects
+- **Business**: Translate technical concepts to business value
+
+**Minimal but Sufficient:**
+- Document decisions, not obvious facts
+- Focus on "why" rather than "what"
+- Keep documentation close to the code
+- Remove outdated information promptly
+
+#### **Documentation Tools and Techniques**
+
+**Diagramming Tools:**
+- **Mermaid**: Text-based diagrams that can be version controlled
+- **PlantUML**: Code-generated UML diagrams
+- **Draw.io**: Visual diagramming with collaboration features
+- **Lucidchart**: Professional diagramming with templates
+
+**Documentation Platforms:**
+- **GitBook**: Documentation with Git integration
+- **Confluence**: Wiki-style collaborative documentation
+- **Notion**: All-in-one workspace for documentation
+- **GitHub Pages**: Documentation hosted with source code
 
 ### 💡 **Vibe Coding Prompt: Architecture Documentation Strategy**
 
