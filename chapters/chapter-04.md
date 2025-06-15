@@ -4,6 +4,31 @@ Software architectural patterns offer reusable design solutions for common probl
 
 ## 4.1 Layered Architecture Pattern (n-tier architecture)
 
+```mermaid
+graph TD
+    subgraph "Layered Architecture (n-tier)"
+        A["Presentation Layer<br/>UI Components"]
+        B["Business Layer<br/>Business Logic"]
+        C["Persistence Layer<br/>Data Access"]
+        D["Database Layer<br/>Data Storage"]
+    end
+    
+    A --> B
+    B --> C
+    C --> D
+    
+    E["User Request"] --> A
+    A --> F["User Response"]
+    
+    G["Benefits:<br/>• Modularity<br/>• Separation of Concerns<br/>• Easy to Understand"]
+    H["Challenges:<br/>• Tight Coupling<br/>• Performance Overhead<br/>• Monolithic Deployment"]
+    
+    style A fill:#e3f2fd
+    style B fill:#f3e5f5
+    style C fill:#e8f5e8
+    style D fill:#fff3e0
+```
+
 The Layered Architecture Pattern, also known as n-tier architecture, is a widely adopted pattern due to its alignment with a traditional IT communication structure. It typically comprises four distinct layers: presentation, business, persistence, and database, though it can be adapted to include other layers such as application or service layers. Each layer has a specific role and is "closed," meaning a request must pass through the layer directly below it to reach the next. This "layers of isolation" concept allows modifications within one layer without affecting others, promoting modularity.
 
 For example, in an e-commerce application, an application tier might integrate data and presentation layers for processing shopping cart activities. This pattern is suitable for applications requiring quick builds, enterprise applications with traditional IT departments, teams with inexperienced developers, and those needing strict maintainability and testability standards. However, its shortcomings include potential for unorganized source code if not managed carefully, tight coupling if layers are skipped, and the requirement for complete redeployment even for minor modifications.
@@ -12,6 +37,36 @@ For example, in an e-commerce application, an application tier might integrate d
 Design a simple web application for a university's course registration system using a 3-tier layered architecture. Clearly define the responsibilities of the Presentation Layer (UI), Business Layer (Logic), and Data Access Layer.
 
 ## 4.2 Event-Driven Architecture Pattern
+
+```mermaid
+graph LR
+    subgraph "Event-Driven Architecture"
+        A["Event Producer<br/>User Action"]
+        B["Event Bus<br/>Message Broker"]
+        C["Event Consumer 1<br/>Notification Service"]
+        D["Event Consumer 2<br/>Analytics Service"]
+        E["Event Consumer 3<br/>Audit Service"]
+    end
+    
+    A --> B
+    B --> C
+    B --> D
+    B --> E
+    
+    F["new_like event"] --> A
+    G["new_comment event"] --> A
+    H["user_signup event"] --> A
+    
+    C --> I["Send Push Notification"]
+    D --> J["Update User Metrics"]
+    E --> K["Log Activity"]
+    
+    style B fill:#e3f2fd
+    style A fill:#fff3e0
+    style C fill:#c8e6c9
+    style D fill:#c8e6c9
+    style E fill:#c8e6c9
+```
 
 The Event-Driven Architecture Pattern is recognized for its agility and high performance, composed of decoupled, single-purpose event processing components that receive and process events asynchronously. This pattern orchestrates system behavior around the production, detection, and consumption of events and their subsequent responses. It typically features two main topologies: mediator, which orchestrates multiple steps through a central event bus, and broker, which chains events without a central mediator.
 
@@ -30,6 +85,41 @@ A task scheduler application exemplifies this, where the microkernel manages sch
 Design a code editor like VS Code using the Microkernel pattern. The core system (microkernel) will handle basic file editing, while features like linting, debugging, and source control integration will be implemented as independent plug-in modules.
 
 ## 4.4 Microservices Architecture Pattern
+
+```mermaid
+graph TD
+    subgraph "Microservices Architecture"
+        A["User Service<br/>Authentication<br/>Profile Management"]
+        B["Product Service<br/>Catalog<br/>Inventory"]
+        C["Order Service<br/>Cart<br/>Checkout"]
+        D["Payment Service<br/>Billing<br/>Transactions"]
+        E["Notification Service<br/>Email<br/>SMS"]
+    end
+    
+    F["API Gateway"] --> A
+    F --> B
+    F --> C
+    F --> D
+    F --> E
+    
+    G["Client Applications"] --> F
+    
+    A --> H["User Database"]
+    B --> I["Product Database"]
+    C --> J["Order Database"]
+    D --> K["Payment Database"]
+    E --> L["Message Queue"]
+    
+    M["Benefits:<br/>• Independent Deployment<br/>• Technology Diversity<br/>• Scalability"]
+    N["Challenges:<br/>• Distributed Complexity<br/>• Network Latency<br/>• Data Consistency"]
+    
+    style F fill:#e3f2fd
+    style A fill:#c8e6c9
+    style B fill:#c8e6c9
+    style C fill:#c8e6c9
+    style D fill:#c8e6c9
+    style E fill:#c8e6c9
+```
 
 The Microservices Architecture Pattern is a widely adopted alternative to monolithic and service-oriented architectures. In this pattern, components are deployed as separate, independently deployable units through a streamlined delivery pipeline. Its primary benefits include enhanced scalability and a high degree of decoupling, allowing components to be developed, deployed, and tested independently. These components typically interact via remote access protocols.
 

@@ -21,6 +21,45 @@ The readability and maintainability of code are paramount for the long-term succ
 
 ### The Cost of Poor Readability
 
+```mermaid
+graph TD
+    subgraph "Developer Time Allocation"
+        A["Reading & Understanding Code<br/>70-80%"]
+        B["Writing New Code<br/>20-30%"]
+    end
+    
+    subgraph "Poor Readability Costs"
+        C["Immediate Costs"]
+        D["Long-term Costs"]
+    end
+    
+    C --> E["Increased Debugging Time"]
+    C --> F["Slower Onboarding"]
+    C --> G["More Errors"]
+    C --> H["Extended Code Reviews"]
+    
+    D --> I["Technical Debt"]
+    D --> J["Reduced Velocity"]
+    D --> K["Higher Turnover"]
+    D --> L["Maintenance Costs"]
+    
+    subgraph "Clean Code Benefits"
+        M["40% Faster<br/>Feature Development"]
+        N["60% Fewer<br/>Bug Reports"]
+        O["50% Shorter<br/>Onboarding Time"]
+        P["25% Higher<br/>Developer Satisfaction"]
+    end
+    
+    style A fill:#ffcdd2
+    style B fill:#c8e6c9
+    style C fill:#ffcdd2
+    style D fill:#ffcdd2
+    style M fill:#c8e6c9
+    style N fill:#c8e6c9
+    style O fill:#c8e6c9
+    style P fill:#c8e6c9
+```
+
 **Immediate Costs:**
 - Increased debugging time due to unclear logic
 - Slower onboarding for new team members
@@ -44,6 +83,38 @@ Organizations with highly readable codebases experience:
 ---
 
 ## 5.1 Meaningful Naming Conventions
+
+```mermaid
+graph TD
+    subgraph "Code Quality Factors"
+        A["Naming Conventions<br/>Clear, consistent names"]
+        B["Code Style<br/>Consistent formatting"]
+        C["Documentation<br/>Meaningful comments"]
+        D["Code Organization<br/>Logical structure"]
+        E["Duplication Elimination<br/>DRY principle"]
+    end
+    
+    F["Readable Code"] --> A
+    F --> B
+    F --> C
+    F --> D
+    F --> E
+    
+    A --> G["Self-Documenting<br/>Code"]
+    B --> H["Visual Consistency<br/>& Clarity"]
+    C --> I["Context & Rationale<br/>Explanation"]
+    D --> J["Easy Navigation<br/>& Understanding"]
+    E --> K["Maintainable<br/>& Reliable"]
+    
+    G --> L["Maintainable Codebase"]
+    H --> L
+    I --> L
+    J --> L
+    K --> L
+    
+    style F fill:#e3f2fd
+    style L fill:#c8e6c9
+```
 
 ### The Psychology of Naming
 
@@ -70,6 +141,49 @@ is_email_verified = True
 #### 2. Avoid Mental Mapping
 
 Don't force readers to mentally translate cryptic names:
+
+```mermaid
+graph LR
+    subgraph "Naming Principles"
+        A["Intention-Revealing<br/>Clear purpose"]
+        B["Avoid Mental Mapping<br/>No cryptic names"]
+        C["Searchable Names<br/>No single letters"]
+        D["Consistent Conventions<br/>Follow standards"]
+    end
+    
+    subgraph "Poor Naming Examples"
+        E["d = 30<br/>// What is d?"]
+        F["get_u()<br/>// Get what?"]
+        G["flag = True<br/>// Flag for what?"]
+        H["for i in range(7)<br/>// Magic number"]
+    end
+    
+    subgraph "Good Naming Examples"
+        I["days_until_expiry = 30<br/>// Clear intent"]
+        J["get_active_users()<br/>// Specific action"]
+        K["is_email_verified = True<br/>// Boolean question"]
+        L["DAYS_IN_WEEK = 7<br/>// Named constant"]
+    end
+    
+    A --> I
+    B --> J
+    C --> K
+    D --> L
+    
+    E --> I
+    F --> J
+    G --> K
+    H --> L
+    
+    style E fill:#ffcdd2
+    style F fill:#ffcdd2
+    style G fill:#ffcdd2
+    style H fill:#ffcdd2
+    style I fill:#c8e6c9
+    style J fill:#c8e6c9
+    style K fill:#c8e6c9
+    style L fill:#c8e6c9
+```
 
 ```python
 # Poor - requires mental mapping
@@ -699,131 +813,63 @@ def format_currency_for_api(amount):
 
 ### 💡 **Vive Coding Prompt: Data Validation Consolidation**
 
-**Scenario**: Your web application has grown organically, and data validation logic has been duplicated across multiple controllers and services. You need to consolidate this without breaking existing functionality.
+**Scenario**: You have validation logic scattered across your codebase that needs to be consolidated to eliminate duplication and inconsistencies.
 
-**Current Duplicated Validation**:
-```python
-# In UserRegistrationController
-class UserRegistrationController:
-    def register(self, request_data):
-        # Email validation
-        email = request_data.get('email', '').strip().lower()
-        if not email:
-            return {'error': 'Email is required'}, 400
-        if '@' not in email or len(email.split('@')) != 2:
-            return {'error': 'Invalid email format'}, 400
-        if len(email) > 254:
-            return {'error': 'Email too long'}, 400
-            
-        # Password validation  
-        password = request_data.get('password', '')
-        if len(password) < 8:
-            return {'error': 'Password must be at least 8 characters'}, 400
-        if not any(c.isupper() for c in password):
-            return {'error': 'Password must contain uppercase letter'}, 400
-        if not any(c.islower() for c in password):
-            return {'error': 'Password must contain lowercase letter'}, 400
-        if not any(c.isdigit() for c in password):
-            return {'error': 'Password must contain a number'}, 400
-            
-        # ... registration logic
+**Your Task - Use this prompt with your actual code**:
 
-# In UserProfileController  
-class UserProfileController:
-    def update_email(self, user_id, request_data):
-        # Email validation (duplicated)
-        email = request_data.get('email', '').strip().lower()
-        if not email:
-            return {'error': 'Email is required'}, 400
-        if '@' not in email or len(email.split('@')) != 2:
-            return {'error': 'Invalid email format'}, 400
-        if len(email) > 254:
-            return {'error': 'Email too long'}, 400
-            
-        # ... update logic
-        
-    def change_password(self, user_id, request_data):
-        # Password validation (duplicated)
-        password = request_data.get('new_password', '')
-        if len(password) < 8:
-            return {'error': 'Password must be at least 8 characters'}, 400
-        if not any(c.isupper() for c in password):
-            return {'error': 'Password must contain uppercase letter'}, 400
-        if not any(c.islower() for c in password):
-            return {'error': 'Password must contain lowercase letter'}, 400
-        if not any(c.isdigit() for c in password):
-            return {'error': 'Password must contain a number'}, 400
-            
-        # ... password change logic
-
-# In BulkUserImportService
-class BulkUserImportService:
-    def import_users(self, user_data_list):
-        valid_users = []
-        errors = []
-        
-        for i, user_data in enumerate(user_data_list):
-            # Email validation (duplicated again)
-            email = user_data.get('email', '').strip().lower()
-            if not email:
-                errors.append(f"Row {i}: Email is required")
-                continue
-            if '@' not in email or len(email.split('@')) != 2:
-                errors.append(f"Row {i}: Invalid email format")
-                continue
-            if len(email) > 254:
-                errors.append(f"Row {i}: Email too long")
-                continue
-                
-            # Different password requirements for bulk import
-            password = user_data.get('password', '')
-            if len(password) < 6:  # Different requirement!
-                errors.append(f"Row {i}: Password must be at least 6 characters")
-                continue
-                
-            valid_users.append(user_data)
-            
-        return valid_users, errors
 ```
+I have validation logic duplicated across multiple parts of my codebase, leading to inconsistencies and maintenance problems. Here's my situation:
 
-**Your Task**:
+Duplicated validation code: [PASTE YOUR DUPLICATED VALIDATION CODE HERE]
+
+Where the duplication occurs: [LIST THE DIFFERENT LOCATIONS - controllers, services, forms, etc.]
+
+Variations in validation rules: [DESCRIBE ANY DIFFERENCES IN THE VALIDATION LOGIC ACROSS LOCATIONS]
+
+Context and requirements: [DESCRIBE THE BUSINESS RULES AND VALIDATION REQUIREMENTS]
+
+Please help me:
 
 1. **Duplication Analysis**:
-   - Identify all instances of duplicated validation logic
-   - Determine which duplications represent the same knowledge vs. different requirements
-   - Map out the slight variations in validation rules
+   - Analyze my validation code and identify all instances of duplicated logic
+   - Distinguish between true duplication and legitimate variations in requirements
+   - Map out the differences in validation rules and error handling
+   - Identify which validations represent the same business knowledge
 
-2. **Design Validation Framework**:
-   - Create a flexible validation system that can handle variations
-   - Design validators that can be composed for different use cases
-   - Consider how to handle different error message formats and contexts
+2. **Validation Framework Design**:
+   - Design a flexible validation system that eliminates duplication while handling variations
+   - Suggest how to create reusable validators that can be composed for different use cases
+   - Recommend approaches for handling different error message formats and contexts
+   - Design a system that supports both simple and complex validation scenarios
 
-3. **Gradual Migration Strategy**:
-   - Plan how to replace duplicated code without breaking existing functionality
-   - Design backward-compatible interfaces during transition
-   - Create comprehensive tests to ensure behavior consistency
+3. **Migration Strategy**:
+   - Create a step-by-step plan to replace duplicated validation code
+   - Suggest how to maintain backward compatibility during the transition
+   - Recommend testing strategies to ensure no validation behavior is lost
+   - Design a gradual migration approach that minimizes risk
 
-4. **Handle Edge Cases**:
-   - Address the different password requirements for bulk import
-   - Design system to support context-specific validation rules
-   - Plan for future validation requirements
+4. **Flexibility and Extensibility**:
+   - Handle context-specific validation requirements (different rules for different scenarios)
+   - Design the system to support conditional validation and business rule variations
+   - Plan for future validation requirements and rule changes
+   - Suggest how to make the validation system configurable and extensible
 
-5. **Integration and Testing**:
-   - Show how each controller would use the new validation system
-   - Create tests that verify all original validation behavior is preserved
-   - Design integration tests for the validation framework
+5. **Integration and Usage**:
+   - Show how each part of my codebase would use the new validation system
+   - Recommend patterns for integrating validation into different layers (controllers, services, etc.)
+   - Suggest how to handle validation errors consistently across the application
+   - Design clear APIs that make validation easy to use correctly
 
-**Advanced Requirements**:
-- Support for conditional validation (some fields required only in certain contexts)
-- Internationalization of error messages
-- Performance considerations for bulk operations
-- Validation rule versioning for API compatibility
+6. **Testing and Quality Assurance**:
+   - Create comprehensive tests that verify all original validation behavior is preserved
+   - Suggest testing strategies for the validation framework itself
+   - Recommend how to test edge cases and error conditions
+   - Design validation for the validation system (meta-validation)
 
-**Deliverable**: 
-- Comprehensive validation framework with usage examples
-- Migration plan with risk assessment and rollback strategy
-- Test suite demonstrating behavior preservation
-- Documentation for extending the validation system
+Please provide specific, implementable solutions that eliminate validation duplication while maintaining all necessary business rules.
+```
+
+**How to Use**: Replace the placeholders with your actual duplicated validation code and context to get specific guidance on consolidating validation logic.
 
 ---
 
@@ -1042,144 +1088,62 @@ class PaymentProcessor:
 - Automated refactoring reduces the risk of introducing errors
 - Manual verification is still essential
 
-### 💡 **Vive Coding Prompt: Legacy Report Generator Refactoring**
+### 💡 **Vive Coding Prompt: Legacy Code Refactoring**
 
-**Scenario**: You've inherited a critical reporting system that generates financial reports for management. The code works but is becoming increasingly difficult to maintain and extend. New report types are requested frequently, and each addition requires significant effort.
+**Scenario**: You have legacy code that works but is difficult to maintain, extend, and test.
 
-**Current Legacy Code**:
-```python
-class ReportGenerator:
-    def __init__(self):
-        self.db_connection = sqlite3.connect('financial_data.db')
-        
-    def generate_report(self, report_type, start_date, end_date, format_type='pdf'):
-        cursor = self.db_connection.cursor()
-        
-        if report_type == 'revenue':
-            # Revenue report logic
-            query = """
-                SELECT product_name, SUM(revenue) as total_revenue, 
-                       COUNT(*) as transaction_count
-                FROM transactions t
-                JOIN products p ON t.product_id = p.id
-                WHERE t.transaction_date BETWEEN ? AND ?
-                GROUP BY product_name
-                ORDER BY total_revenue DESC
-            """
-            cursor.execute(query, (start_date, end_date))
-            data = cursor.fetchall()
-            
-            if format_type == 'pdf':
-                # PDF generation for revenue
-                report_content = "<html><body><h1>Revenue Report</h1>"
-                report_content += f"<p>Period: {start_date} to {end_date}</p>"
-                report_content += "<table border='1'>"
-                report_content += "<tr><th>Product</th><th>Revenue</th><th>Transactions</th></tr>"
-                for row in data:
-                    report_content += f"<tr><td>{row[0]}</td><td>${row[1]:.2f}</td><td>{row[2]}</td></tr>"
-                report_content += "</table></body></html>"
-                
-                # Convert HTML to PDF (simplified)
-                pdf_content = self.html_to_pdf(report_content)
-                return pdf_content
-                
-            elif format_type == 'csv':
-                # CSV generation for revenue
-                csv_content = "Product,Revenue,Transactions\n"
-                for row in data:
-                    csv_content += f"{row[0]},{row[1]},{row[2]}\n"
-                return csv_content
-                
-        elif report_type == 'customer':
-            # Customer report logic
-            query = """
-                SELECT c.customer_name, COUNT(t.id) as transaction_count,
-                       SUM(t.revenue) as total_spent, AVG(t.revenue) as avg_transaction
-                FROM customers c
-                LEFT JOIN transactions t ON c.id = t.customer_id
-                WHERE t.transaction_date BETWEEN ? AND ?
-                GROUP BY c.customer_name
-                ORDER BY total_spent DESC
-            """
-            cursor.execute(query, (start_date, end_date))
-            data = cursor.fetchall()
-            
-            if format_type == 'pdf':
-                # PDF generation for customer
-                report_content = "<html><body><h1>Customer Report</h1>"
-                report_content += f"<p>Period: {start_date} to {end_date}</p>"
-                report_content += "<table border='1'>"
-                report_content += "<tr><th>Customer</th><th>Transactions</th><th>Total Spent</th><th>Avg Transaction</th></tr>"
-                for row in data:
-                    report_content += f"<tr><td>{row[0]}</td><td>{row[1]}</td><td>${row[2]:.2f}</td><td>${row[3]:.2f}</td></tr>"
-                report_content += "</table></body></html>"
-                
-                pdf_content = self.html_to_pdf(report_content)
-                return pdf_content
-                
-            elif format_type == 'csv':
-                # CSV generation for customer
-                csv_content = "Customer,Transactions,Total Spent,Average Transaction\n"
-                for row in data:
-                    csv_content += f"{row[0]},{row[1]},{row[2]},{row[3]}\n"
-                return csv_content
-                
-        elif report_type == 'inventory':
-            # Inventory report logic - even more complex
-            # ... (imagine 100+ more lines of similar code)
-            pass
-            
-        else:
-            raise ValueError(f"Unknown report type: {report_type}")
-    
-    def html_to_pdf(self, html_content):
-        # Simplified PDF conversion
-        return f"PDF_CONTENT[{html_content}]"
+**Your Task - Use this prompt with your actual code**:
+
 ```
+I have legacy code that's becoming increasingly difficult to maintain and extend. Here's my situation:
 
-**Problems with Current Code**:
-- Single massive method with multiple responsibilities
-- Conditional logic for both report types and formats
-- Duplicated formatting code
-- Hard to test individual components
-- Difficult to add new report types or formats
-- Mixed data access and presentation logic
+Legacy code that needs refactoring: [PASTE YOUR LEGACY CODE HERE]
 
-**Your Task**:
+Current problems with the code: [LIST SPECIFIC ISSUES - long methods, mixed responsibilities, hard to test, etc.]
+
+Requirements for the refactored code: [DESCRIBE WHAT THE REFACTORED CODE NEEDS TO SUPPORT]
+
+Constraints I need to work within: [LIST CONSTRAINTS - backward compatibility, performance, timeline, etc.]
+
+Please help me:
 
 1. **Refactoring Analysis**:
-   - Identify all the different responsibilities in the current code
-   - List the reasons this code is difficult to maintain and extend
-   - Prioritize which refactoring patterns would provide the most benefit
+   - Analyze my legacy code and identify all the different responsibilities it handles
+   - Explain why the current structure makes the code difficult to maintain and extend
+   - Prioritize which refactoring patterns would provide the most benefit for my specific situation
+   - Identify the biggest risks and pain points in the current code
 
-2. **Design New Architecture**:
-   - Create a modular design that separates concerns
-   - Design abstractions for report types and output formats
-   - Plan how to make adding new reports and formats easy
+2. **Architecture Design**:
+   - Design a new modular architecture that separates concerns properly
+   - Suggest appropriate abstractions and design patterns for my use case
+   - Show how the new design would make adding new features easier
+   - Recommend how to structure the code for better testability
 
-3. **Incremental Refactoring Plan**:
-   - Break down the refactoring into small, safe steps
-   - Design the order of refactoring to minimize risk
-   - Plan how to maintain backward compatibility during transition
+3. **Incremental Refactoring Strategy**:
+   - Break down the refactoring into small, safe steps that minimize risk
+   - Suggest the order of refactoring operations to maintain functionality
+   - Recommend how to maintain backward compatibility during the transition
+   - Design a rollback strategy in case problems arise
 
-4. **Implementation Strategy**:
-   - Show how you would extract the first few methods/classes
-   - Design comprehensive tests for the refactored components
-   - Create interfaces that support the existing functionality
+4. **Implementation Guidance**:
+   - Show how to extract the first few methods/classes from the legacy code
+   - Suggest comprehensive testing strategies for the refactored components
+   - Recommend how to verify that refactored code maintains the same behavior
+   - Design interfaces that support existing functionality while enabling new features
 
-5. **Extensibility Demonstration**:
-   - Show how easy it would be to add a new "profit_margin" report type
-   - Demonstrate adding "excel" format support
-   - Design the system to support custom report parameters
+5. **Testing and Validation**:
+   - Create a testing strategy that ensures no functionality is lost during refactoring
+   - Suggest how to test the legacy code before refactoring to establish a baseline
+   - Recommend approaches for testing refactored components in isolation
+   - Design integration tests that verify the entire system still works
 
-**Constraints**:
-- Must maintain existing API for backward compatibility
-- All existing reports must continue to work exactly as before
-- Performance must not degrade significantly
-- Must be easy for junior developers to add new report types
+6. **Future Extensibility**:
+   - Show how the refactored design makes adding new features easier
+   - Demonstrate how to extend the system with examples relevant to my use case
+   - Design the architecture to support future requirements and changes
+   - Create guidelines for maintaining code quality as the system evolves
 
-**Deliverable**: 
-- Completely refactored report generation system
-- Comprehensive test suite covering all existing functionality
-- Documentation showing how to add new reports and formats
-- Migration plan with rollback strategy 
+Please provide specific, actionable guidance that will result in cleaner, more maintainable code while preserving all existing functionality.
+```
+
+**How to Use**: Replace the placeholders with your actual legacy code and specific situation to get customized refactoring guidance. 

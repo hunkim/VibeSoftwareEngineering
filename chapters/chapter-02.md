@@ -22,6 +22,37 @@ The SOLID principles represent a set of five fundamental design guidelines that,
 ### Why SOLID Matters
 
 Before diving into each principle, it's crucial to understand the problems SOLID principles solve:
+
+```mermaid
+graph TD
+    subgraph "SOLID Principles"
+        S["S - Single Responsibility<br/>One reason to change"]
+        O["O - Open-Closed<br/>Open for extension,<br/>closed for modification"]
+        L["L - Liskov Substitution<br/>Subclasses must be<br/>substitutable"]
+        I["I - Interface Segregation<br/>Clients shouldn't depend<br/>on unused methods"]
+        D["D - Dependency Inversion<br/>Depend on abstractions,<br/>not concretions"]
+    end
+    
+    subgraph "Problems SOLID Solves"
+        R["Rigidity<br/>Hard to change"]
+        F["Fragility<br/>Breaks unexpectedly"]
+        IM["Immobility<br/>Hard to reuse"]
+        V["Viscosity<br/>Easier to hack"]
+    end
+    
+    S --> R
+    O --> F
+    L --> IM
+    I --> V
+    D --> R
+    
+    style S fill:#e3f2fd
+    style O fill:#f3e5f5
+    style L fill:#e8f5e8
+    style I fill:#fff3e0
+    style D fill:#ffebee
+```
+
 - **Rigidity**: Systems that are hard to change because every change affects too many other parts
 - **Fragility**: Systems that break in unexpected places when you make changes
 - **Immobility**: Systems where you can't easily reuse components in other applications
@@ -52,6 +83,32 @@ To identify whether a class violates SRP, ask these questions:
 - **Enhanced Reusability**: Focused classes are more likely to be useful in different contexts
 
 #### Common SRP Violations
+
+```mermaid
+graph LR
+    subgraph "Before SRP"
+        A["UserReportGenerator<br/>- generateReport()<br/>- sendEmail()<br/>- validateData()<br/>- formatOutput()"]
+    end
+    
+    subgraph "After SRP"
+        B["ReportGenerator<br/>- generateReport()<br/>- validateData()"]
+        C["EmailService<br/>- sendEmail()"]
+        D["ReportFormatter<br/>- formatOutput()"]
+    end
+    
+    A --> B
+    A --> C
+    A --> D
+    
+    B --> E["Single Responsibility:<br/>Report Generation"]
+    C --> F["Single Responsibility:<br/>Email Communication"]
+    D --> G["Single Responsibility:<br/>Output Formatting"]
+    
+    style A fill:#ffcdd2
+    style B fill:#c8e6c9
+    style C fill:#c8e6c9
+    style D fill:#c8e6c9
+```
 
 | Violation Type | Example | Problem | Solution |
 |---|---|---|---|
@@ -140,6 +197,33 @@ class NotificationService:
 ```
 
 #### Benefits of OCP
+
+```mermaid
+graph TD
+    subgraph "Open-Closed Principle"
+        A["ReportExporter<br/>(Abstract)"]
+        B["XMLExporter<br/>extends ReportExporter"]
+        C["JSONExporter<br/>extends ReportExporter"]
+        D["PDFExporter<br/>extends ReportExporter"]
+    end
+    
+    A --> B
+    A --> C
+    A --> D
+    
+    E["New Format Needed?"] --> F["Add New Exporter<br/>(No modification of existing code)"]
+    F --> G["CSVExporter<br/>extends ReportExporter"]
+    A --> G
+    
+    H["Client Code"] --> A
+    H --> I["Works with any exporter<br/>without changes"]
+    
+    style A fill:#e3f2fd
+    style B fill:#c8e6c9
+    style C fill:#c8e6c9
+    style D fill:#c8e6c9
+    style G fill:#fff3e0
+```
 
 - **Reduced Risk**: New features don't require changing tested code
 - **Easier Maintenance**: Bug fixes in new features don't affect existing functionality
@@ -247,6 +331,32 @@ def calculate_area_increase(rectangle: Rectangle):
 ```
 
 #### Better Design Approaches
+
+```mermaid
+graph TD
+    subgraph "LSP Violation Example"
+        A["Rectangle<br/>- setWidth()<br/>- setHeight()<br/>- area()"]
+        B["Square<br/>- setWidth() // Changes both!<br/>- setHeight() // Changes both!<br/>- area()"]
+        A --> B
+        C["Client expects:<br/>setWidth() only changes width"] --> D["Square breaks this expectation"]
+    end
+    
+    subgraph "LSP Compliant Design"
+        E["Shape (Abstract)<br/>- area()"]
+        F["Rectangle<br/>- immutable<br/>- withWidth()<br/>- withHeight()"]
+        G["Square<br/>- immutable<br/>- withSide()"]
+        E --> F
+        E --> G
+        H["Client Code"] --> E
+        H --> I["Any Shape works<br/>without surprises"]
+    end
+    
+    style A fill:#ffcdd2
+    style B fill:#ffcdd2
+    style E fill:#e3f2fd
+    style F fill:#c8e6c9
+    style G fill:#c8e6c9
+```
 
 **Option 1: Immutable Design**
 ```python
@@ -825,69 +935,63 @@ Payment Context  → Payment processing, billing
 Order Context    → Order management, fulfillment
 ```
 
-### 💡 **Vive Coding Prompt: Web Controller Refactoring**
+### 💡 **Vive Coding Prompt: Separation of Concerns Implementation**
 
-**Scenario**: Your web application has controllers that handle too many responsibilities.
+**Scenario**: You have code that mixes multiple responsibilities and violates separation of concerns principles.
 
-**Current Problematic Controller**:
-```python
-class UserController:
-    def create_user(self, request):
-        # Parse and validate request data
-        user_data = request.json
-        if not user_data.get('email'):
-            return {'error': 'Email required'}, 400
-        
-        # Check business rules
-        if User.count_by_email(user_data['email']) > 0:
-            return {'error': 'Email already exists'}, 409
-        
-        # Hash password
-        hashed_password = bcrypt.hashpw(
-            user_data['password'].encode('utf-8'), 
-            bcrypt.gensalt()
-        )
-        
-        # Save to database
-        connection = sqlite3.connect('users.db')
-        cursor = connection.cursor()
-        cursor.execute(
-            "INSERT INTO users (email, password) VALUES (?, ?)",
-            (user_data['email'], hashed_password)
-        )
-        connection.commit()
-        connection.close()
-        
-        # Send welcome email
-        smtp_server = smtplib.SMTP('smtp.gmail.com', 587)
-        smtp_server.starttls()
-        smtp_server.login('app@company.com', 'password')
-        smtp_server.send_message(
-            create_welcome_email(user_data['email'])
-        )
-        smtp_server.quit()
-        
-        # Log the action
-        with open('user_actions.log', 'a') as log_file:
-            log_file.write(f"User created: {user_data['email']}\n")
-        
-        return {'message': 'User created successfully'}, 201
+**Your Task - Use this prompt with your actual code**:
+
+```
+I have code that handles multiple responsibilities and violates separation of concerns, making it hard to test and maintain. Here's my situation:
+
+Code with mixed responsibilities: [PASTE YOUR CODE WITH MIXED CONCERNS HERE]
+
+Current responsibilities being handled: [LIST ALL THE DIFFERENT THINGS YOUR CODE DOES]
+
+Architecture constraints: [DESCRIBE ANY CONSTRAINTS - frameworks, existing interfaces, performance requirements, etc.]
+
+Please help me:
+
+1. **Concern Identification and Analysis**:
+   - Analyze my code and identify all the different concerns it handles
+   - Explain why mixing these concerns creates problems for testing and maintenance
+   - Categorize the concerns by type (presentation, business logic, data access, infrastructure, etc.)
+   - Identify which concerns should be separated and which can remain together
+
+2. **Separation Strategy Design**:
+   - Design a layered architecture that properly separates the identified concerns
+   - Suggest appropriate abstractions and interfaces for each layer
+   - Recommend how to handle dependencies between separated concerns
+   - Show how to maintain cohesion within each separated concern
+
+3. **Refactoring Implementation Plan**:
+   - Provide a step-by-step approach to separate the concerns safely
+   - Show how the refactored code would be structured
+   - Suggest how to handle data flow between separated components
+   - Recommend patterns for managing dependencies and configuration
+
+4. **Interface and Contract Design**:
+   - Define clear contracts between the separated concerns
+   - Suggest how to design interfaces that support testing and flexibility
+   - Recommend how to handle error conditions and edge cases across boundaries
+   - Design APIs that make correct usage easy and incorrect usage difficult
+
+5. **Testing Strategy Improvement**:
+   - Explain how separation of concerns improves testability
+   - Show how to test each concern in isolation
+   - Suggest mocking strategies for external dependencies
+   - Recommend integration testing approaches for the separated system
+
+6. **Architectural Guidelines**:
+   - Create guidelines for maintaining separation of concerns in future development
+   - Suggest code review criteria for evaluating concern separation
+   - Recommend how to prevent concerns from becoming mixed again
+   - Design patterns that naturally support good separation
+
+Please provide specific, actionable guidance that results in cleaner, more maintainable, and testable code architecture.
 ```
 
-**Your Task**:
-1. **Identify Concerns**: List all the different concerns this controller handles
-2. **Design Separation**: Create a layered architecture that properly separates concerns
-3. **Define Interfaces**: Specify the contracts between layers
-4. **Refactor Implementation**: Show how the controller would look after separation
-5. **Testing Strategy**: Explain how separation improves testability
-
-**Architectural Constraints**:
-- HTTP handling should remain in the controller
-- Business logic should be framework-independent
-- Data access should be abstracted
-- External services should be mockable for testing
-
-**Deliverable**: A refactored architecture with clear separation of concerns and improved testability.
+**How to Use**: Replace the placeholders with your actual code and context to get specific guidance on implementing proper separation of concerns.
 
 ---
 
@@ -921,62 +1025,63 @@ Coupling and cohesion are inversely related quality metrics that together determ
 | **Sequential** | Output of one is input to next | Data processing pipeline | High |
 | **Functional** | Elements contribute to single task | Calculate tax for order | Highest (Best) |
 
-### 💡 **Vive Coding Prompt: Module Restructuring**
+### 💡 **Vive Coding Prompt: Coupling and Cohesion Improvement**
 
-**Scenario**: Your inventory management system has grown organically, resulting in poor coupling and cohesion.
+**Scenario**: You have modules or classes with poor coupling and cohesion that need restructuring for better maintainability.
 
-**Current Problematic Design**:
-```python
-class InventoryManager:
-    def __init__(self):
-        self.products = ProductDatabase()
-        self.suppliers = SupplierDatabase()
-        self.email_service = EmailService()
-        self.logger = Logger()
-    
-    def update_stock(self, product_id, quantity):
-        # Directly manipulates product database
-        product = self.products.get(product_id)
-        product.stock += quantity
-        self.products.save(product)
-        
-        # Tightly coupled to supplier logic
-        if product.stock < product.minimum_stock:
-            supplier = self.suppliers.get(product.supplier_id)
-            order_quantity = supplier.calculate_reorder_quantity(product)
-            self.place_supplier_order(supplier, product, order_quantity)
-        
-        # Mixed responsibilities
-        self.email_service.send_stock_update_notification(product)
-        self.logger.log(f"Stock updated for {product.name}")
-    
-    def place_supplier_order(self, supplier, product, quantity):
-        # More mixed responsibilities
-        pass
+**Your Task - Use this prompt with your actual code**:
+
+```
+I have code with poor coupling and cohesion that's making it difficult to maintain and test. Here's my situation:
+
+Problematic code structure: [PASTE YOUR CODE WITH COUPLING/COHESION ISSUES HERE]
+
+Current problems I'm experiencing: [DESCRIBE SPECIFIC ISSUES - hard to test, difficult to change, unclear responsibilities, etc.]
+
+System requirements and constraints: [LIST FUNCTIONAL REQUIREMENTS AND TECHNICAL CONSTRAINTS]
+
+Please help me:
+
+1. **Coupling Analysis**:
+   - Analyze my code and identify all coupling issues and their types
+   - Explain why the current coupling creates problems for maintenance and testing
+   - Classify the coupling types (content, common, external, control, data coupling)
+   - Prioritize which coupling issues should be addressed first
+
+2. **Cohesion Analysis**:
+   - Identify cohesion problems in my code and classify them
+   - Explain why low cohesion makes the code harder to understand and maintain
+   - Suggest how to group related functionality for better cohesion
+   - Recommend which elements belong together and which should be separated
+
+3. **Architecture Redesign**:
+   - Design a better structure with high cohesion within modules and low coupling between modules
+   - Suggest appropriate module boundaries and responsibilities
+   - Recommend abstractions and interfaces that reduce coupling
+   - Show how to organize code for better separation of concerns
+
+4. **Dependency Management**:
+   - Design clear interfaces and contracts between modules
+   - Suggest dependency injection or inversion patterns where appropriate
+   - Recommend how to handle shared dependencies and resources
+   - Show how modules should interact without tight coupling
+
+5. **Restructuring Implementation**:
+   - Provide a step-by-step plan to restructure the code safely
+   - Show how to extract cohesive modules from the existing code
+   - Suggest how to introduce interfaces and abstractions gradually
+   - Recommend testing strategies during the restructuring process
+
+6. **Testing and Validation Strategy**:
+   - Demonstrate how improved coupling and cohesion enhances testability
+   - Show how to test modules in isolation after restructuring
+   - Suggest mocking strategies for dependencies
+   - Recommend integration testing approaches for the new structure
+
+Please provide specific, actionable guidance that results in a more modular, maintainable, and testable codebase.
 ```
 
-**Problems Identified**:
-- High coupling: Direct database access, mixed concerns
-- Low cohesion: Stock management, supplier orders, notifications in one class
-- Hard to test: Cannot test stock updates without database and email service
-
-**Your Task**:
-1. **Coupling Analysis**: Identify all coupling issues and their types
-2. **Cohesion Analysis**: Identify cohesion problems and classify them
-3. **Redesign Architecture**: Create a better structure with:
-   - High cohesion within modules
-   - Low coupling between modules
-   - Clear interfaces and dependencies
-4. **Dependency Management**: Show how modules will interact
-5. **Testing Strategy**: Demonstrate improved testability
-
-**Design Constraints**:
-- Must support multiple product types
-- Must integrate with multiple suppliers
-- Must handle concurrent stock updates
-- Must maintain audit trail
-
-**Deliverable**: A restructured inventory system with clear module boundaries and dependency relationships.
+**How to Use**: Replace the placeholders with your actual code and specific coupling/cohesion problems to get customized guidance on improving your module structure.
 
 ---
 

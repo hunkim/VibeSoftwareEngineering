@@ -24,6 +24,33 @@ By the end of this chapter, you will be able to:
 
 The emphasis on "vive coding" underscores a deeper objective: to foster a positive and productive development environment. When code is readable, maintainable, and testable, developers experience less friction in their daily tasks. This ease of interaction with the codebase translates into:
 
+```mermaid
+graph TD
+    A["Vive Coding Philosophy"] --> B["Vibrant Software"]
+    A --> C["Adaptable Systems"]
+    A --> D["Sustainable Development"]
+    
+    B --> E["Easy to Understand"]
+    B --> F["Pleasant to Work With"]
+    
+    C --> G["Handles Change Well"]
+    C --> H["Extensible Architecture"]
+    
+    D --> I["Reduces Technical Debt"]
+    D --> J["Long-term Maintainability"]
+    
+    E --> K["Increased Productivity"]
+    F --> K
+    G --> L["Faster Feature Delivery"]
+    H --> L
+    I --> M["Enhanced Team Morale"]
+    J --> M
+    
+    K --> N["Project Success"]
+    L --> N
+    M --> N
+```
+
 - **Increased Productivity**: Developers can focus on solving business problems rather than fighting with complex, unclear code
 - **Reduced Stress**: Clear code structures minimize debugging time and cognitive load
 - **Enhanced Team Morale**: Collaborative work becomes more enjoyable when code is approachable
@@ -75,6 +102,32 @@ High-quality software rests on six fundamental pillars that are intricately inte
 ### Pillar Interdependencies
 
 These pillars are not independent; they form a reinforcing ecosystem:
+
+```mermaid
+graph LR
+    subgraph "Six Pillars of Quality Software"
+        R["🔍 Readability<br/>Clear Intent"]
+        M["🔧 Maintainability<br/>Easy to Modify"]
+        S["📈 Scalability<br/>Handles Growth"]
+        T["🧪 Testability<br/>Verifiable Behavior"]
+        SEC["🛡️ Security<br/>Protected System"]
+        P["⚡ Performance<br/>Efficient Resources"]
+    end
+    
+    R --> M
+    M --> T
+    T --> S
+    SEC --> M
+    P --> S
+    R --> T
+    
+    style R fill:#e1f5fe
+    style M fill:#f3e5f5
+    style S fill:#e8f5e8
+    style T fill:#fff3e0
+    style SEC fill:#ffebee
+    style P fill:#f1f8e9
+```
 
 - **Readability → Maintainability**: Code that is highly readable is inherently easier to maintain and test
 - **Maintainability → Testability**: Well-structured, modular design improves both maintainability and testability
@@ -173,6 +226,44 @@ This textbook provides a comprehensive exploration of the principles and practic
 ### The Integrated Approach
 
 These elements work synergistically to create a comprehensive framework:
+
+```mermaid
+graph TD
+    subgraph "Part 1: Foundations"
+        A["Design Principles<br/>SOLID, DRY, KISS, YAGNI"]
+    end
+    
+    subgraph "Part 2: Architecture"
+        B["Architectural Patterns<br/>Layered, Microservices, Clean"]
+    end
+    
+    subgraph "Part 3: Practices"
+        C["Engineering Practices<br/>Testing, Error Handling, Performance"]
+    end
+    
+    subgraph "Part 4: Methodologies"
+        D["Development Methodologies<br/>TDD, CI/CD, Collaboration"]
+    end
+    
+    A --> B
+    B --> C
+    C --> D
+    
+    A --> E["Why<br/>Decision Making"]
+    B --> F["What<br/>Structural Solutions"]
+    C --> G["How<br/>Implementation"]
+    D --> H["When<br/>Systematic Process"]
+    
+    E --> I["Vive Coding Excellence"]
+    F --> I
+    G --> I
+    H --> I
+    
+    style A fill:#e3f2fd
+    style B fill:#f3e5f5
+    style C fill:#e8f5e8
+    style D fill:#fff8e1
+```
 1. **Principles** provide the "why" and guide decision-making
 2. **Patterns** offer the "what" through proven structural solutions
 3. **Practices** deliver the "how" through concrete implementation techniques

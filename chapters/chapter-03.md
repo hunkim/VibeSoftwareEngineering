@@ -24,6 +24,32 @@ Software architecture represents the fundamental organization of a system, embod
 
 Architecture differs from detailed design in several key ways:
 
+```mermaid
+graph TD
+    subgraph "Architecture vs Design"
+        A["Software Architecture"]
+        B["Detailed Design"]
+    end
+    
+    A --> C["System-wide Structure"]
+    A --> D["Component Relationships"]
+    A --> E["Quality Attributes"]
+    A --> F["Long-term Decisions"]
+    
+    B --> G["Component-specific Logic"]
+    B --> H["Implementation Details"]
+    B --> I["Algorithms & Data Structures"]
+    B --> J["Short-term Decisions"]
+    
+    K["Business Requirements"] --> A
+    A --> L["Technical Constraints"]
+    L --> B
+    B --> M["Code Implementation"]
+    
+    style A fill:#e3f2fd
+    style B fill:#f3e5f5
+```
+
 | Aspect | Architecture | Detailed Design |
 |--------|-------------|-----------------|
 | **Scope** | System-wide structure | Component-specific structure |
@@ -55,16 +81,23 @@ Architecture serves as a common language between different stakeholders:
 
 ```mermaid
 graph TD
-    A[Business Stakeholders] --> B[Architecture]
-    C[Development Team] --> B
-    D[Operations Team] --> B
-    E[Security Team] --> B
-    F[Quality Assurance] --> B
+    A["Business Stakeholders<br/>Requirements & Constraints"] --> E["Software Architecture"]
+    B["Development Team<br/>Implementation Feasibility"] --> E
+    C["Operations Team<br/>Deployment & Maintenance"] --> E
+    D["Security Team<br/>Security Requirements"] --> E
+    F["QA Team<br/>Testing Strategy"] --> E
     
-    B --> G[System Vision]
-    B --> H[Technical Constraints]
-    B --> I[Quality Requirements]
-    B --> J[Implementation Roadmap]
+    E --> G["System Vision<br/>High-level Goals"]
+    E --> H["Technical Constraints<br/>Technology Choices"]
+    E --> I["Quality Requirements<br/>Performance, Security, etc."]
+    E --> J["Implementation Roadmap<br/>Development Strategy"]
+    
+    style E fill:#e3f2fd
+    style A fill:#fff3e0
+    style B fill:#e8f5e8
+    style C fill:#f3e5f5
+    style D fill:#ffebee
+    style F fill:#e1f5fe
 ```
 
 #### **Decision Documentation**

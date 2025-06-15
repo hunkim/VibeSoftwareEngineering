@@ -30,6 +30,32 @@ TDD isn't just a technical practice—it's a mindset that changes how developers
 
 ### TDD vs. Traditional Development
 
+```mermaid
+graph LR
+    subgraph "Traditional Development"
+        A["Write Code"] --> B["Write Tests"] --> C["Debug Issues"]
+        C --> A
+    end
+    
+    subgraph "TDD Development"
+        D["🔴 Red<br/>Write Failing Test"] --> E["🟢 Green<br/>Make Test Pass"] --> F["🔵 Refactor<br/>Improve Code"]
+        F --> D
+    end
+    
+    G["Requirements"] --> A
+    G --> D
+    
+    H["Traditional: Tests verify existing behavior"]
+    I["TDD: Tests define desired behavior"]
+    
+    style A fill:#ffcdd2
+    style B fill:#ffcdd2
+    style C fill:#ffcdd2
+    style D fill:#ffcdd2
+    style E fill:#c8e6c9
+    style F fill:#bbdefb
+```
+
 | Traditional Approach | TDD Approach |
 |---------------------|--------------|
 | Write code → Write tests → Debug | Write test → Write code → Refactor |
@@ -45,6 +71,46 @@ TDD isn't just a technical practice—it's a mindset that changes how developers
 The Red-Green-Refactor cycle is the heartbeat of TDD, providing a structured approach to incremental development that ensures both functionality and code quality.
 
 ### The Three Phases Explained
+
+```mermaid
+graph TD
+    A["🔴 RED PHASE<br/>Write a Failing Test"] --> B["🟢 GREEN PHASE<br/>Make the Test Pass"]
+    B --> C["🔵 REFACTOR PHASE<br/>Improve the Code"]
+    C --> D["All Tests Pass?"]
+    D -->|Yes| E["Next Feature"]
+    D -->|No| F["Fix Issues"]
+    F --> C
+    E --> A
+    
+    subgraph "Red Phase Principles"
+        G["Start Small"]
+        H["Be Specific"]
+        I["Fail for Right Reason"]
+        J["Think Like User"]
+    end
+    
+    subgraph "Green Phase Principles"
+        K["Simplest Solution"]
+        L["Avoid Over-Engineering"]
+        M["Focus on Behavior"]
+        N["Embrace Imperfection"]
+    end
+    
+    subgraph "Refactor Phase Principles"
+        O["Preserve Behavior"]
+        P["Improve Design"]
+        Q["Small Steps"]
+        R["Stop When Done"]
+    end
+    
+    A --> G
+    B --> K
+    C --> O
+    
+    style A fill:#ffcdd2
+    style B fill:#c8e6c9
+    style C fill:#bbdefb
+```
 
 #### 🔴 **Red Phase: Write a Failing Test**
 
@@ -151,59 +217,65 @@ class ShoppingCart:
 
 Each Red-Green-Refactor cycle builds upon the previous ones, creating a foundation of tested functionality that supports future development. This iterative approach allows each chunk of code to be tested as soon as possible, making it significantly easier to diagnose bugs and preventing the accumulation of technical debt.
 
-### 💡 **Vive Coding Prompt: E-commerce Order Processing with TDD**
+### 💡 **Vive Coding Prompt: TDD Implementation Practice**
 
-**Scenario**: You're building an e-commerce order processing system using TDD. The system needs to handle order validation, inventory checking, payment processing, and order confirmation.
+**Scenario**: You want to implement a feature using Test-Driven Development (TDD) methodology.
 
-**Requirements**:
-- Orders must have at least one item with positive quantity
-- Items must be in stock before processing
-- Payment must be processed before order confirmation
-- Customers must receive confirmation emails
-- Orders should track their status (pending, processing, confirmed, shipped)
+**Your Task - Use this prompt with your actual feature**:
 
-**Your Task**:
+```
+I want to implement a new feature using TDD methodology. Here's what I need to build:
 
-1. **TDD Planning**:
-   - Break down the requirements into small, testable units
-   - Identify the order in which you'll implement features
-   - Design your test cases before writing any implementation code
+Feature requirements: [DESCRIBE THE FEATURE YOU NEED TO IMPLEMENT]
 
-2. **Red-Green-Refactor Implementation**:
-   - Start with the simplest possible test (e.g., creating an empty order)
-   - Follow strict TDD discipline: write the test, make it pass, refactor
-   - Document your thought process for each cycle
+Business rules and constraints: [LIST THE SPECIFIC BUSINESS RULES AND VALIDATION REQUIREMENTS]
 
-3. **Test Design**:
-   - Write tests that express business requirements clearly
-   - Ensure tests are independent and can run in any order
-   - Include both positive and negative test cases
+Expected inputs and outputs: [DESCRIBE WHAT THE FEATURE SHOULD ACCEPT AND RETURN]
 
-4. **Refactoring Strategy**:
-   - Show how your design evolves through the refactor phases
-   - Demonstrate how TDD leads to better API design
-   - Identify points where refactoring led to simpler, more maintainable code
+Integration points: [LIST ANY EXTERNAL SYSTEMS, DATABASES, OR SERVICES THE FEATURE NEEDS TO INTERACT WITH]
 
-**Example Starting Point**:
-```python
-# Your first test might look like this
-def test_create_empty_order():
-    order = Order()
-    assert order.status == "pending"
-    assert order.items == []
-    assert order.total == 0
+Please help me:
+
+1. **TDD Planning and Breakdown**:
+   - Help me break down the feature requirements into small, testable units
+   - Suggest the order in which I should implement different parts of the feature
+   - Recommend how to structure my tests to express business requirements clearly
+   - Identify the simplest possible starting point for my first test
+
+2. **Red-Green-Refactor Strategy**:
+   - Guide me through the TDD cycle for my specific feature
+   - Suggest how to write failing tests that drive the implementation
+   - Recommend how to make tests pass with the simplest possible implementation
+   - Show me when and how to refactor for better design
+
+3. **Test Design Guidance**:
+   - Help me write tests that are independent and can run in any order
+   - Suggest how to test both positive cases (happy path) and negative cases (error conditions)
+   - Recommend how to handle edge cases and boundary conditions
+   - Show me how to test interactions with external dependencies
+
+4. **Implementation Approach**:
+   - Guide me on writing just enough code to make each test pass
+   - Suggest how to avoid over-engineering during the implementation phase
+   - Recommend when to introduce abstractions and design patterns
+   - Show me how to maintain focus on the current test without getting ahead of myself
+
+5. **Refactoring and Design Evolution**:
+   - Help me identify when refactoring is needed during the TDD process
+   - Suggest how to improve the design while keeping all tests passing
+   - Recommend how to extract methods, classes, or modules as the code grows
+   - Show me how TDD naturally leads to better API design
+
+6. **Testing Best Practices**:
+   - Suggest naming conventions for tests that clearly express intent
+   - Recommend how to organize test code for maintainability
+   - Show me how to use mocks and stubs for external dependencies
+   - Guide me on writing assertions that provide clear failure messages
+
+Please provide specific, step-by-step guidance that helps me successfully implement my feature using strict TDD methodology.
 ```
 
-**Constraints**:
-- Must use strict TDD (no implementation code without a failing test)
-- Each test should focus on a single behavior
-- Refactoring must preserve all existing test behavior
-- Code should be production-ready (error handling, edge cases)
-
-**Deliverable**: 
-- Complete order processing system with comprehensive test suite
-- Documentation of each Red-Green-Refactor cycle
-- Reflection on how TDD influenced your design decisions
+**How to Use**: Replace the placeholders with your specific feature requirements to get customized TDD implementation guidance.
 
 ---
 
@@ -610,61 +682,75 @@ class TestCanaryDeployment:
         assert v2_result.performance_metrics.response_time < v1_result.performance_metrics.response_time
 ```
 
-### 💡 **Vive Coding Prompt: TDD-Driven CI/CD Pipeline**
+### 💡 **Vive Coding Prompt: TDD-Driven CI/CD Pipeline Design**
 
-**Scenario**: You're tasked with setting up a complete CI/CD pipeline for a microservices-based e-commerce platform. The pipeline should demonstrate how TDD integrates with modern DevOps practices.
+**Scenario**: You want to set up a CI/CD pipeline that integrates TDD practices effectively.
 
-**System Architecture**:
-- User Service (authentication, profiles)
-- Product Service (catalog, inventory)
-- Order Service (cart, checkout, fulfillment)
-- Payment Service (payment processing)
-- Notification Service (emails, SMS)
+**Your Task - Use this prompt with your actual project**:
 
-**Your Task**:
+```
+I need to design a CI/CD pipeline that integrates Test-Driven Development (TDD) practices for my project. Here's my current setup:
 
-1. **TDD Test Structure**:
-   - Design a comprehensive test pyramid for the microservices architecture
-   - Create unit tests, integration tests, and end-to-end tests following TDD principles
-   - Show how tests at different levels support the CI/CD pipeline
+Project type: [DESCRIBE YOUR PROJECT TYPE - web app, microservices, mobile app, etc.]
 
-2. **CI Pipeline Design**:
-   - Create a multi-stage CI pipeline that runs TDD tests
-   - Design parallel test execution for faster feedback
-   - Implement test result reporting and coverage analysis
-   - Set up automatic test failure notifications
+Technology stack: [LIST YOUR PROGRAMMING LANGUAGES, FRAMEWORKS, AND TOOLS]
+
+Current architecture: [DESCRIBE YOUR SYSTEM ARCHITECTURE AND COMPONENTS]
+
+Testing requirements: [DESCRIBE WHAT TYPES OF TESTING YOU NEED - unit, integration, e2e, performance, etc.]
+
+Deployment environments: [LIST YOUR ENVIRONMENTS - dev, staging, production, etc.]
+
+Team size and workflow: [DESCRIBE YOUR TEAM SIZE AND CURRENT DEVELOPMENT WORKFLOW]
+
+Please help me:
+
+1. **TDD Test Strategy for CI/CD**:
+   - Design a comprehensive test pyramid that supports my CI/CD pipeline
+   - Recommend how to structure unit tests, integration tests, and end-to-end tests following TDD principles
+   - Suggest how to organize tests for optimal CI/CD performance and feedback
+   - Show me how to balance test coverage with pipeline speed
+
+2. **CI Pipeline Design with TDD**:
+   - Help me create a multi-stage CI pipeline that effectively runs TDD tests
+   - Suggest how to implement parallel test execution for faster feedback
+   - Recommend test result reporting and coverage analysis tools
+   - Show me how to set up automatic notifications for test failures
 
 3. **CD Pipeline Integration**:
    - Design deployment gates based on TDD test results
-   - Implement automated rollback triggers
-   - Create health checks based on TDD test patterns
-   - Set up canary deployment with TDD validation
+   - Suggest how to implement automated rollback triggers when tests fail
+   - Recommend health checks that align with TDD test patterns
+   - Show me how to set up progressive deployment (canary/blue-green) with TDD validation
 
-4. **Monitoring and Observability**:
-   - Adapt TDD tests for production monitoring
-   - Create alerting based on test failures
-   - Design dashboards that show test-driven metrics
-   - Implement synthetic transaction monitoring
+4. **Test Environment Management**:
+   - Help me design consistent test environments using containers or other tools
+   - Suggest how to handle database migrations and test data management
+   - Recommend configuration management for different environments
+   - Show me how to manage secrets and sensitive data in testing
 
 5. **Team Workflow Integration**:
-   - Show how TDD fits into pull request workflows
-   - Design code review processes that leverage TDD
-   - Create developer productivity metrics based on TDD practices
-   - Plan for handling test failures and debugging
+   - Suggest how TDD should fit into pull request and code review workflows
+   - Recommend processes for handling test failures and debugging
+   - Show me how to create developer productivity metrics based on TDD practices
+   - Help me design team processes that encourage TDD adoption
 
-**Technical Requirements**:
-- Use containers (Docker) for consistent test environments
-- Implement database migrations and test data management
-- Support multiple environments (dev, staging, production)
-- Handle secrets and configuration management
-- Include performance and load testing
+6. **Monitoring and Observability**:
+   - Suggest how to adapt TDD tests for production monitoring
+   - Recommend alerting strategies based on test patterns
+   - Show me how to create dashboards that display test-driven metrics
+   - Help me implement synthetic transaction monitoring using test patterns
 
-**Deliverable**: 
-- Complete CI/CD pipeline configuration files
-- Comprehensive test suites for each microservice
-- Documentation of the TDD-driven development workflow
-- Monitoring and alerting configuration
-- Team processes and best practices guide
+7. **Performance and Scalability**:
+   - Recommend how to include performance testing in the TDD workflow
+   - Suggest load testing strategies that integrate with CI/CD
+   - Show me how to handle test execution time as the test suite grows
+   - Help me design test parallelization and optimization strategies
+
+Please provide specific recommendations and configuration examples that fit my project's needs and help me successfully integrate TDD with modern CI/CD practices.
+```
+
+**How to Use**: Replace the placeholders with your specific project details to get customized CI/CD pipeline design guidance that integrates TDD effectively.
 
 ---
 
