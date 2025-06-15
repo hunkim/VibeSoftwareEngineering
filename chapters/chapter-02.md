@@ -276,7 +276,7 @@ graph TD
 I need to extend my system with new functionality while following the Open-Closed Principle (open for extension, closed for modification).
 
 **Current code**: 
-```python
+
 class ReportGenerator:
     def generate_pdf_report(self, data):
         # Generate PDF report
@@ -286,7 +286,6 @@ class ReportGenerator:
     def create_pdf(self, data):
         # PDF creation logic
         return f"PDF: {data}"
-```
 
 **New functionality needed**: Add Excel and CSV export capabilities without modifying existing PDF functionality
 
