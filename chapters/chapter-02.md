@@ -126,7 +126,7 @@ graph LR
 I have a class that's doing too many things and violates the Single Responsibility Principle. I want to refactor it using SRP best practices.
 
 **Current problematic class**: 
-```python
+
 class UserReportGenerator:
     def __init__(self, database_connection):
         self.db = database_connection
@@ -153,7 +153,7 @@ class UserReportGenerator:
         server.quit()
         
         return html_content
-```
+
 
 **What I need you to do**:
 
@@ -181,7 +181,7 @@ class UserReportGenerator:
 5. **Create a checklist** I can use in future code reviews to catch SRP violations early.
 
 Please generate working, production-ready code that I can immediately use in my project. Focus on practical implementation rather than theoretical explanations.
-
+```
 
 **Follow-up Prompts for Iteration**:
 - "Add logging to track how these classes interact"
