@@ -318,9 +318,10 @@ This textbook combines traditional software engineering principles with modern v
 Help me create a personalized learning plan that combines traditional software engineering principles with modern vibe coding techniques.
 
 **My Current Situation**:
-- [Describe your current skill level and experience]
-- [List technologies you work with regularly]
-- [Mention areas where you want to improve]
+- 3 years of Python/Django development experience
+- Working primarily with web applications and REST APIs
+- Strong in backend development, want to improve frontend and DevOps skills
+- Familiar with basic testing but want to master TDD and advanced testing strategies
 
 **Learning Goals**:
 1. Master core software engineering principles
@@ -329,9 +330,10 @@ Help me create a personalized learning plan that combines traditional software e
 4. Stay current with industry best practices
 
 **Constraints**:
-- [Time available per week for learning]
-- [Preferred learning style: hands-on, theoretical, mixed]
-- [Career goals and timeline]
+- 10-15 hours per week available for learning
+- Prefer hands-on learning with practical projects
+- Goal to become a senior developer within 18 months
+- Want to transition into a tech lead role eventually
 
 **Deliverables I Want**:
 1. **Weekly Learning Schedule**: Balanced between theory and practice

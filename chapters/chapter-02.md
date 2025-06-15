@@ -125,7 +125,35 @@ graph LR
 ```
 I have a class that's doing too many things and violates the Single Responsibility Principle. I want to refactor it using SRP best practices.
 
-**Current problematic class**: [PASTE YOUR CLASS CODE HERE]
+**Current problematic class**: 
+```python
+class UserReportGenerator:
+    def __init__(self, database_connection):
+        self.db = database_connection
+        
+    def generate_user_report(self, user_id, report_type):
+        # Fetch user data
+        user = self.db.query(f"SELECT * FROM users WHERE id = {user_id}")
+        
+        # Generate report content
+        if report_type == "summary":
+            content = f"User: {user['name']}, Email: {user['email']}"
+        elif report_type == "detailed":
+            content = f"User: {user['name']}, Email: {user['email']}, Created: {user['created_at']}"
+        
+        # Format as HTML
+        html_content = f"<html><body><h1>Report</h1><p>{content}</p></body></html>"
+        
+        # Send email
+        import smtplib
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login("admin@company.com", "password123")
+        server.sendmail("admin@company.com", user['email'], html_content)
+        server.quit()
+        
+        return html_content
+```
 
 **What I need you to do**:
 
@@ -161,7 +189,7 @@ Please generate working, production-ready code that I can immediately use in my 
 - "Add configuration options to make the behavior more flexible"
 - "Generate integration tests that verify the classes work together correctly"
 
-**How to Use**: Replace [PASTE YOUR CLASS CODE HERE] with your actual code and use this with AI coding assistants like Cursor, GitHub Copilot, or ChatGPT to get immediate, working refactored code.
+**How to Use**: This example shows a class that violates SRP by handling data access, report generation, formatting, and email sending. Use this prompt with AI coding assistants like Cursor, GitHub Copilot, or ChatGPT to get immediate, working refactored code.
 
 ---
 
@@ -247,9 +275,20 @@ graph TD
 ```
 I need to extend my system with new functionality while following the Open-Closed Principle (open for extension, closed for modification).
 
-**Current code**: [PASTE YOUR CODE HERE]
+**Current code**: 
+```python
+class ReportGenerator:
+    def generate_pdf_report(self, data):
+        # Generate PDF report
+        pdf_content = self.create_pdf(data)
+        return pdf_content
+    
+    def create_pdf(self, data):
+        # PDF creation logic
+        return f"PDF: {data}"
+```
 
-**New functionality needed**: [DESCRIBE WHAT YOU WANT TO ADD]
+**New functionality needed**: Add Excel and CSV export capabilities without modifying existing PDF functionality
 
 **Generate for me**:
 

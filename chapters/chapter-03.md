@@ -81,16 +81,26 @@ Architecture serves as a common language between different stakeholders:
 
 ```mermaid
 graph TD
-    A["Business Stakeholders<br/>Requirements & Constraints"] --> E["Software Architecture"]
+    A["Business Stakeholders<br/>Requirements & Constraints"] --> E["AI-Enhanced<br/>Software Architecture"]
     B["Development Team<br/>Implementation Feasibility"] --> E
     C["Operations Team<br/>Deployment & Maintenance"] --> E
     D["Security Team<br/>Security Requirements"] --> E
     F["QA Team<br/>Testing Strategy"] --> E
     
+    subgraph "Vibe Coding Integration"
+        V1["Natural Language<br/>Architecture Requirements"]
+        V2["AI-Generated<br/>Architecture Options"]
+        V3["Automated<br/>Trade-off Analysis"]
+    end
+    
+    V1 --> E
+    V2 --> E
+    V3 --> E
+    
     E --> G["System Vision<br/>High-level Goals"]
     E --> H["Technical Constraints<br/>Technology Choices"]
     E --> I["Quality Requirements<br/>Performance, Security, etc."]
-    E --> J["Implementation Roadmap<br/>Development Strategy"]
+    E --> J["AI-Assisted<br/>Implementation Roadmap"]
     
     style E fill:#e3f2fd
     style A fill:#fff3e0
@@ -98,6 +108,9 @@ graph TD
     style C fill:#f3e5f5
     style D fill:#ffebee
     style F fill:#e1f5fe
+    style V1 fill:#e8f5e8
+    style V2 fill:#e8f5e8
+    style V3 fill:#e8f5e8
 ```
 
 #### **Decision Documentation**

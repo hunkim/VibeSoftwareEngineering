@@ -37,16 +37,20 @@ graph LR
         C --> A
     end
     
-    subgraph "TDD Development"
-        D["🔴 Red<br/>Write Failing Test"] --> E["🟢 Green<br/>Make Test Pass"] --> F["🔵 Refactor<br/>Improve Code"]
+    subgraph "Vibe Coding + TDD"
+        D["🔴 Red<br/>AI-Generated Failing Test"] --> E["🟢 Green<br/>AI-Assisted Implementation"] --> F["🔵 Refactor<br/>AI-Suggested Improvements"]
         F --> D
+        
+        V1["Natural Language<br/>Test Requirements"] --> D
+        V2["AI Code Generation<br/>Rapid Implementation"] --> E
+        V3["Automated Refactoring<br/>Suggestions"] --> F
     end
     
     G["Requirements"] --> A
-    G --> D
+    G --> V1
     
     H["Traditional: Tests verify existing behavior"]
-    I["TDD: Tests define desired behavior"]
+    I["Vibe TDD: AI accelerates test-first development"]
     
     style A fill:#ffcdd2
     style B fill:#ffcdd2
@@ -54,15 +58,18 @@ graph LR
     style D fill:#ffcdd2
     style E fill:#c8e6c9
     style F fill:#bbdefb
+    style V1 fill:#e8f5e8
+    style V2 fill:#e8f5e8
+    style V3 fill:#e8f5e8
 ```
 
-| Traditional Approach | TDD Approach |
-|---------------------|--------------|
-| Write code → Write tests → Debug | Write test → Write code → Refactor |
-| Tests verify existing behavior | Tests define desired behavior |
-| Testing is a separate phase | Testing is integrated throughout |
-| Design emerges from implementation | Design emerges from test requirements |
-| Debugging is reactive | Issues are prevented proactively |
+| Traditional Approach | Vibe Coding + TDD Approach |
+|---------------------|---------------------------|
+| Write code → Write tests → Debug | AI-generated test → AI-assisted code → AI-suggested refactor |
+| Tests verify existing behavior | Tests define desired behavior with AI assistance |
+| Testing is a separate phase | Testing is AI-accelerated and integrated throughout |
+| Design emerges from implementation | Design emerges from natural language requirements |
+| Debugging is reactive | Issues are prevented proactively with AI insights |
 
 ---
 
@@ -226,11 +233,15 @@ Each Red-Green-Refactor cycle builds upon the previous ones, creating a foundati
 ```
 I want to implement a feature using strict TDD methodology (Red-Green-Refactor). I need you to generate both the tests and implementation following TDD principles.
 
-**Feature to implement**: [DESCRIBE THE FEATURE YOU NEED]
+**Feature to implement**: User subscription management system with billing cycles
 
-**Business requirements**: [LIST SPECIFIC BUSINESS RULES AND CONSTRAINTS]
+**Business requirements**: 
+- Support monthly and annual subscription plans
+- Handle subscription upgrades/downgrades with prorated billing
+- Send email notifications for billing events
+- Maintain subscription history for analytics
 
-**Technical context**: [DESCRIBE THE TECHNOLOGY STACK AND EXISTING CODEBASE]
+**Technical context**: Python/Django application with Stripe payment integration
 
 **Generate for me**:
 

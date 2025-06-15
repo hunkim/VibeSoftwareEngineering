@@ -1,4 +1,4 @@
-# 🚀 Vive Software Engineering: Principles and Practices for Superior Code
+# 🚀 Vibe Software Engineering: Principles and Practices for Superior Code
 
 > *"Software is not just about solving problems; it's about creating solutions that can grow, evolve, and inspire the developers who work with them."*
 
@@ -10,7 +10,7 @@
 
 ## 📖 About This Book
 
-**Vive Software Engineering** is a comprehensive, professional-grade textbook that transforms how developers think about code quality, system design, and engineering excellence. The term "vive" (meaning "live" or "alive") symbolizes our core philosophy: creating software that is vibrant, adaptable, and sustainable over time.
+**Vibe Software Engineering** is a comprehensive, professional-grade textbook that transforms how developers think about code quality, system design, and engineering excellence. The term "vibe" represents our core philosophy of AI-assisted programming where developers use natural language to describe what they want and let AI generate high-quality, maintainable code.
 
 This isn't just another programming book—it's a complete framework for building software that developers love to work with and businesses can rely on for years to come.
 
@@ -44,7 +44,7 @@ Every recommendation is backed by industry research, real-world case studies, an
 
 ### **Part I: Foundations of Effective Software Design**
 
-#### [📖 Chapter 1: Introduction to Vive Software Engineering](chapters/chapter-01.md)
+#### [📖 Chapter 1: Introduction to Vibe Software Engineering](chapters/chapter-01.md)
 - The philosophy and economics of quality software
 - The six pillars of high-quality software and their interdependencies
 - Building a comprehensive framework for engineering excellence

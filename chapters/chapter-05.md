@@ -243,51 +243,57 @@ for day_index in range(DAYS_IN_WEEK):
 
 ### 💡 **Vibe Coding Prompt: Naming Convention Improvement**
 
-**Scenario**: You need to improve the naming conventions in your codebase to make it more readable and maintainable.
-
-**Your Task - Use this prompt with your actual code**:
+**Your Vibe Coding Prompt**:
 
 ```
-I have code with poor naming conventions that make it hard to understand and maintain. Here's a sample of the problematic code: [PASTE YOUR CODE WITH POOR NAMING HERE]
+I need to build an automated naming convention analyzer and refactoring tool for our codebase. Our team struggles with inconsistent and unclear naming that hurts code readability.
 
-The context of this code is: [DESCRIBE WHAT THE CODE DOES]
+Current Problems:
+- Inconsistent naming conventions across the codebase (camelCase vs snake_case)
+- Cryptic abbreviations and single-letter variables
+- Functions and classes with unclear purposes
+- Domain terminology used inconsistently
 
-Please help me:
+Codebase Context:
+- Python/Django backend with React frontend
+- E-commerce platform with 100+ modules
+- Team of 8 developers with varying experience levels
+- Legacy code mixed with new development
 
-1. **Naming Audit**:
-   - Identify all problematic names in my code
-   - Categorize the issues: abbreviations, unclear purpose, missing context, inconsistent conventions
-   - Explain why each name is problematic and how it hurts readability
+Please generate:
 
-2. **Improvement Strategy**:
-   - Suggest better names for each problematic identifier
-   - Explain the reasoning behind each suggested name
-   - Ensure names follow consistent conventions for the language/framework
+1. **Automated Naming Analysis Tool**:
+   - Script that scans codebase and identifies naming violations
+   - Classification of naming issues (abbreviations, inconsistency, unclear purpose)
+   - Severity scoring based on code usage frequency
+   - Integration with CI/CD to catch violations early
 
-3. **Refactoring Plan**:
-   - Create a prioritized list of naming changes based on impact and frequency of use
-   - Suggest a step-by-step approach to implement the changes safely
-   - Recommend tools or techniques for automated renaming where possible
+2. **AI-Powered Naming Suggestions**:
+   - Tool that suggests better names based on context and usage
+   - Domain-aware naming that reflects business terminology
+   - Consistency checking across related modules
+   - Bulk renaming capabilities with safety checks
 
-4. **Context and Domain Alignment**:
-   - Ensure names reflect the business domain and are meaningful to stakeholders
-   - Suggest names that make the code self-documenting
-   - Recommend how to handle domain-specific terminology consistently
+3. **Team Naming Standards Generator**:
+   - Automated generation of naming convention guidelines
+   - Language-specific and framework-specific rules
+   - Code review checklist for naming quality
+   - IDE plugins/extensions for real-time naming feedback
 
-5. **Team Guidelines**:
-   - Create naming convention guidelines for my team
-   - Suggest code review checklist items for naming quality
-   - Recommend how to maintain consistency across the codebase
+4. **Safe Refactoring System**:
+   - Automated refactoring with comprehensive test coverage
+   - Impact analysis before making naming changes
+   - Rollback capabilities for problematic changes
+   - Documentation updates to reflect new naming
 
-6. **Testing Strategy**:
-   - Suggest how to ensure refactoring doesn't break functionality
-   - Recommend testing approaches for large-scale naming changes
-   - Identify potential risks and mitigation strategies
+5. **Naming Quality Metrics Dashboard**:
+   - Real-time tracking of naming convention compliance
+   - Team performance metrics and improvement trends
+   - Integration with code review tools
+   - Gamification to encourage better naming practices
 
-Please provide specific, actionable advice that will make my code more readable and self-documenting.
+Include integration with popular IDEs, static analysis tools, and version control systems. Show how to make naming improvement a continuous, automated process rather than a one-time effort.
 ```
-
-**How to Use**: Replace the placeholders with your actual code and context to get specific guidance on improving naming conventions.
    - Create naming convention guidelines for your team
    - Design a code review checklist for naming quality
    - Propose tooling (linters, IDE plugins) to enforce standards
@@ -421,63 +427,58 @@ user_notification = NotificationService.send_email(
 
 ### 💡 **Vibe Coding Prompt: Code Style Standardization**
 
-**Scenario**: Your team has inconsistent code formatting that's causing friction in development and code reviews.
-
-**Your Task - Use this prompt with your actual situation**:
+**Your Vibe Coding Prompt**:
 
 ```
-My development team has inconsistent code formatting and style that's causing problems. Here's my situation:
+I need to build a comprehensive code style standardization system that automatically enforces consistent formatting across our development team and integrates seamlessly with our workflow.
 
-Team context: [DESCRIBE YOUR TEAM - size, experience levels, current tools and practices]
+Current Style Challenges:
+- 8-person team with different formatting preferences
+- Mix of Python, JavaScript, and TypeScript codebases
+- Inconsistent indentation, line lengths, and naming conventions
+- Code review time wasted on style discussions instead of logic
+- New team members struggle with undocumented style expectations
 
-Current style problems: [LIST SPECIFIC ISSUES - inconsistent formatting, style debates in reviews, etc.]
+Technology Stack:
+- Backend: Python/Django, FastAPI
+- Frontend: React/TypeScript, Node.js
+- Tools: VS Code, PyCharm, Git, GitHub Actions
+- Current linting: Basic ESLint and flake8 setup
 
-Technology stack: [LIST YOUR LANGUAGES, FRAMEWORKS, AND TOOLS]
+Please generate:
 
-Sample of inconsistent code: [PASTE EXAMPLES OF DIFFERENT STYLES FROM YOUR CODEBASE]
+1. **Automated Style Enforcement System**:
+   - Complete configuration for Black, Prettier, ESLint, and TypeScript
+   - Pre-commit hooks that auto-format code before commits
+   - CI/CD integration that blocks merges for style violations
+   - IDE configuration files for consistent development experience
 
-Please help me:
+2. **Team Onboarding Automation**:
+   - Setup scripts that configure development environments automatically
+   - VS Code workspace settings and recommended extensions
+   - Git hooks installation and configuration
+   - Documentation generator for style guidelines
 
-1. **Style Analysis and Standards**:
-   - Analyze the style inconsistencies in my code examples
-   - Recommend industry-standard formatting conventions for my technology stack
-   - Suggest which style decisions are most important to standardize
-   - Help me balance team preferences with established best practices
+3. **Legacy Code Migration Tool**:
+   - Scripts to safely apply formatting to existing codebase
+   - Batch processing with rollback capabilities
+   - Conflict resolution strategies for large-scale changes
+   - Progress tracking and reporting for migration status
 
-2. **Tool Selection and Configuration**:
-   - Recommend appropriate formatting and linting tools for my tech stack
-   - Help me create configuration files that enforce consistent style
-   - Suggest IDE/editor plugins and settings for team members
-   - Recommend automated formatting tools that integrate with my workflow
+4. **Style Quality Dashboard**:
+   - Real-time monitoring of code style compliance across repositories
+   - Team performance metrics and improvement trends
+   - Integration with code review tools to track style-related comments
+   - Automated reporting for management on code quality improvements
 
-3. **Implementation Strategy**:
-   - Create a plan for applying formatting standards to existing code
-   - Suggest how to handle potential merge conflicts during the transition
-   - Recommend a phased rollout approach that minimizes disruption
-   - Design processes for maintaining consistency going forward
+5. **Continuous Style Improvement System**:
+   - AI-powered analysis of style patterns and suggestions
+   - Automated updates to style configurations based on team consensus
+   - Integration with popular style guides (Google, Airbnb, PEP 8)
+   - A/B testing framework for style rule changes
 
-4. **Team Adoption and Training**:
-   - Create setup guides for team members' development environments
-   - Suggest how to communicate the changes and get team buy-in
-   - Recommend training approaches for new standards
-   - Design code review guidelines that focus on logic over style
-
-5. **Automation and Enforcement**:
-   - Set up pre-commit hooks and CI/CD integration for style enforcement
-   - Recommend how to handle style violations in the development workflow
-   - Suggest monitoring approaches to ensure continued compliance
-   - Create processes for updating standards as the team evolves
-
-6. **Change Management**:
-   - Help me communicate the benefits of standardization to stakeholders
-   - Suggest how to handle resistance to style changes
-   - Recommend metrics to measure the success of standardization efforts
-   - Create processes for proposing future style changes
-
-Please provide specific, actionable recommendations that will result in consistent, maintainable code style across my team.
+Include complete configuration files, setup scripts, and integration with popular development tools. Show how to make style enforcement invisible to developers while maintaining high code quality standards.
 ```
-
-**How to Use**: Replace the placeholders with your specific team context and style issues to get customized guidance on code standardization.
 
 ---
 
@@ -619,63 +620,64 @@ def calculate_tax(income):
 
 ### 💡 **Vibe Coding Prompt: Documentation Quality Improvement**
 
-**Scenario**: You need to improve the documentation of code that's poorly documented and hard to understand.
-
-**Your Task - Use this prompt with your actual code**:
+**Your Vibe Coding Prompt**:
 
 ```
-I have code that's poorly documented and needs better documentation before it can be maintained by others. Here's my situation:
+I need to build an intelligent documentation generation and quality assessment system that automatically improves code documentation and keeps it current with code changes.
 
-Code that needs documentation: [PASTE YOUR UNDER-DOCUMENTED CODE HERE]
+Current Documentation Problems:
+- Inconsistent documentation across 50+ Python modules
+- Many functions lack docstrings or have outdated ones
+- Complex business logic not explained for new team members
+- No automated way to detect documentation quality issues
+- Documentation gets out of sync with code changes
 
-Context and purpose: [DESCRIBE WHAT THE CODE DOES AND WHY IT EXISTS]
+Codebase Context:
+- Python/Django e-commerce platform
+- Complex financial calculations and business rules
+- Team of 8 developers with varying documentation habits
+- Mix of legacy code and new development
 
-Target audience: [DESCRIBE WHO WILL MAINTAIN THIS CODE - their experience level, domain knowledge, etc.]
+Please generate:
 
-Current documentation problems: [LIST SPECIFIC ISSUES - missing comments, unclear variable names, no docstrings, etc.]
+1. **AI-Powered Documentation Generator**:
+   - Tool that analyzes code and generates comprehensive docstrings
+   - Context-aware documentation that understands business domain
+   - Automatic generation of parameter descriptions and return types
+   - Integration with type hints and static analysis tools
 
-Please help me:
+2. **Documentation Quality Assessment System**:
+   - Automated scoring of documentation completeness and quality
+   - Detection of outdated documentation that doesn't match code
+   - Identification of complex code that needs explanatory comments
+   - Integration with CI/CD to enforce documentation standards
 
-1. **Documentation Audit and Strategy**:
-   - Analyze my code and identify where documentation would add the most value
-   - Distinguish between areas that need comments vs. areas that need better self-documenting code
-   - Suggest what types of documentation are most important for my specific context
-   - Recommend the right balance between comments, docstrings, and external documentation
+3. **Self-Documenting Code Refactoring Tool**:
+   - AI suggestions for better variable and function names
+   - Automated extraction of complex logic into well-named functions
+   - Type hint generation and improvement suggestions
+   - Code structure improvements for better readability
 
-2. **Self-Documenting Code Improvements**:
-   - Suggest better names for variables, functions, and classes that make the code more self-explanatory
-   - Recommend how to break down complex logic into well-named intermediate steps
-   - Suggest type hints and parameter improvements that clarify intent
-   - Identify opportunities to make the code structure more intuitive
+4. **Living Documentation Platform**:
+   - Automatic generation of module and API documentation
+   - Interactive code examples with live execution
+   - Business rule documentation extracted from code comments
+   - Integration with project management tools for context
 
-3. **Strategic Comments and Explanations**:
-   - Identify where comments would genuinely help future maintainers
-   - Suggest what business rules, algorithms, or domain knowledge should be documented
-   - Recommend how to explain complex formulas, calculations, or logic
-   - Help me avoid redundant comments that just restate the code
+5. **Documentation Maintenance Automation**:
+   - Automated detection of code changes that require doc updates
+   - Git hooks that prompt for documentation when code changes
+   - Continuous monitoring of documentation drift
+   - Automated testing of code examples in documentation
 
-4. **Comprehensive Docstrings**:
-   - Create detailed function and class documentation with clear examples
-   - Include parameter descriptions, return value formats, and usage examples
-   - Document any assumptions, preconditions, or side effects
-   - Suggest how to make docstrings useful for both developers and tools
+6. **Team Documentation Workflow**:
+   - Templates and guidelines for consistent documentation
+   - Code review integration with documentation quality checks
+   - Gamification to encourage better documentation practices
+   - Training materials and best practice recommendations
 
-5. **External Documentation Planning**:
-   - Recommend what higher-level documentation is needed (module overview, architecture, etc.)
-   - Suggest how to document complex domain concepts or mathematical formulas
-   - Create usage examples and common scenarios
-   - Design documentation that stays current as code evolves
-
-6. **Documentation Maintenance**:
-   - Suggest processes to keep documentation current as code changes
-   - Recommend tools or practices that help maintain documentation quality
-   - Create guidelines for future documentation standards
-   - Design review processes that ensure documentation quality
-
-Please provide specific, actionable recommendations that will make my code understandable and maintainable by others.
+Include integration with popular IDEs, static analysis tools, and documentation platforms. Show how to make documentation a natural, automated part of the development process rather than an afterthought.
 ```
-
-**How to Use**: Replace the placeholders with your actual under-documented code and context to get specific guidance on improving documentation quality.
 
 ---
 
@@ -813,63 +815,64 @@ def format_currency_for_api(amount):
 
 ### 💡 **Vibe Coding Prompt: Data Validation Consolidation**
 
-**Scenario**: You have validation logic scattered across your codebase that needs to be consolidated to eliminate duplication and inconsistencies.
-
-**Your Task - Use this prompt with your actual code**:
+**Your Vibe Coding Prompt**:
 
 ```
-I have validation logic duplicated across multiple parts of my codebase, leading to inconsistencies and maintenance problems. Here's my situation:
+I need to build a comprehensive validation framework that eliminates duplicated validation logic across our codebase and provides a consistent, reusable validation system.
 
-Duplicated validation code: [PASTE YOUR DUPLICATED VALIDATION CODE HERE]
+Current Validation Problems:
+- Email validation logic duplicated in 15+ different files
+- Inconsistent error messages for the same validation rules
+- Password validation differs between registration and password reset
+- Phone number validation has 3 different implementations
+- No centralized business rule management
 
-Where the duplication occurs: [LIST THE DIFFERENT LOCATIONS - controllers, services, forms, etc.]
+Codebase Context:
+- Python/Django web application with React frontend
+- User management, e-commerce, and financial transaction features
+- Validation needed at API, form, and database levels
+- Complex business rules that change frequently
 
-Variations in validation rules: [DESCRIBE ANY DIFFERENCES IN THE VALIDATION LOGIC ACROSS LOCATIONS]
+Please generate:
 
-Context and requirements: [DESCRIBE THE BUSINESS RULES AND VALIDATION REQUIREMENTS]
+1. **Unified Validation Framework**:
+   - Centralized validation library with composable validators
+   - Support for field-level, object-level, and cross-field validation
+   - Consistent error message formatting and internationalization
+   - Integration with Django forms, DRF serializers, and Pydantic models
 
-Please help me:
+2. **Business Rule Engine**:
+   - Configurable validation rules that can be modified without code changes
+   - Support for conditional validation based on context
+   - Rule versioning and A/B testing capabilities
+   - Integration with feature flags for gradual rule rollouts
 
-1. **Duplication Analysis**:
-   - Analyze my validation code and identify all instances of duplicated logic
-   - Distinguish between true duplication and legitimate variations in requirements
-   - Map out the differences in validation rules and error handling
-   - Identify which validations represent the same business knowledge
+3. **Validation Migration Tool**:
+   - Automated detection of duplicated validation logic across codebase
+   - Safe migration scripts that replace duplicated code with framework calls
+   - Comprehensive testing to ensure no validation behavior is lost
+   - Rollback capabilities for problematic migrations
 
-2. **Validation Framework Design**:
-   - Design a flexible validation system that eliminates duplication while handling variations
-   - Suggest how to create reusable validators that can be composed for different use cases
-   - Recommend approaches for handling different error message formats and contexts
-   - Design a system that supports both simple and complex validation scenarios
+4. **Multi-Layer Validation System**:
+   - Client-side validation for immediate user feedback
+   - API-level validation for security and data integrity
+   - Database-level constraints for final data protection
+   - Consistent validation across all layers
 
-3. **Migration Strategy**:
-   - Create a step-by-step plan to replace duplicated validation code
-   - Suggest how to maintain backward compatibility during the transition
-   - Recommend testing strategies to ensure no validation behavior is lost
-   - Design a gradual migration approach that minimizes risk
+5. **Validation Analytics and Monitoring**:
+   - Real-time tracking of validation failures and patterns
+   - A/B testing framework for validation rule changes
+   - Performance monitoring for validation overhead
+   - Business intelligence on user behavior and validation issues
 
-4. **Flexibility and Extensibility**:
-   - Handle context-specific validation requirements (different rules for different scenarios)
-   - Design the system to support conditional validation and business rule variations
-   - Plan for future validation requirements and rule changes
-   - Suggest how to make the validation system configurable and extensible
+6. **Developer Experience Tools**:
+   - IDE plugins for validation rule discovery and usage
+   - Automated generation of validation documentation
+   - Testing utilities for validation scenarios
+   - Code generation for common validation patterns
 
-5. **Integration and Usage**:
-   - Show how each part of my codebase would use the new validation system
-   - Recommend patterns for integrating validation into different layers (controllers, services, etc.)
-   - Suggest how to handle validation errors consistently across the application
-   - Design clear APIs that make validation easy to use correctly
-
-6. **Testing and Quality Assurance**:
-   - Create comprehensive tests that verify all original validation behavior is preserved
-   - Suggest testing strategies for the validation framework itself
-   - Recommend how to test edge cases and error conditions
-   - Design validation for the validation system (meta-validation)
-
-Please provide specific, implementable solutions that eliminate validation duplication while maintaining all necessary business rules.
+Include integration with popular Python validation libraries (Cerberus, Marshmallow, Pydantic), frontend validation frameworks, and monitoring tools. Show how to make validation a first-class, reusable concern across the entire application stack.
 ```
-
-**How to Use**: Replace the placeholders with your actual duplicated validation code and context to get specific guidance on consolidating validation logic.
 
 ---
 
@@ -1090,60 +1093,62 @@ class PaymentProcessor:
 
 ### 💡 **Vibe Coding Prompt: Legacy Code Refactoring**
 
-**Scenario**: You have legacy code that works but is difficult to maintain, extend, and test.
-
-**Your Task - Use this prompt with your actual code**:
+**Your Vibe Coding Prompt**:
 
 ```
-I have legacy code that's becoming increasingly difficult to maintain and extend. Here's my situation:
+I need to build a comprehensive legacy code modernization system that can safely refactor large, complex codebases while maintaining functionality and improving maintainability.
 
-Legacy code that needs refactoring: [PASTE YOUR LEGACY CODE HERE]
+Legacy Code Challenges:
+- 10,000+ line monolithic Python application from 2015
+- Mixed business logic, data access, and presentation concerns
+- No unit tests, making changes risky
+- Performance issues and memory leaks
+- Difficult to add new features or fix bugs
 
-Current problems with the code: [LIST SPECIFIC ISSUES - long methods, mixed responsibilities, hard to test, etc.]
+Current System Context:
+- E-commerce order processing system
+- Critical business functionality that can't be down
+- Multiple integrations with external payment and shipping APIs
+- Complex business rules that aren't well documented
+- Team needs to add new features while improving code quality
 
-Requirements for the refactored code: [DESCRIBE WHAT THE REFACTORED CODE NEEDS TO SUPPORT]
+Please generate:
 
-Constraints I need to work within: [LIST CONSTRAINTS - backward compatibility, performance, timeline, etc.]
+1. **Automated Legacy Code Analysis System**:
+   - Static analysis tools that identify code smells and refactoring opportunities
+   - Dependency mapping to understand component relationships
+   - Complexity metrics and technical debt assessment
+   - Risk analysis for different refactoring approaches
 
-Please help me:
+2. **Safe Refactoring Framework**:
+   - Automated test generation for legacy code without existing tests
+   - Incremental refactoring tools with rollback capabilities
+   - Behavior preservation verification through automated testing
+   - Parallel implementation strategy for high-risk changes
 
-1. **Refactoring Analysis**:
-   - Analyze my legacy code and identify all the different responsibilities it handles
-   - Explain why the current structure makes the code difficult to maintain and extend
-   - Prioritize which refactoring patterns would provide the most benefit for my specific situation
-   - Identify the biggest risks and pain points in the current code
+3. **Modular Architecture Migration Tool**:
+   - Automated extraction of business logic into separate modules
+   - Service layer generation with proper separation of concerns
+   - Database access layer abstraction and optimization
+   - API design for clean interfaces between components
 
-2. **Architecture Design**:
-   - Design a new modular architecture that separates concerns properly
-   - Suggest appropriate abstractions and design patterns for my use case
-   - Show how the new design would make adding new features easier
-   - Recommend how to structure the code for better testability
+4. **Continuous Refactoring Pipeline**:
+   - CI/CD integration for safe, automated refactoring
+   - Performance monitoring to ensure refactoring doesn't degrade performance
+   - Automated code quality metrics and improvement tracking
+   - Feature flag integration for gradual rollout of refactored components
 
-3. **Incremental Refactoring Strategy**:
-   - Break down the refactoring into small, safe steps that minimize risk
-   - Suggest the order of refactoring operations to maintain functionality
-   - Recommend how to maintain backward compatibility during the transition
-   - Design a rollback strategy in case problems arise
+5. **Legacy Code Documentation Generator**:
+   - Automated generation of documentation from existing code
+   - Business rule extraction and documentation
+   - API documentation for newly created interfaces
+   - Migration guides for team members working with refactored code
 
-4. **Implementation Guidance**:
-   - Show how to extract the first few methods/classes from the legacy code
-   - Suggest comprehensive testing strategies for the refactored components
-   - Recommend how to verify that refactored code maintains the same behavior
-   - Design interfaces that support existing functionality while enabling new features
+6. **Modernization Roadmap and Planning Tool**:
+   - Prioritization framework for refactoring efforts based on business impact
+   - Resource estimation and timeline planning for refactoring projects
+   - Risk assessment and mitigation strategies
+   - Success metrics and progress tracking
 
-5. **Testing and Validation**:
-   - Create a testing strategy that ensures no functionality is lost during refactoring
-   - Suggest how to test the legacy code before refactoring to establish a baseline
-   - Recommend approaches for testing refactored components in isolation
-   - Design integration tests that verify the entire system still works
-
-6. **Future Extensibility**:
-   - Show how the refactored design makes adding new features easier
-   - Demonstrate how to extend the system with examples relevant to my use case
-   - Design the architecture to support future requirements and changes
-   - Create guidelines for maintaining code quality as the system evolves
-
-Please provide specific, actionable guidance that will result in cleaner, more maintainable code while preserving all existing functionality.
-```
-
-**How to Use**: Replace the placeholders with your actual legacy code and specific situation to get customized refactoring guidance. 
+Include integration with modern Python tools (Black, mypy, pytest), monitoring systems (Sentry, DataDog), and development workflows. Show how to make legacy code refactoring a systematic, low-risk process that delivers continuous value.
+``` 
