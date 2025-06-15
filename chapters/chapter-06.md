@@ -1,6 +1,58 @@
 # Chapter 6: Robust Error Handling and Logging
 
+> *"Errors are not failures; they are opportunities to build more resilient systems."*
+
+---
+
+## Learning Objectives
+
+By the end of this chapter, you will be able to:
+- Implement comprehensive error handling strategies that never fail silently
+- Design structured logging systems for effective debugging and monitoring
+- Apply error recovery patterns that maintain system stability
+- Create error handling architectures that support both development and production needs
+
+---
+
+## Introduction: Building Resilient Systems
+
 Effective error handling and comprehensive logging are critical components of resilient software, enabling systems to gracefully manage unexpected situations and providing essential information for debugging and monitoring.
+
+```mermaid
+graph TD
+    subgraph "Error Handling Strategy"
+        A["Error Detection<br/>Catch early & specifically"]
+        B["Error Classification<br/>Transient vs Permanent"]
+        C["Error Recovery<br/>Graceful degradation"]
+        D["Error Reporting<br/>Structured logging"]
+    end
+    
+    subgraph "System Resilience"
+        E["High Availability<br/>99.9% uptime"]
+        F["Fast Recovery<br/>MTTR < 5 minutes"]
+        G["Clear Diagnostics<br/>Root cause analysis"]
+        H["User Experience<br/>Graceful failures"]
+    end
+    
+    A --> E
+    B --> F
+    C --> H
+    D --> G
+    
+    I["Monitoring & Alerting"] --> A
+    J["Structured Logs"] --> D
+    K["Circuit Breakers"] --> C
+    L["Health Checks"] --> B
+    
+    style A fill:#e3f2fd
+    style B fill:#f3e5f5
+    style C fill:#e8f5e8
+    style D fill:#fff3e0
+    style E fill:#c8e6c9
+    style F fill:#c8e6c9
+    style G fill:#c8e6c9
+    style H fill:#c8e6c9
+```
 
 ## 6.1 Principles of Effective Error Handling
 
