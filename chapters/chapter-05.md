@@ -1,1154 +1,1666 @@
-# Chapter 5: Writing Readable and Maintainable Code
+# Chapter 5: Core Design Principles
 
-> *"Code is read much more often than it is written. Write for the human who will read it next, including your future self."*
+> *"Good design is not about following rules blindly; it's about understanding principles deeply enough to know when and how to apply them."*
 
 ---
 
 ## Learning Objectives
 
 By the end of this chapter, you will be able to:
-- Apply naming conventions that improve code readability and self-documentation
-- Implement consistent code style and formatting standards across projects
-- Write effective documentation and comments that add genuine value
-- Identify and eliminate code duplication using systematic approaches
-- Plan and execute refactoring initiatives that improve code quality without breaking functionality
+- Apply all five SOLID principles to improve code design and maintainability
+- Implement DRY, KISS, and YAGNI principles in daily development practices
+- Design systems with proper separation of concerns
+- Evaluate and optimize coupling and cohesion in software modules
+- Make informed trade-offs between different design principles
 
 ---
 
-## Introduction: The Economics of Readable Code
+## 2.1 The SOLID Principles: Building Robust and Maintainable Systems
 
-The readability and maintainability of code are paramount for the long-term success of any software project. Research shows that developers spend 70-80% of their time reading and understanding existing code, while only 20-30% is spent writing new code. Clear, understandable code significantly reduces the effort required for debugging, modifying, and extending functionality, making it a critical investment in project sustainability.
+The SOLID principles represent a set of five fundamental design guidelines that, when applied systematically, lead to software systems that are more robust, maintainable, and extensible. Originally formulated by Robert C. Martin, these principles are widely recognized in object-oriented programming but hold relevance across various paradigms and modern development approaches.
 
-### The Cost of Poor Readability
+### Why SOLID Matters
+
+Before diving into each principle, it's crucial to understand the problems SOLID principles solve:
 
 ```mermaid
 graph TD
-    subgraph "Developer Time Allocation"
-        A["Reading & Understanding Code<br/>70-80%"]
-        B["Writing New Code<br/>20-30%"]
+    subgraph "SOLID Principles"
+        S["S - Single Responsibility<br/>One reason to change"]
+        O["O - Open-Closed<br/>Open for extension,<br/>closed for modification"]
+        L["L - Liskov Substitution<br/>Subclasses must be<br/>substitutable"]
+        I["I - Interface Segregation<br/>Clients shouldn't depend<br/>on unused methods"]
+        D["D - Dependency Inversion<br/>Depend on abstractions,<br/>not concretions"]
     end
     
-    subgraph "Poor Readability Costs"
-        C["Immediate Costs"]
-        D["Long-term Costs"]
+    subgraph "Problems SOLID Solves"
+        R["Rigidity<br/>Hard to change"]
+        F["Fragility<br/>Breaks unexpectedly"]
+        IM["Immobility<br/>Hard to reuse"]
+        V["Viscosity<br/>Easier to hack"]
     end
     
-    C --> E["Increased Debugging Time"]
-    C --> F["Slower Onboarding"]
-    C --> G["More Errors"]
-    C --> H["Extended Code Reviews"]
+    S --> R
+    O --> F
+    L --> IM
+    I --> V
+    D --> R
     
-    D --> I["Technical Debt"]
-    D --> J["Reduced Velocity"]
-    D --> K["Higher Turnover"]
-    D --> L["Maintenance Costs"]
-    
-    subgraph "Clean Code Benefits"
-        M["40% Faster<br/>Feature Development"]
-        N["60% Fewer<br/>Bug Reports"]
-        O["50% Shorter<br/>Onboarding Time"]
-        P["25% Higher<br/>Developer Satisfaction"]
-    end
-    
-    style A fill:#ffcdd2
-    style B fill:#c8e6c9
-    style C fill:#ffcdd2
-    style D fill:#ffcdd2
-    style M fill:#c8e6c9
-    style N fill:#c8e6c9
-    style O fill:#c8e6c9
-    style P fill:#c8e6c9
+    style S fill:#e3f2fd
+    style O fill:#f3e5f5
+    style L fill:#e8f5e8
+    style I fill:#fff3e0
+    style D fill:#ffebee
 ```
 
-**Immediate Costs:**
-- Increased debugging time due to unclear logic
-- Slower onboarding for new team members
-- More errors introduced during modifications
-- Extended code review cycles
-
-**Long-term Costs:**
-- Accumulation of technical debt
-- Reduced team velocity over time
-- Higher developer turnover due to frustration
-- Increased maintenance costs
-
-### The Business Case for Clean Code
-
-Organizations with highly readable codebases experience:
-- **40% faster feature development** after the initial investment in code quality
-- **60% reduction in bug reports** due to clearer logic and better testing
-- **50% shorter onboarding time** for new developers
-- **25% increase in developer satisfaction** and retention
+- **Rigidity**: Systems that are hard to change because every change affects too many other parts
+- **Fragility**: Systems that break in unexpected places when you make changes
+- **Immobility**: Systems where you can't easily reuse components in other applications
+- **Viscosity**: When it's easier to hack than to preserve design integrity
 
 ---
 
-## 5.1 Meaningful Naming Conventions
+### 2.1.1 Single Responsibility Principle (SRP)
 
-```mermaid
-graph TD
-    subgraph "Code Quality Factors"
-        A["Naming Conventions<br/>Clear, consistent names"]
-        B["Code Style<br/>Consistent formatting"]
-        C["Documentation<br/>Meaningful comments"]
-        D["Code Organization<br/>Logical structure"]
-        E["Duplication Elimination<br/>DRY principle"]
-    end
-    
-    F["Readable Code"] --> A
-    F --> B
-    F --> C
-    F --> D
-    F --> E
-    
-    A --> G["Self-Documenting<br/>Code"]
-    B --> H["Visual Consistency<br/>& Clarity"]
-    C --> I["Context & Rationale<br/>Explanation"]
-    D --> J["Easy Navigation<br/>& Understanding"]
-    E --> K["Maintainable<br/>& Reliable"]
-    
-    G --> L["Maintainable Codebase"]
-    H --> L
-    I --> L
-    J --> L
-    K --> L
-    
-    style F fill:#e3f2fd
-    style L fill:#c8e6c9
-```
+> *"A class should have one, and only one, reason to change."* - Robert C. Martin
 
-### The Psychology of Naming
+#### The Principle Explained
 
-Choosing meaningful and descriptive names is one of the most critical aspects of writing clean and maintainable code. Our brains process information through pattern recognition, and well-chosen names create mental models that make code intuitive to understand.
+The Single Responsibility Principle mandates that every class or module within a software system should be responsible for a single, well-defined piece of functionality. This principle is often misunderstood as "a class should do only one thing," but it's more accurately described as "a class should have only one reason to change."
 
-### Principles of Effective Naming
+#### Identifying Responsibilities
 
-#### 1. Intention-Revealing Names
+To identify whether a class violates SRP, ask these questions:
+1. **Who are the stakeholders?** Different stakeholders represent different reasons for change
+2. **What would cause this class to change?** Multiple reasons indicate multiple responsibilities
+3. **Can you describe the class in a single sentence without using "and" or "or"?**
 
-Names should clearly convey what the variable stores, what the function does, or what the class represents:
+#### Benefits of SRP
 
-```python
-# Poor naming
-d = 30  # days?
-users = get_u()  # what kind of users?
-flag = True  # flag for what?
+- **Easier Testing**: Smaller, focused classes are simpler to test comprehensively
+- **Reduced Coupling**: Classes with single responsibilities have fewer dependencies
+- **Improved Maintainability**: Changes affect smaller, more isolated code sections
+- **Enhanced Reusability**: Focused classes are more likely to be useful in different contexts
 
-# Good naming
-days_until_expiry = 30
-active_premium_users = get_active_premium_users()
-is_email_verified = True
-```
-
-#### 2. Avoid Mental Mapping
-
-Don't force readers to mentally translate cryptic names:
+#### Common SRP Violations
 
 ```mermaid
 graph LR
-    subgraph "Naming Principles"
-        A["Intention-Revealing<br/>Clear purpose"]
-        B["Avoid Mental Mapping<br/>No cryptic names"]
-        C["Searchable Names<br/>No single letters"]
-        D["Consistent Conventions<br/>Follow standards"]
+    subgraph "Before SRP"
+        A["UserReportGenerator<br/>- generateReport()<br/>- sendEmail()<br/>- validateData()<br/>- formatOutput()"]
     end
     
-    subgraph "Poor Naming Examples"
-        E["d = 30<br/>// What is d?"]
-        F["get_u()<br/>// Get what?"]
-        G["flag = True<br/>// Flag for what?"]
-        H["for i in range(7)<br/>// Magic number"]
+    subgraph "After SRP"
+        B["ReportGenerator<br/>- generateReport()<br/>- validateData()"]
+        C["EmailService<br/>- sendEmail()"]
+        D["ReportFormatter<br/>- formatOutput()"]
     end
     
-    subgraph "Good Naming Examples"
-        I["days_until_expiry = 30<br/>// Clear intent"]
-        J["get_active_users()<br/>// Specific action"]
-        K["is_email_verified = True<br/>// Boolean question"]
-        L["DAYS_IN_WEEK = 7<br/>// Named constant"]
+    A --> B
+    A --> C
+    A --> D
+    
+    B --> E["Single Responsibility:<br/>Report Generation"]
+    C --> F["Single Responsibility:<br/>Email Communication"]
+    D --> G["Single Responsibility:<br/>Output Formatting"]
+    
+    style A fill:#ffcdd2
+    style B fill:#c8e6c9
+    style C fill:#c8e6c9
+    style D fill:#c8e6c9
+```
+
+| Violation Type | Example | Problem | Solution |
+|---|---|---|---|
+| **Mixed Concerns** | `UserReportGenerator` handles both data logic and email sending | Two reasons to change: data format changes and email service changes | Split into `ReportGenerator` and `EmailService` |
+| **God Classes** | `OrderManager` handles validation, persistence, notifications, and calculations | Multiple stakeholders, multiple reasons to change | Break into focused services following domain boundaries |
+| **Utility Classes** | `Utils` class with unrelated helper methods | Grows without bounds, unclear purpose | Create specific utility classes for related functions |
+
+### 💡 **Vibe Coding Prompt: SRP Refactoring Challenge**
+
+**Scenario**: You've identified a class that violates the Single Responsibility Principle and want to use AI to help refactor it properly.
+
+**Your Vibe Coding Prompt**:
+
+```
+I have a class that's doing too many things and violates the Single Responsibility Principle. I want to refactor it using SRP best practices.
+
+**Current problematic class**: 
+
+class UserReportGenerator:
+    def __init__(self, database_connection):
+        self.db = database_connection
+        
+    def generate_user_report(self, user_id, report_type):
+        # Fetch user data
+        user = self.db.query(f"SELECT * FROM users WHERE id = {user_id}")
+        
+        # Generate report content
+        if report_type == "summary":
+            content = f"User: {user['name']}, Email: {user['email']}"
+        elif report_type == "detailed":
+            content = f"User: {user['name']}, Email: {user['email']}, Created: {user['created_at']}"
+        
+        # Format as HTML
+        html_content = f"<html><body><h1>Report</h1><p>{content}</p></body></html>"
+        
+        # Send email
+        import smtplib
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login("admin@company.com", "password123")
+        server.sendmail("admin@company.com", user['email'], html_content)
+        server.quit()
+        
+        return html_content
+
+
+**What I need you to do**:
+
+1. **Generate a refactored version** that follows SRP by:
+   - Splitting responsibilities into separate, focused classes
+   - Creating clear interfaces between the new classes
+   - Maintaining the same external API so existing code doesn't break
+
+2. **Provide the complete refactored code** including:
+   - All new classes with single responsibilities
+   - Proper dependency injection where needed
+   - Clear, descriptive class and method names
+   - Basic error handling
+
+3. **Include unit tests** for each new class that demonstrate:
+   - How each class can be tested in isolation
+   - Mock objects for dependencies
+   - Edge cases and error conditions
+
+4. **Add documentation** explaining:
+   - What each class is responsible for
+   - How the classes work together
+   - Migration steps from the old design
+
+5. **Create a checklist** I can use in future code reviews to catch SRP violations early.
+
+Please generate working, production-ready code that I can immediately use in my project. Focus on practical implementation rather than theoretical explanations.
+```
+
+**Follow-up Prompts for Iteration**:
+- "Add logging to track how these classes interact"
+- "Create a factory pattern to manage the creation of these objects"
+- "Add configuration options to make the behavior more flexible"
+- "Generate integration tests that verify the classes work together correctly"
+
+**How to Use**: This example shows a class that violates SRP by handling data access, report generation, formatting, and email sending. Use this prompt with AI coding assistants like Cursor, GitHub Copilot, or ChatGPT to get immediate, working refactored code.
+
+---
+
+### 2.1.2 Open-Closed Principle (OCP)
+
+> *"Software entities should be open for extension but closed for modification."* - Bertrand Meyer
+
+#### The Principle Explained
+
+The Open-Closed Principle states that you should be able to extend a class's behavior without modifying its existing code. This might seem contradictory, but it's achievable through abstraction mechanisms like inheritance, interfaces, and composition.
+
+#### Achieving OCP Through Abstraction
+
+**Strategy 1: Interface-Based Extension**
+```python
+# Closed for modification, open for extension
+class ReportExporter:
+    def export(self, data: ReportData) -> str:
+        raise NotImplementedError
+    
+class XMLExporter(ReportExporter):
+    def export(self, data: ReportData) -> str:
+        # XML-specific implementation
+        pass
+
+class JSONExporter(ReportExporter):
+    def export(self, data: ReportData) -> str:
+        # JSON-specific implementation
+        pass
+```
+
+**Strategy 2: Configuration-Driven Behavior**
+```python
+class NotificationService:
+    def __init__(self, strategies: List[NotificationStrategy]):
+        self.strategies = strategies
+    
+    def notify(self, message: Message):
+        for strategy in self.strategies:
+            strategy.send(message)
+```
+
+#### Benefits of OCP
+
+```mermaid
+graph TD
+    subgraph "Open-Closed Principle"
+        A["ReportExporter<br/>(Abstract)"]
+        B["XMLExporter<br/>extends ReportExporter"]
+        C["JSONExporter<br/>extends ReportExporter"]
+        D["PDFExporter<br/>extends ReportExporter"]
     end
     
-    A --> I
-    B --> J
-    C --> K
-    D --> L
+    A --> B
+    A --> C
+    A --> D
     
-    E --> I
-    F --> J
-    G --> K
-    H --> L
+    E["New Format Needed?"] --> F["Add New Exporter<br/>(No modification of existing code)"]
+    F --> G["CSVExporter<br/>extends ReportExporter"]
+    A --> G
     
-    style E fill:#ffcdd2
-    style F fill:#ffcdd2
-    style G fill:#ffcdd2
-    style H fill:#ffcdd2
-    style I fill:#c8e6c9
-    style J fill:#c8e6c9
-    style K fill:#c8e6c9
-    style L fill:#c8e6c9
+    H["Client Code"] --> A
+    H --> I["Works with any exporter<br/>without changes"]
+    
+    style A fill:#e3f2fd
+    style B fill:#c8e6c9
+    style C fill:#c8e6c9
+    style D fill:#c8e6c9
+    style G fill:#fff3e0
 ```
 
-```python
-# Poor - requires mental mapping
-for i in range(len(products)):
-    if products[i].s > threshold:
-        temp.append(products[i])
+- **Reduced Risk**: New features don't require changing tested code
+- **Easier Maintenance**: Bug fixes in new features don't affect existing functionality
+- **Better Testing**: New behavior can be tested independently
+- **Improved Modularity**: Clear extension points make architecture more understandable
 
-# Good - clear intent
-for product in products:
-    if product.stock_level > minimum_threshold:
-        products_needing_restock.append(product)
-```
+### 💡 **Vibe Coding Prompt: Open-Closed Principle Implementation**
 
-#### 3. Use Searchable Names
-
-Single-letter variables and magic numbers make code unsearchable:
-
-```python
-# Poor - unsearchable
-for i in range(7):
-    schedule[i] = []
-
-# Good - searchable and meaningful
-DAYS_IN_WEEK = 7
-for day_index in range(DAYS_IN_WEEK):
-    weekly_schedule[day_index] = []
-```
-
-### Naming Conventions by Language and Context
-
-| Context | Convention | Example | Rationale |
-|---------|------------|---------|-----------|
-| **Python Variables** | snake_case | `user_account_balance` | PEP 8 standard, highly readable |
-| **Python Functions** | snake_case | `calculate_monthly_payment()` | Consistent with variables |
-| **Python Classes** | PascalCase | `PaymentProcessor` | Distinguishes classes from functions |
-| **Python Constants** | UPPER_SNAKE_CASE | `MAX_RETRY_ATTEMPTS` | Clearly indicates immutable values |
-| **JavaScript Variables** | camelCase | `userAccountBalance` | Established convention |
-| **JavaScript Functions** | camelCase | `calculateMonthlyPayment()` | Consistent with variables |
-| **Database Tables** | snake_case | `user_payment_methods` | SQL standard, case-insensitive |
-| **REST API Endpoints** | kebab-case | `/api/user-accounts/` | URL-friendly, widely adopted |
-
-### Domain-Specific Naming Guidelines
-
-**Business Logic:**
-- Use domain language that business stakeholders understand
-- `customer_lifetime_value` instead of `clv_calc`
-- `order_fulfillment_status` instead of `status`
-
-**Technical Implementation:**
-- Be specific about data types and structures
-- `user_ids_list` instead of `users` for a list of IDs
-- `payment_response_json` instead of `response` for JSON data
-
-**Boolean Variables:**
-- Use question form: `is_valid`, `has_permission`, `can_edit`
-- Avoid negatives: `is_enabled` instead of `is_not_disabled`
-
-### 💡 **Vibe Coding Prompt: Naming Convention Improvement**
+**Scenario**: You need to add new functionality to your system without modifying existing code, following the Open-Closed Principle.
 
 **Your Vibe Coding Prompt**:
 
 ```
-I need to build an automated naming convention analyzer and refactoring tool for our codebase. Our team struggles with inconsistent and unclear naming that hurts code readability.
+I need to extend my system with new functionality while following the Open-Closed Principle (open for extension, closed for modification).
 
-Current Problems:
-- Inconsistent naming conventions across the codebase (camelCase vs snake_case)
-- Cryptic abbreviations and single-letter variables
-- Functions and classes with unclear purposes
-- Domain terminology used inconsistently
+**Current code**: 
 
-Codebase Context:
-- Python/Django backend with React frontend
-- E-commerce platform with 100+ modules
-- Team of 8 developers with varying experience levels
-- Legacy code mixed with new development
+class ReportGenerator:
+    def generate_pdf_report(self, data):
+        # Generate PDF report
+        pdf_content = self.create_pdf(data)
+        return pdf_content
+    
+    def create_pdf(self, data):
+        # PDF creation logic
+        return f"PDF: {data}"
 
-Please generate:
+**New functionality needed**: Add Excel and CSV export capabilities without modifying existing PDF functionality
 
-1. **Automated Naming Analysis Tool**:
-   - Script that scans codebase and identifies naming violations
-   - Classification of naming issues (abbreviations, inconsistency, unclear purpose)
-   - Severity scoring based on code usage frequency
-   - Integration with CI/CD to catch violations early
+**Generate for me**:
 
-2. **AI-Powered Naming Suggestions**:
-   - Tool that suggests better names based on context and usage
-   - Domain-aware naming that reflects business terminology
-   - Consistency checking across related modules
-   - Bulk renaming capabilities with safety checks
+1. **Refactored extensible architecture** that:
+   - Creates proper abstractions/interfaces for extension points
+   - Converts any if-else chains or switch statements to polymorphic designs
+   - Uses appropriate design patterns (Strategy, Template Method, Factory, etc.)
+   - Maintains backward compatibility with existing code
 
-3. **Team Naming Standards Generator**:
-   - Automated generation of naming convention guidelines
-   - Language-specific and framework-specific rules
-   - Code review checklist for naming quality
-   - IDE plugins/extensions for real-time naming feedback
+2. **Complete working implementation** including:
+   - Abstract base classes or interfaces
+   - Existing functionality converted to the new pattern
+   - The new functionality implemented as an extension
+   - Proper dependency injection and configuration
 
-4. **Safe Refactoring System**:
-   - Automated refactoring with comprehensive test coverage
-   - Impact analysis before making naming changes
-   - Rollback capabilities for problematic changes
-   - Documentation updates to reflect new naming
+3. **Extension template** showing:
+   - How to add future implementations easily
+   - Code structure and naming conventions
+   - Required methods and contracts
+   - Example of adding another extension
 
-5. **Naming Quality Metrics Dashboard**:
-   - Real-time tracking of naming convention compliance
-   - Team performance metrics and improvement trends
-   - Integration with code review tools
-   - Gamification to encourage better naming practices
+4. **Comprehensive tests** covering:
+   - All existing functionality still works
+   - New functionality works correctly
+   - Multiple extensions can coexist
+   - Edge cases and error handling
 
-Include integration with popular IDEs, static analysis tools, and version control systems. Show how to make naming improvement a continuous, automated process rather than a one-time effort.
+5. **Configuration system** that:
+   - Allows runtime selection of implementations
+   - Supports multiple active extensions
+   - Provides clear error messages for misconfigurations
+
+Please provide complete, runnable code that I can immediately integrate into my project. Include clear comments explaining the OCP benefits of this design.
 ```
-   - Create naming convention guidelines for your team
-   - Design a code review checklist for naming quality
-   - Propose tooling (linters, IDE plugins) to enforce standards
 
-**Deliverable**: 
-- Fully refactored code with improved naming
-- Team naming convention guidelines document
-- Migration plan with risk assessment
+**Follow-up Prompts for Enhancement**:
+- "Add a plugin system that can load extensions dynamically"
+- "Create a registry pattern to manage all available implementations"
+- "Add validation to ensure new extensions meet the required contracts"
+- "Generate documentation for how other developers can add extensions"
+
+**How to Use**: Replace the placeholders with your specific code and requirements, then use this with AI assistants to get a complete, extensible implementation.
 
 ---
 
-## 5.2 Consistent Code Style and Formatting
+### 2.1.3 Liskov Substitution Principle (LSP)
 
-### The Impact of Formatting on Cognition
+> *"Objects of a superclass should be replaceable with objects of its subclasses without breaking the application."* - Barbara Liskov
 
-Consistent code style and formatting enhance readability by reducing cognitive load. When code follows predictable patterns, developers can focus on logic rather than deciphering structure. Studies show that inconsistently formatted code takes 25% longer to understand and debug.
+#### The Principle Explained
 
-### Core Formatting Principles
+LSP is often the most challenging SOLID principle to grasp and apply correctly. It requires that derived classes must be substitutable for their base classes without altering the correctness of the program. This goes beyond simple inheritance—it's about behavioral compatibility.
 
-#### 1. Indentation and Visual Hierarchy
+#### LSP Requirements
 
-Proper indentation creates visual structure that mirrors logical structure:
+For a subclass to properly substitute its parent class, it must maintain:
 
+1. **Preconditions cannot be strengthened**: Subclasses cannot make stricter demands than the parent
+2. **Postconditions cannot be weakened**: Subclasses must meet or exceed parent guarantees
+3. **Invariants must be preserved**: Class-level constraints must remain valid
+4. **History constraint**: Subclasses shouldn't allow state changes that the parent wouldn't allow
+
+#### Common LSP Violations
+
+**The Rectangle-Square Problem**:
 ```python
-# Poor indentation
-def process_order(order_data):
-items = order_data.get('items', [])
-if not items:
-return None
-    total = 0
-    for item in items:
-        if item['quantity'] > 0:
-price = item['unit_price'] * item['quantity']
-total += price
-return {'total': total, 'processed': True}
+class Rectangle:
+    def set_width(self, width):
+        self._width = width
+    
+    def set_height(self, height):
+        self._height = height
+    
+    def area(self):
+        return self._width * self._height
 
-# Good indentation
-def process_order(order_data):
-    items = order_data.get('items', [])
-    if not items:
-        return None
+class Square(Rectangle):  # LSP Violation!
+    def set_width(self, width):
+        self._width = width
+        self._height = width  # Unexpected behavior
     
-    total = 0
-    for item in items:
-        if item['quantity'] > 0:
-            price = item['unit_price'] * item['quantity']
-            total += price
-    
-    return {
-        'total': total, 
-        'processed': True
-    }
+    def set_height(self, height):
+        self._width = height  # Unexpected behavior
+        self._height = height
 ```
 
-#### 2. Whitespace for Logical Grouping
-
-Strategic use of whitespace helps group related statements:
-
+**Why This Violates LSP**:
 ```python
-# Poor grouping
-def create_user_account(user_data):
-    username = user_data['username']
-    email = user_data['email']
-    password = hash_password(user_data['password'])
-    if User.objects.filter(username=username).exists():
-        raise ValidationError("Username already exists")
-    if User.objects.filter(email=email).exists():
-        raise ValidationError("Email already exists")
-    user = User.objects.create(username=username, email=email, password=password)
-    send_welcome_email(user.email)
-    log_user_creation(user.id)
-    return user
+def calculate_area_increase(rectangle: Rectangle):
+    original_area = rectangle.area()
+    rectangle.set_width(rectangle.width + 1)
+    return rectangle.area() - original_area
 
-# Good grouping
-def create_user_account(user_data):
-    # Extract and prepare user data
-    username = user_data['username']
-    email = user_data['email']
-    password = hash_password(user_data['password'])
-    
-    # Validate uniqueness constraints
-    if User.objects.filter(username=username).exists():
-        raise ValidationError("Username already exists")
-    if User.objects.filter(email=email).exists():
-        raise ValidationError("Email already exists")
-    
-    # Create user account
-    user = User.objects.create(
-        username=username, 
-        email=email, 
-        password=password
-    )
-    
-    # Post-creation actions
-    send_welcome_email(user.email)
-    log_user_creation(user.id)
-    
-    return user
+# This function behaves differently with Square vs Rectangle
 ```
 
-#### 3. Line Length and Readability
+#### Better Design Approaches
 
-Optimal line length balances screen real estate with readability:
+```mermaid
+graph TD
+    subgraph "LSP Violation Example"
+        A["Rectangle<br/>- setWidth()<br/>- setHeight()<br/>- area()"]
+        B["Square<br/>- setWidth() // Changes both!<br/>- setHeight() // Changes both!<br/>- area()"]
+        A --> B
+        C["Client expects:<br/>setWidth() only changes width"] --> D["Square breaks this expectation"]
+    end
+    
+    subgraph "LSP Compliant Design"
+        E["Shape (Abstract)<br/>- area()"]
+        F["Rectangle<br/>- immutable<br/>- withWidth()<br/>- withHeight()"]
+        G["Square<br/>- immutable<br/>- withSide()"]
+        E --> F
+        E --> G
+        H["Client Code"] --> E
+        H --> I["Any Shape works<br/>without surprises"]
+    end
+    
+    style A fill:#ffcdd2
+    style B fill:#ffcdd2
+    style E fill:#e3f2fd
+    style F fill:#c8e6c9
+    style G fill:#c8e6c9
+```
 
+**Option 1: Immutable Design**
 ```python
-# Too long - hard to read
-user_notification = NotificationService.send_email(user.email, generate_welcome_template(user.first_name, user.last_name, user.account_type), priority='high', retry_count=3)
-
-# Well-formatted
-user_notification = NotificationService.send_email(
-    recipient=user.email,
-    template=generate_welcome_template(
-        first_name=user.first_name,
-        last_name=user.last_name,
-        account_type=user.account_type
-    ),
-    priority='high',
-    retry_count=3
-)
-```
-
-### Automated Formatting Tools
-
-| Language | Recommended Tools | Configuration |
-|----------|-------------------|---------------|
-| **Python** | Black, isort, flake8 | `pyproject.toml` or `setup.cfg` |
-| **JavaScript** | Prettier, ESLint | `.prettierrc`, `.eslintrc` |
-| **Java** | Google Java Format, Checkstyle | `checkstyle.xml` |
-| **C#** | EditorConfig, StyleCop | `.editorconfig` |
-| **Go** | gofmt (built-in) | No configuration needed |
-
-### 💡 **Vibe Coding Prompt: Code Style Standardization**
-
-**Your Vibe Coding Prompt**:
-
-```
-I need to build a comprehensive code style standardization system that automatically enforces consistent formatting across our development team and integrates seamlessly with our workflow.
-
-Current Style Challenges:
-- 8-person team with different formatting preferences
-- Mix of Python, JavaScript, and TypeScript codebases
-- Inconsistent indentation, line lengths, and naming conventions
-- Code review time wasted on style discussions instead of logic
-- New team members struggle with undocumented style expectations
-
-Technology Stack:
-- Backend: Python/Django, FastAPI
-- Frontend: React/TypeScript, Node.js
-- Tools: VS Code, PyCharm, Git, GitHub Actions
-- Current linting: Basic ESLint and flake8 setup
-
-Please generate:
-
-1. **Automated Style Enforcement System**:
-   - Complete configuration for Black, Prettier, ESLint, and TypeScript
-   - Pre-commit hooks that auto-format code before commits
-   - CI/CD integration that blocks merges for style violations
-   - IDE configuration files for consistent development experience
-
-2. **Team Onboarding Automation**:
-   - Setup scripts that configure development environments automatically
-   - VS Code workspace settings and recommended extensions
-   - Git hooks installation and configuration
-   - Documentation generator for style guidelines
-
-3. **Legacy Code Migration Tool**:
-   - Scripts to safely apply formatting to existing codebase
-   - Batch processing with rollback capabilities
-   - Conflict resolution strategies for large-scale changes
-   - Progress tracking and reporting for migration status
-
-4. **Style Quality Dashboard**:
-   - Real-time monitoring of code style compliance across repositories
-   - Team performance metrics and improvement trends
-   - Integration with code review tools to track style-related comments
-   - Automated reporting for management on code quality improvements
-
-5. **Continuous Style Improvement System**:
-   - AI-powered analysis of style patterns and suggestions
-   - Automated updates to style configurations based on team consensus
-   - Integration with popular style guides (Google, Airbnb, PEP 8)
-   - A/B testing framework for style rule changes
-
-Include complete configuration files, setup scripts, and integration with popular development tools. Show how to make style enforcement invisible to developers while maintaining high code quality standards.
-```
-
----
-
-## 5.3 Effective Code Documentation and Comments
-
-### The Art of Meaningful Documentation
-
-Documentation and comments serve different purposes and audiences. The key is knowing when and how to document effectively without creating maintenance overhead or noise.
-
-### Types of Code Documentation
-
-#### 1. Self-Documenting Code
-
-The best documentation is code that explains itself:
-
-```python
-# Poor - requires comments to understand
-def calc(x, y, z):
-    # Calculate the monthly payment
-    r = y / 1200  # Convert annual rate to monthly
-    n = z * 12    # Convert years to months
-    return x * (r * (1 + r)**n) / ((1 + r)**n - 1)
-
-# Good - self-documenting
-def calculate_monthly_mortgage_payment(principal_amount, annual_interest_rate, loan_term_years):
-    monthly_interest_rate = annual_interest_rate / 1200
-    total_monthly_payments = loan_term_years * 12
-    
-    if monthly_interest_rate == 0:
-        return principal_amount / total_monthly_payments
-    
-    payment_multiplier = (
-        monthly_interest_rate * (1 + monthly_interest_rate) ** total_monthly_payments
-    ) / ((1 + monthly_interest_rate) ** total_monthly_payments - 1)
-    
-    return principal_amount * payment_multiplier
-```
-
-#### 2. Explanatory Comments
-
-Comments should explain *why*, not *what*:
-
-```python
-# Poor - explains what the code does (obvious)
-user_count += 1  # Increment user count
-
-# Good - explains why the code exists
-user_count += 1  # Include guest users in analytics for conversion tracking
-
-# Poor - restates the code
-if payment.amount > account.balance:
-    # If payment amount is greater than account balance
-    reject_payment(payment)
-
-# Good - explains business rule
-if payment.amount > account.balance:
-    # Business rule: Never allow overdrafts for basic accounts
-    # Premium accounts handle overdrafts in a separate workflow
-    reject_payment(payment)
-```
-
-#### 3. Documentation Comments (Docstrings)
-
-Formal documentation for functions, classes, and modules:
-
-```python
-def calculate_shipping_cost(
-    weight_kg: float, 
-    distance_km: float, 
-    shipping_type: str,
-    is_expedited: bool = False
-) -> dict:
-    """
-    Calculate shipping cost based on package weight, distance, and service type.
-    
-    This function implements the company's standard shipping cost algorithm,
-    which includes base rates, distance multipliers, and service type modifiers.
-    For international shipments, additional customs processing fees may apply.
-    
-    Args:
-        weight_kg: Package weight in kilograms. Must be positive.
-        distance_km: Shipping distance in kilometers. Must be positive.
-        shipping_type: Service type ('standard', 'express', 'overnight').
-        is_expedited: Whether to apply expedited processing fees.
-        
-    Returns:
-        dict: Shipping cost breakdown with following keys:
-            - 'base_cost': Base shipping cost before modifiers
-            - 'distance_fee': Additional fee based on distance
-            - 'service_fee': Fee for shipping service type
-            - 'expedited_fee': Additional fee for expedited processing (if applicable)
-            - 'total_cost': Final shipping cost
-            
-    Raises:
-        ValueError: If weight_kg or distance_km is negative or zero.
-        UnsupportedShippingTypeError: If shipping_type is not recognized.
-        
-    Example:
-        >>> cost = calculate_shipping_cost(2.5, 100, 'express', True)
-        >>> print(f"Total cost: ${cost['total_cost']:.2f}")
-        Total cost: $15.75
-        
-    Note:
-        International shipments (distance > 1000km) include customs fees.
-        Prices are in USD and exclude applicable taxes.
-    """
-```
-
-### Documentation Anti-Patterns
-
-#### 1. Redundant Comments
-```python
-# Bad - comment adds no value
-name = "John Doe"  # Set name to John Doe
-```
-
-#### 2. Outdated Comments
-```python
-# Bad - comment doesn't match code
-# TODO: Add input validation
-def process_user_data(user_data):
-    # This function now has extensive validation, but comment wasn't updated
-    validate_required_fields(user_data)
-    validate_email_format(user_data['email'])
-    validate_password_strength(user_data['password'])
-    # ... rest of function
-```
-
-#### 3. Commented-Out Code
-```python
-# Bad - dead code creates confusion
-def calculate_tax(income):
-    # old_calculation = income * 0.25
-    # if income > 50000:
-    #     old_calculation += (income - 50000) * 0.05
-    
-    return TaxCalculator.calculate_progressive_tax(income)
-```
-
-### 💡 **Vibe Coding Prompt: Documentation Quality Improvement**
-
-**Your Vibe Coding Prompt**:
-
-```
-I need to build an intelligent documentation generation and quality assessment system that automatically improves code documentation and keeps it current with code changes.
-
-Current Documentation Problems:
-- Inconsistent documentation across 50+ Python modules
-- Many functions lack docstrings or have outdated ones
-- Complex business logic not explained for new team members
-- No automated way to detect documentation quality issues
-- Documentation gets out of sync with code changes
-
-Codebase Context:
-- Python/Django e-commerce platform
-- Complex financial calculations and business rules
-- Team of 8 developers with varying documentation habits
-- Mix of legacy code and new development
-
-Please generate:
-
-1. **AI-Powered Documentation Generator**:
-   - Tool that analyzes code and generates comprehensive docstrings
-   - Context-aware documentation that understands business domain
-   - Automatic generation of parameter descriptions and return types
-   - Integration with type hints and static analysis tools
-
-2. **Documentation Quality Assessment System**:
-   - Automated scoring of documentation completeness and quality
-   - Detection of outdated documentation that doesn't match code
-   - Identification of complex code that needs explanatory comments
-   - Integration with CI/CD to enforce documentation standards
-
-3. **Self-Documenting Code Refactoring Tool**:
-   - AI suggestions for better variable and function names
-   - Automated extraction of complex logic into well-named functions
-   - Type hint generation and improvement suggestions
-   - Code structure improvements for better readability
-
-4. **Living Documentation Platform**:
-   - Automatic generation of module and API documentation
-   - Interactive code examples with live execution
-   - Business rule documentation extracted from code comments
-   - Integration with project management tools for context
-
-5. **Documentation Maintenance Automation**:
-   - Automated detection of code changes that require doc updates
-   - Git hooks that prompt for documentation when code changes
-   - Continuous monitoring of documentation drift
-   - Automated testing of code examples in documentation
-
-6. **Team Documentation Workflow**:
-   - Templates and guidelines for consistent documentation
-   - Code review integration with documentation quality checks
-   - Gamification to encourage better documentation practices
-   - Training materials and best practice recommendations
-
-Include integration with popular IDEs, static analysis tools, and documentation platforms. Show how to make documentation a natural, automated part of the development process rather than an afterthought.
-```
-
----
-
-## 5.4 Avoiding Code Duplication (DRY in Practice)
-
-### Understanding Knowledge vs. Code Duplication
-
-The DRY principle often gets misinterpreted as "never repeat any code." However, the focus should be on avoiding duplication of *knowledge* rather than mere textual similarity. Sometimes similar-looking code represents different knowledge and should remain separate.
-
-### Types of Duplication
-
-#### 1. True Duplication (Should be eliminated)
-```python
-# Same knowledge expressed multiple times
-def validate_email_registration(email):
-    if not email or '@' not in email or '.' not in email.split('@')[1]:
-        raise ValidationError("Invalid email format")
-
-def validate_email_update(email):
-    if not email or '@' not in email or '.' not in email.split('@')[1]:
-        raise ValidationError("Invalid email format")
-```
-
-#### 2. Coincidental Duplication (Should remain separate)
-```python
-# Different knowledge that happens to look similar
-def calculate_shipping_weight(items):
-    return sum(item.weight for item in items)
-
-def calculate_shipping_cost(items):  
-    return sum(item.cost for item in items)  # Different business logic
-```
-
-### Refactoring Strategies for Duplication
-
-#### Strategy 1: Extract Method
-```python
-# Before refactoring
-class OrderProcessor:
-    def process_online_order(self, order_data):
-        # Validate customer
-        if not order_data.get('customer_id'):
-            raise ValidationError("Customer ID required")
-        customer = Customer.get(order_data['customer_id'])
-        if not customer.is_active:
-            raise ValidationError("Customer account inactive")
-            
-        # Process payment
-        # ... order processing logic
-        
-    def process_phone_order(self, order_data):
-        # Validate customer (duplicate logic)
-        if not order_data.get('customer_id'):
-            raise ValidationError("Customer ID required")
-        customer = Customer.get(order_data['customer_id'])
-        if not customer.is_active:
-            raise ValidationError("Customer account inactive")
-            
-        # Process payment
-        # ... order processing logic
-
-# After refactoring
-class OrderProcessor:
-    def _validate_customer(self, customer_id):
-        if not customer_id:
-            raise ValidationError("Customer ID required")
-        customer = Customer.get(customer_id)
-        if not customer.is_active:
-            raise ValidationError("Customer account inactive")
-        return customer
-        
-    def process_online_order(self, order_data):
-        customer = self._validate_customer(order_data.get('customer_id'))
-        # ... order processing logic
-        
-    def process_phone_order(self, order_data):
-        customer = self._validate_customer(order_data.get('customer_id'))
-        # ... order processing logic
-```
-
-#### Strategy 2: Parameter Object
-```python
-# Before - duplicated parameter passing
-def send_marketing_email(user_id, email, first_name, last_name, preferences):
-    # ... implementation
-
-def send_notification_email(user_id, email, first_name, last_name, preferences):
-    # ... implementation
-
-def send_welcome_email(user_id, email, first_name, last_name, preferences):
-    # ... implementation
-
-# After - parameter object eliminates duplication
-@dataclass
-class UserProfile:
-    user_id: int
-    email: str
-    first_name: str
-    last_name: str
-    preferences: dict
-
-def send_marketing_email(user_profile: UserProfile):
-    # ... implementation
-
-def send_notification_email(user_profile: UserProfile):
-    # ... implementation
-
-def send_welcome_email(user_profile: UserProfile):
-    # ... implementation
-```
-
-### When NOT to Apply DRY
-
-#### 1. Different Domains
-```python
-# Keep separate - different business domains
-class UserValidator:
-    def validate_age(self, age):
-        return 18 <= age <= 120  # Legal age requirements
-
-class ProductValidator:
-    def validate_age(self, age):
-        return 0 <= age <= 50  # Product shelf life in years
-```
-
-#### 2. Different Rate of Change
-```python
-# Keep separate - likely to evolve differently
-def format_currency_for_display(amount):
-    return f"${amount:.2f}"  # UI formatting
-
-def format_currency_for_api(amount):
-    return f"${amount:.2f}"  # API response formatting
-```
-
-### 💡 **Vibe Coding Prompt: Data Validation Consolidation**
-
-**Your Vibe Coding Prompt**:
-
-```
-I need to build a comprehensive validation framework that eliminates duplicated validation logic across our codebase and provides a consistent, reusable validation system.
-
-Current Validation Problems:
-- Email validation logic duplicated in 15+ different files
-- Inconsistent error messages for the same validation rules
-- Password validation differs between registration and password reset
-- Phone number validation has 3 different implementations
-- No centralized business rule management
-
-Codebase Context:
-- Python/Django web application with React frontend
-- User management, e-commerce, and financial transaction features
-- Validation needed at API, form, and database levels
-- Complex business rules that change frequently
-
-Please generate:
-
-1. **Unified Validation Framework**:
-   - Centralized validation library with composable validators
-   - Support for field-level, object-level, and cross-field validation
-   - Consistent error message formatting and internationalization
-   - Integration with Django forms, DRF serializers, and Pydantic models
-
-2. **Business Rule Engine**:
-   - Configurable validation rules that can be modified without code changes
-   - Support for conditional validation based on context
-   - Rule versioning and A/B testing capabilities
-   - Integration with feature flags for gradual rule rollouts
-
-3. **Validation Migration Tool**:
-   - Automated detection of duplicated validation logic across codebase
-   - Safe migration scripts that replace duplicated code with framework calls
-   - Comprehensive testing to ensure no validation behavior is lost
-   - Rollback capabilities for problematic migrations
-
-4. **Multi-Layer Validation System**:
-   - Client-side validation for immediate user feedback
-   - API-level validation for security and data integrity
-   - Database-level constraints for final data protection
-   - Consistent validation across all layers
-
-5. **Validation Analytics and Monitoring**:
-   - Real-time tracking of validation failures and patterns
-   - A/B testing framework for validation rule changes
-   - Performance monitoring for validation overhead
-   - Business intelligence on user behavior and validation issues
-
-6. **Developer Experience Tools**:
-   - IDE plugins for validation rule discovery and usage
-   - Automated generation of validation documentation
-   - Testing utilities for validation scenarios
-   - Code generation for common validation patterns
-
-Include integration with popular Python validation libraries (Cerberus, Marshmallow, Pydantic), frontend validation frameworks, and monitoring tools. Show how to make validation a first-class, reusable concern across the entire application stack.
-```
-
----
-
-## 5.5 Refactoring for Clarity and Efficiency
-
-### The Philosophy of Refactoring
-
-Code refactoring is the process of improving the internal structure of code without altering its external behavior or functionality. It's a disciplined technique for cleaning up code that reduces the risk of introducing bugs while improving readability, maintainability, and efficiency.
-
-### The Refactoring Mindset
-
-Effective refactoring requires a specific mindset:
-- **Safety First**: Never refactor without adequate test coverage
-- **Small Steps**: Make incremental changes that are easy to verify
-- **Behavior Preservation**: External behavior must remain unchanged
-- **Continuous Improvement**: Refactoring is ongoing, not a one-time event
-
-### Common Refactoring Patterns
-
-#### 1. Extract Method
-**When to use**: Long methods that do multiple things
-
-```python
-# Before: Long method with multiple responsibilities
-def process_customer_order(order_data):
-    # Validate order data
-    if not order_data.get('customer_id'):
-        raise ValueError("Customer ID required")
-    if not order_data.get('items'):
-        raise ValueError("Order must contain items")
-    for item in order_data['items']:
-        if item['quantity'] <= 0:
-            raise ValueError("Item quantity must be positive")
-        if not item.get('product_id'):
-            raise ValueError("Product ID required for each item")
-    
-    # Calculate totals
-    subtotal = 0
-    for item in order_data['items']:
-        product = Product.get(item['product_id'])
-        item_total = product.price * item['quantity']
-        subtotal += item_total
-    
-    tax_rate = 0.08
-    tax_amount = subtotal * tax_rate
-    total = subtotal + tax_amount
-    
-    # Create order record
-    order = Order()
-    order.customer_id = order_data['customer_id']
-    order.subtotal = subtotal
-    order.tax_amount = tax_amount
-    order.total = total
-    order.status = 'pending'
-    order.save()
-    
-    return order
-
-# After: Extracted into focused methods
-def process_customer_order(order_data):
-    validate_order_data(order_data)
-    totals = calculate_order_totals(order_data['items'])
-    order = create_order_record(order_data['customer_id'], totals)
-    return order
-
-def validate_order_data(order_data):
-    if not order_data.get('customer_id'):
-        raise ValueError("Customer ID required")
-    if not order_data.get('items'):
-        raise ValueError("Order must contain items")
-    
-    for item in order_data['items']:
-        validate_order_item(item)
-
-def validate_order_item(item):
-    if item['quantity'] <= 0:
-        raise ValueError("Item quantity must be positive")
-    if not item.get('product_id'):
-        raise ValueError("Product ID required for each item")
-
-def calculate_order_totals(items):
-    subtotal = sum(
-        Product.get(item['product_id']).price * item['quantity']
-        for item in items
-    )
-    
-    tax_rate = 0.08
-    tax_amount = subtotal * tax_rate
-    total = subtotal + tax_amount
-    
-    return {
-        'subtotal': subtotal,
-        'tax_amount': tax_amount,
-        'total': total
-    }
-
-def create_order_record(customer_id, totals):
-    order = Order()
-    order.customer_id = customer_id
-    order.subtotal = totals['subtotal']
-    order.tax_amount = totals['tax_amount']
-    order.total = totals['total']
-    order.status = 'pending'
-    order.save()
-    return order
-```
-
-#### 2. Replace Magic Numbers with Named Constants
-```python
-# Before: Magic numbers scattered throughout code
-def calculate_late_fee(days_overdue, principal_amount):
-    if days_overdue <= 5:
-        return 0
-    elif days_overdue <= 30:
-        return principal_amount * 0.05
-    else:
-        return principal_amount * 0.10
-
-# After: Named constants with clear meaning
-class LateFeePolicy:
-    GRACE_PERIOD_DAYS = 5
-    STANDARD_LATE_FEE_RATE = 0.05
-    SEVERE_LATE_FEE_RATE = 0.10
-    SEVERE_LATE_THRESHOLD_DAYS = 30
-
-def calculate_late_fee(days_overdue, principal_amount):
-    if days_overdue <= LateFeePolicy.GRACE_PERIOD_DAYS:
-        return 0
-    elif days_overdue <= LateFeePolicy.SEVERE_LATE_THRESHOLD_DAYS:
-        return principal_amount * LateFeePolicy.STANDARD_LATE_FEE_RATE
-    else:
-        return principal_amount * LateFeePolicy.SEVERE_LATE_FEE_RATE
-```
-
-#### 3. Replace Conditional Logic with Polymorphism
-```python
-# Before: Complex conditional logic
-class PaymentProcessor:
-    def process_payment(self, payment_data):
-        payment_type = payment_data['type']
-        
-        if payment_type == 'credit_card':
-            # Credit card processing logic
-            card_number = payment_data['card_number']
-            expiry = payment_data['expiry']
-            cvv = payment_data['cvv']
-            # ... validate and process credit card
-            
-        elif payment_type == 'paypal':
-            # PayPal processing logic
-            email = payment_data['email']
-            # ... process PayPal payment
-            
-        elif payment_type == 'bank_transfer':
-            # Bank transfer logic
-            account_number = payment_data['account_number']
-            routing_number = payment_data['routing_number']
-            # ... process bank transfer
-            
-        else:
-            raise ValueError(f"Unsupported payment type: {payment_type}")
-
-# After: Polymorphic design
 from abc import ABC, abstractmethod
 
-class PaymentMethod(ABC):
+class Shape(ABC):
     @abstractmethod
-    def process(self, payment_data):
+    def area(self) -> float:
         pass
 
-class CreditCardPayment(PaymentMethod):
-    def process(self, payment_data):
-        # Credit card specific processing
-        pass
-
-class PayPalPayment(PaymentMethod):
-    def process(self, payment_data):
-        # PayPal specific processing
-        pass
-
-class BankTransferPayment(PaymentMethod):
-    def process(self, payment_data):
-        # Bank transfer specific processing
-        pass
-
-class PaymentProcessor:
-    def __init__(self):
-        self.payment_methods = {
-            'credit_card': CreditCardPayment(),
-            'paypal': PayPalPayment(),
-            'bank_transfer': BankTransferPayment()
-        }
+class Rectangle(Shape):
+    def __init__(self, width: float, height: float):
+        self._width = width
+        self._height = height
     
-    def process_payment(self, payment_data):
-        payment_type = payment_data['type']
-        if payment_type not in self.payment_methods:
-            raise ValueError(f"Unsupported payment type: {payment_type}")
-        
-        return self.payment_methods[payment_type].process(payment_data)
+    def area(self) -> float:
+        return self._width * self._height
+    
+    def with_width(self, width: float) -> 'Rectangle':
+        return Rectangle(width, self._height)
+
+class Square(Shape):
+    def __init__(self, side: float):
+        self._side = side
+    
+    def area(self) -> float:
+        return self._side ** 2
 ```
 
-### Refactoring Best Practices
+### 💡 **Vibe Coding Prompt: Liskov Substitution Principle Validation**
 
-#### 1. Red-Green-Refactor Cycle
-- **Red**: Ensure you have comprehensive tests that currently pass
-- **Green**: Make your refactoring changes
-- **Refactor**: Verify all tests still pass
-
-#### 2. Incremental Changes
-- Make one small change at a time
-- Run tests after each change
-- Commit working states frequently
-
-#### 3. Tool-Assisted Refactoring
-- Use IDE refactoring tools when available
-- Automated refactoring reduces the risk of introducing errors
-- Manual verification is still essential
-
-### 💡 **Vibe Coding Prompt: Legacy Code Refactoring**
+**Scenario**: You need to create or fix an inheritance hierarchy that properly follows the Liskov Substitution Principle.
 
 **Your Vibe Coding Prompt**:
 
 ```
-I need to build a comprehensive legacy code modernization system that can safely refactor large, complex codebases while maintaining functionality and improving maintainability.
+I need to design an inheritance hierarchy that follows the Liskov Substitution Principle (LSP) - where subclasses can be substituted for their parent classes without breaking functionality.
 
-Legacy Code Challenges:
-- 10,000+ line monolithic Python application from 2015
-- Mixed business logic, data access, and presentation concerns
-- No unit tests, making changes risky
-- Performance issues and memory leaks
-- Difficult to add new features or fix bugs
+**Current inheritance design**: [PASTE YOUR INHERITANCE HIERARCHY HERE]
 
-Current System Context:
-- E-commerce order processing system
-- Critical business functionality that can't be down
-- Multiple integrations with external payment and shipping APIs
-- Complex business rules that aren't well documented
-- Team needs to add new features while improving code quality
+**Use cases that must work**: [DESCRIBE WHAT THE CLASSES NEED TO DO]
+
+**Generate for me**:
+
+1. **LSP-compliant inheritance hierarchy** that:
+   - Ensures all subclasses can truly substitute their parent class
+   - Eliminates any "NotImplemented" or "NotSupported" exceptions
+   - Maintains behavioral contracts (preconditions, postconditions, invariants)
+   - Uses composition over inheritance where appropriate
+
+2. **Complete working implementation** including:
+   - Abstract base classes with proper contracts
+   - Concrete implementations that respect LSP
+   - Clear method signatures and return types
+   - Proper error handling that doesn't violate LSP
+
+3. **Comprehensive test suite** that:
+   - Verifies substitutability by testing parent references with child objects
+   - Validates that all subclasses behave consistently
+   - Tests edge cases and boundary conditions
+   - Includes property-based tests for contract verification
+
+4. **Alternative design options** showing:
+   - When to use composition instead of inheritance
+   - Interface-based designs that avoid LSP issues
+   - Factory patterns for creating appropriate implementations
+   - Strategy patterns for varying behaviors
+
+5. **Usage examples** demonstrating:
+   - How client code can work with any subclass
+   - Polymorphic behavior in action
+   - Error handling that works across all implementations
+   - Performance considerations for different implementations
+
+Please provide complete, runnable code that I can immediately use. Include comments explaining how the design ensures LSP compliance and why certain decisions were made.
+```
+
+**Follow-up Prompts for Enhancement**:
+- "Add validation to ensure new subclasses maintain LSP compliance"
+- "Create a testing framework that automatically checks LSP violations"
+- "Generate documentation explaining the behavioral contracts"
+- "Add logging to track which implementations are being used"
+
+**How to Use**: Replace the placeholders with your specific inheritance needs and use this with AI assistants to get a complete, LSP-compliant design.
+
+---
+
+### 2.1.4 Interface Segregation Principle (ISP)
+
+> *"Clients should not be forced to depend upon interfaces they do not use."* - Robert C. Martin
+
+#### The Principle Explained
+
+ISP advocates for creating focused, client-specific interfaces rather than large, monolithic ones. When interfaces are too broad, clients become coupled to methods they don't need, leading to unnecessary dependencies and more fragile code.
+
+#### Benefits of ISP
+
+- **Reduced Coupling**: Clients depend only on the methods they actually use
+- **Better Testability**: Smaller interfaces are easier to mock and test
+- **Improved Maintainability**: Changes to unused methods don't affect clients
+- **Enhanced Flexibility**: Different clients can evolve independently
+
+#### ISP in Practice
+
+**Before ISP (Fat Interface)**:
+```python
+class WorkerInterface:
+    def work(self): pass
+    def eat(self): pass
+    def sleep(self): pass
+    def supervise(self): pass
+    def program(self): pass
+```
+
+**After ISP (Segregated Interfaces)**:
+```python
+class Workable:
+    def work(self): pass
+
+class Eatable:
+    def eat(self): pass
+
+class Sleepable:
+    def sleep(self): pass
+
+class Supervisable:
+    def supervise(self): pass
+
+class Programmable:
+    def program(self): pass
+
+# Clients implement only what they need
+class Human(Workable, Eatable, Sleepable):
+    pass
+
+class Robot(Workable, Programmable):
+    pass
+
+class Manager(Supervisable, Eatable, Sleepable):
+    pass
+```
+
+### 💡 **Vibe Coding Prompt: Interface Segregation Implementation**
+
+**Scenario**: You have a large, monolithic interface that forces clients to depend on methods they don't use.
+
+**Your Task - Use this prompt with your actual code**:
+
+```
+I have an interface that's become too large and forces clients to implement or depend on methods they don't actually need. Here's my current interface: [PASTE YOUR INTERFACE CODE HERE]
+
+The different types of clients that use this interface are: [DESCRIBE YOUR CLIENT TYPES AND THEIR NEEDS]
+
+Please help me:
+
+1. **Interface Analysis**:
+   - Identify which methods are actually used by each client type
+   - Point out where clients are forced to implement methods they don't need
+   - Explain how the current design violates the Interface Segregation Principle
+
+2. **Segregation Strategy**:
+   - Design focused, client-specific interfaces that contain only relevant methods
+   - Suggest meaningful names for the segregated interfaces
+   - Show how to group related methods logically
+
+3. **Implementation Approach**:
+   - Demonstrate how a single class can implement multiple segregated interfaces
+   - Suggest how clients should receive only the interfaces they need
+   - Recommend dependency injection patterns for interface segregation
+
+4. **Migration Plan**:
+   - Provide a step-by-step approach to refactor existing code
+   - Suggest how to maintain backward compatibility during transition
+   - Recommend testing strategies to ensure nothing breaks
+
+5. **Client-Interface Mapping**:
+   - Create a clear mapping showing which clients use which interfaces
+   - Suggest how to handle clients that need multiple interfaces
+   - Recommend patterns for composing interfaces when needed
+
+6. **Future Evolution**:
+   - Design the interfaces to support adding new client types easily
+   - Suggest versioning strategies for interface evolution
+   - Recommend documentation standards for interface contracts
+
+Please provide concrete, implementable solutions that make my interfaces more focused and client-friendly.
+```
+
+**How to Use**: Replace the placeholders with your actual interface and client information to get specific guidance on implementing ISP.
+
+---
+
+### 2.1.5 Dependency Inversion Principle (DIP)
+
+> *"High-level modules should not depend on low-level modules. Both should depend on abstractions."* - Robert C. Martin
+
+#### The Principle Explained
+
+DIP is fundamental to achieving flexible, testable architecture. It has two key parts:
+1. High-level modules should not depend on low-level modules. Both should depend on abstractions.
+2. Abstractions should not depend on details. Details should depend on abstractions.
+
+#### Traditional Dependency Flow (Problem)
+```
+High-Level Module → Low-Level Module
+    (Business Logic) → (Database/Framework)
+```
+
+#### Inverted Dependency Flow (Solution)
+```
+High-Level Module → Abstraction ← Low-Level Module
+    (Business Logic) → (Interface) ← (Database/Framework)
+```
+
+#### DIP Implementation Patterns
+
+**Pattern 1: Interface Injection**
+```python
+from abc import ABC, abstractmethod
+
+class PaymentRepository(ABC):
+    @abstractmethod
+    def save_payment(self, payment: Payment) -> bool:
+        pass
+    
+    @abstractmethod
+    def find_payment(self, payment_id: str) -> Payment:
+        pass
+
+class PaymentService:  # High-level module
+    def __init__(self, repository: PaymentRepository):
+        self._repository = repository  # Depends on abstraction
+    
+    def process_payment(self, payment_data: dict) -> PaymentResult:
+        # Business logic doesn't depend on specific database
+        payment = Payment(payment_data)
+        success = self._repository.save_payment(payment)
+        return PaymentResult(success, payment.id)
+
+class SQLPaymentRepository(PaymentRepository):  # Low-level module
+    def save_payment(self, payment: Payment) -> bool:
+        # SQL-specific implementation
+        pass
+```
+
+**Pattern 2: Factory Pattern**
+```python
+class DatabaseFactory:
+    @staticmethod
+    def create_repository(db_type: str) -> PaymentRepository:
+        if db_type == "sql":
+            return SQLPaymentRepository()
+        elif db_type == "nosql":
+            return NoSQLPaymentRepository()
+        else:
+            raise ValueError(f"Unknown database type: {db_type}")
+```
+
+#### Benefits of DIP
+
+- **Testability**: High-level modules can be tested with mock implementations
+- **Flexibility**: Easy to swap implementations without changing business logic
+- **Reduced Coupling**: Business logic is independent of technical details
+- **Better Architecture**: Clear separation between policy and implementation
+
+### 💡 **Vibe Coding Prompt: Dependency Inversion Implementation**
+
+**Scenario**: You have high-level business logic that's tightly coupled to low-level implementation details.
+
+**Your Task - Use this prompt with your actual code**:
+
+```
+I have business logic that's tightly coupled to specific implementations, making it hard to test and modify. Here's my current code: [PASTE YOUR TIGHTLY COUPLED CODE HERE]
+
+The external dependencies my code currently uses are: [LIST YOUR DEPENDENCIES: databases, APIs, file systems, etc.]
+
+Please help me:
+
+1. **Dependency Analysis**:
+   - Identify all the low-level dependencies in my current code
+   - Explain how these dependencies make the code hard to test and maintain
+   - Point out where business logic is mixed with implementation details
+
+2. **Abstraction Design**:
+   - Create appropriate interfaces/abstractions for each dependency
+   - Define clear contracts that capture essential operations without implementation details
+   - Suggest meaningful names for the abstractions
+
+3. **Inversion Strategy**:
+   - Show how to refactor the business logic to depend only on abstractions
+   - Demonstrate dependency injection patterns (constructor, setter, or interface injection)
+   - Recommend how to structure the code for maximum flexibility
+
+4. **Implementation Management**:
+   - Suggest how to organize concrete implementations
+   - Recommend patterns for creating and wiring dependencies
+   - Show how to handle complex dependency graphs
+
+5. **Testing Strategy**:
+   - Demonstrate how the new design enables easy unit testing
+   - Suggest mocking strategies for the abstracted dependencies
+   - Recommend integration testing approaches
+
+6. **Configuration and Environment Management**:
+   - Design a system for managing different implementations across environments
+   - Suggest configuration patterns for dependency selection
+   - Recommend how to handle environment-specific settings
+
+7. **Migration Plan**:
+   - Provide a step-by-step approach to refactor existing code
+   - Suggest how to maintain functionality during the transition
+   - Recommend testing strategies to ensure correctness
+
+Please provide concrete, implementable solutions that make my code more testable and flexible.
+```
+
+**How to Use**: Replace the placeholders with your actual tightly coupled code and dependencies to get specific guidance on implementing DIP.
+- Implement retry logic for failed external service calls
+- Add comprehensive logging and monitoring
+
+**Testing Requirements**:
+- Write unit tests that don't require external services
+- Create integration tests that verify the wiring works correctly
+- Design contract tests to ensure implementations satisfy interfaces
+
+**Deliverable**: A completely refactored order processing system that demonstrates proper dependency inversion with comprehensive test coverage.
+
+---
+
+### SOLID Principles Summary
+
+| Principle | Key Question | Main Benefit | Common Violation |
+|-----------|--------------|--------------|------------------|
+| **SRP** | "What would cause this class to change?" | Focused, testable classes | God classes with multiple responsibilities |
+| **OCP** | "Can I add new behavior without changing existing code?" | Risk-free extension | Long if-else chains for new features |
+| **LSP** | "Can I substitute any subclass for its parent?" | Reliable polymorphism | Subclasses that change expected behavior |
+| **ISP** | "Do all clients need all these methods?" | Minimal coupling | Fat interfaces with unused methods |
+| **DIP** | "Does my business logic depend on implementation details?" | Testable, flexible architecture | Direct dependencies on frameworks/databases |
+
+---
+
+## 2.2 DRY (Don't Repeat Yourself): Eliminating Redundancy
+
+### The Principle Defined
+
+The "Don't Repeat Yourself" (DRY) principle, formulated by Andy Hunt and Dave Thomas in "The Pragmatic Programmer," states: *"Every piece of knowledge must have a single, unambiguous, authoritative representation within a system."*
+
+### Understanding "Knowledge" in DRY
+
+DRY isn't just about avoiding duplicate code—it's about avoiding duplicate *knowledge*. This includes:
+- **Business Rules**: Validation logic, calculation formulas, workflow rules
+- **Configuration**: Database connections, API endpoints, feature flags
+- **Data Structures**: Schema definitions, message formats, API contracts
+- **Algorithms**: Sorting logic, encryption methods, parsing rules
+
+### DRY vs. WET vs. AHA
+
+| Approach | Philosophy | When to Use |
+|----------|------------|-------------|
+| **DRY** | Eliminate all duplication | When patterns are truly identical and will evolve together |
+| **WET** (Write Everything Twice) | Allow some duplication | When unsure if similarities are coincidental |
+| **AHA** (Avoid Hasty Abstractions) | Abstract after patterns emerge | When you see the same thing three times |
+
+### 💡 **Vibe Coding Prompt: DRY Principle Implementation**
+
+**Scenario**: You've identified code duplication in your project that violates the DRY principle.
+
+**Your Task - Use this prompt with your actual code**:
+
+```
+I have code duplication in my project that's making maintenance difficult. Here are the duplicated sections: [PASTE YOUR DUPLICATED CODE HERE]
+
+The contexts where this duplication appears are: [DESCRIBE WHERE THE DUPLICATION OCCURS]
+
+Please help me:
+
+1. **Duplication Analysis**:
+   - Identify what specific knowledge or logic is being duplicated
+   - Explain why this duplication is problematic for maintenance
+   - Distinguish between true duplication and coincidental similarity
+
+2. **Abstraction Strategy**:
+   - Design a reusable solution that eliminates the duplication
+   - Suggest appropriate abstractions (functions, classes, modules)
+   - Recommend meaningful names for the extracted components
+
+3. **Variation Handling**:
+   - Identify how the duplicated code differs across contexts
+   - Design a flexible solution that handles these variations
+   - Suggest configuration or parameter approaches for differences
+
+4. **Implementation Plan**:
+   - Provide a step-by-step refactoring approach
+   - Show how each original location would use the new abstraction
+   - Recommend testing strategies to ensure correctness
+
+5. **Flexibility Design**:
+   - Make the solution extensible for future variations
+   - Suggest how to add new rules or behaviors easily
+   - Recommend documentation for the abstracted component
+
+6. **Maintenance Guidelines**:
+   - Create guidelines to prevent similar duplication in the future
+   - Suggest code review checklist items for DRY violations
+   - Recommend when duplication might be acceptable (WET principle)
+
+Please provide concrete, implementable solutions that eliminate duplication while maintaining flexibility.
+```
+
+**How to Use**: Replace the placeholders with your actual duplicated code and contexts to get specific guidance on implementing DRY.
+
+---
+
+## 2.3 KISS (Keep It Simple, Stupid): Embracing Simplicity
+
+### The Philosophy of Simplicity
+
+The KISS principle, originating from the U.S. Navy, emphasizes that systems work best when they are kept simple rather than made complex. In software development, this translates to choosing the simplest solution that effectively solves the problem.
+
+### Simplicity Guidelines
+
+1. **Favor Composition Over Inheritance**: Complex inheritance hierarchies are hard to understand
+2. **Use Standard Library Solutions**: Don't reinvent common functionality
+3. **Minimize Dependencies**: Each dependency adds complexity
+4. **Clear Over Clever**: Code should be obvious, not impressive
+5. **Delete Dead Code**: Remove unused functionality
+
+### Complexity Indicators
+
+**Warning Signs Your Code Might Be Too Complex**:
+- New team members need more than a day to understand a component
+- You need extensive documentation to explain basic operations
+- Changes in one area unexpectedly break other areas
+- Unit tests are difficult to write or understand
+
+### 💡 **Vibe Coding Prompt: KISS Principle Implementation**
+
+**Scenario**: You have code that's become unnecessarily complex and hard to understand or maintain.
+
+**Your Task - Use this prompt with your actual code**:
+
+```
+I have code that seems overly complex for what it's trying to accomplish. Here's the current implementation: [PASTE YOUR COMPLEX CODE HERE]
+
+The actual requirements this code needs to fulfill are: [DESCRIBE THE REAL REQUIREMENTS]
+
+Please help me:
+
+1. **Complexity Analysis**:
+   - Identify what makes this code unnecessarily complex
+   - Point out over-engineering or premature optimization
+   - Explain how complexity is hurting maintainability
+
+2. **Requirements Validation**:
+   - Help me distinguish between actual requirements and assumed future needs
+   - Identify which features are currently used vs. theoretically useful
+   - Suggest which complexity can be removed without losing functionality
+
+3. **Simplification Strategy**:
+   - Propose a simpler solution that meets the actual requirements
+   - Suggest using standard library functions instead of custom implementations
+   - Recommend removing unnecessary abstractions or design patterns
+
+4. **Trade-off Analysis**:
+   - Explain what we gain by simplifying (maintainability, readability, etc.)
+   - Identify what we might lose (flexibility, performance, etc.)
+   - Help me decide if the trade-offs are worth it
+
+5. **Implementation Plan**:
+   - Provide a step-by-step approach to simplify the code
+   - Suggest how to test that the simplified version works correctly
+   - Recommend how to handle any lost functionality if it becomes needed later
+
+6. **Simplicity Guidelines**:
+   - Create guidelines to prevent over-engineering in the future
+   - Suggest code review questions that promote simplicity
+   - Recommend when complexity is justified vs. when it should be avoided
+
+Please provide concrete, implementable solutions that make my code simpler while maintaining necessary functionality.
+```
+
+**How to Use**: Replace the placeholders with your actual complex code and requirements to get specific guidance on applying KISS.
+
+---
+
+## 2.4 YAGNI (You Aren't Gonna Need It): Avoiding Premature Optimization
+
+### The Principle Explained
+
+YAGNI, from Extreme Programming (XP), states that developers should not add functionality until it is demonstrably necessary. The principle combats the tendency to build features based on speculation rather than actual requirements.
+
+### YAGNI Implementation Strategies
+
+1. **Build the Minimum Viable Feature**: Implement only what's needed now
+2. **Refactor When Needed**: Add complexity only when requirements demand it
+3. **Test-Driven Development**: Let tests drive what functionality is actually needed
+4. **Continuous Integration**: Small, frequent changes make it easier to add features later
+
+### YAGNI vs. Good Design
+
+YAGNI doesn't mean ignoring good design principles:
+- **Do**: Follow SOLID principles, write clean code, create good abstractions
+- **Don't**: Build features you think you'll need someday
+- **Do**: Design for change and extension
+- **Don't**: Over-engineer for hypothetical requirements
+
+### 💡 **Vibe Coding Prompt: YAGNI Principle Implementation**
+
+**Scenario**: You're facing pressure to add features "for the future" that aren't currently needed.
+
+**Your Task - Use this prompt with your actual situation**:
+
+```
+I'm working on a feature and there's discussion about adding extra functionality "for the future" that isn't currently required. Here's the current situation:
+
+Current actual requirements: [LIST WHAT'S ACTUALLY NEEDED NOW]
+
+Proposed additional features: [LIST SUGGESTED "FUTURE-PROOFING" FEATURES]
+
+Please help me:
+
+1. **YAGNI Analysis**:
+   - Categorize each proposed feature as "build now," "build later," or "don't build"
+   - Explain why each feature does or doesn't violate YAGNI
+   - Identify which features are based on speculation vs. real needs
+
+2. **Cost-Benefit Assessment**:
+   - Estimate the cost of building each feature now vs. adding it later
+   - Identify the risks of building features that might never be used
+   - Calculate the opportunity cost of time spent on speculative features
+
+3. **Minimal Foundation Design**:
+   - Suggest what minimal foundation would make future additions easier
+   - Recommend design patterns that support extension without over-engineering
+   - Identify which abstractions are worth creating now vs. later
+
+4. **Decision Framework**:
+   - Create criteria for when to add complexity vs. when to wait
+   - Suggest questions to ask when evaluating "future-proofing" proposals
+   - Recommend how to handle pressure from stakeholders who want "just in case" features
+
+5. **Implementation Strategy**:
+   - Design a phased approach that delivers value incrementally
+   - Suggest how to structure code to make future additions easier
+   - Recommend documentation for future enhancement points
+
+6. **Communication Guidelines**:
+   - Help me explain YAGNI benefits to stakeholders
+   - Suggest how to handle pushback about "short-sighted" decisions
+   - Recommend how to track and validate assumptions about future needs
+
+Please provide practical advice for applying YAGNI while maintaining good relationships with stakeholders.
+```
+
+**How to Use**: Replace the placeholders with your actual requirements and proposed features to get specific guidance on applying YAGNI.
+
+---
+
+## 2.5 Separation of Concerns (SoC): Dividing Responsibilities
+
+### The Principle Defined
+
+Separation of Concerns involves dividing a computer program into distinct sections, each addressing a separate "concern" or responsibility. This creates systems where every part fulfills a meaningful and intuitive role while maximizing adaptability to change.
+
+### Types of Separation
+
+1. **Horizontal Separation**: Dividing by architectural layers (UI, Business Logic, Data)
+2. **Vertical Separation**: Dividing by business functionality (User Management, Payment Processing)
+3. **Aspect Separation**: Dividing cross-cutting concerns (logging, security, caching)
+
+### Implementation Approaches
+
+**Layered Architecture**:
+```
+Presentation Layer    → User Interface, Controllers
+Business Logic Layer  → Services, Domain Models
+Data Access Layer     → Repositories, Database
+```
+
+**Domain-Driven Design**:
+```
+User Context     → User registration, authentication
+Payment Context  → Payment processing, billing
+Order Context    → Order management, fulfillment
+```
+
+### 💡 **Vibe Coding Prompt: Separation of Concerns Implementation**
+
+**Scenario**: You have code that mixes multiple responsibilities and violates separation of concerns principles.
+
+**Your Task - Use this prompt with your actual code**:
+
+```
+I have code that handles multiple responsibilities and violates separation of concerns, making it hard to test and maintain. Here's my situation:
+
+Code with mixed responsibilities: [PASTE YOUR CODE WITH MIXED CONCERNS HERE]
+
+Current responsibilities being handled: [LIST ALL THE DIFFERENT THINGS YOUR CODE DOES]
+
+Architecture constraints: [DESCRIBE ANY CONSTRAINTS - frameworks, existing interfaces, performance requirements, etc.]
+
+Please help me:
+
+1. **Concern Identification and Analysis**:
+   - Analyze my code and identify all the different concerns it handles
+   - Explain why mixing these concerns creates problems for testing and maintenance
+   - Categorize the concerns by type (presentation, business logic, data access, infrastructure, etc.)
+   - Identify which concerns should be separated and which can remain together
+
+2. **Separation Strategy Design**:
+   - Design a layered architecture that properly separates the identified concerns
+   - Suggest appropriate abstractions and interfaces for each layer
+   - Recommend how to handle dependencies between separated concerns
+   - Show how to maintain cohesion within each separated concern
+
+3. **Refactoring Implementation Plan**:
+   - Provide a step-by-step approach to separate the concerns safely
+   - Show how the refactored code would be structured
+   - Suggest how to handle data flow between separated components
+   - Recommend patterns for managing dependencies and configuration
+
+4. **Interface and Contract Design**:
+   - Define clear contracts between the separated concerns
+   - Suggest how to design interfaces that support testing and flexibility
+   - Recommend how to handle error conditions and edge cases across boundaries
+   - Design APIs that make correct usage easy and incorrect usage difficult
+
+5. **Testing Strategy Improvement**:
+   - Explain how separation of concerns improves testability
+   - Show how to test each concern in isolation
+   - Suggest mocking strategies for external dependencies
+   - Recommend integration testing approaches for the separated system
+
+6. **Architectural Guidelines**:
+   - Create guidelines for maintaining separation of concerns in future development
+   - Suggest code review criteria for evaluating concern separation
+   - Recommend how to prevent concerns from becoming mixed again
+   - Design patterns that naturally support good separation
+
+Please provide specific, actionable guidance that results in cleaner, more maintainable, and testable code architecture.
+```
+
+**How to Use**: Replace the placeholders with your actual code and context to get specific guidance on implementing proper separation of concerns.
+
+---
+
+## 2.6 Coupling and Cohesion: Achieving Modular Design
+
+### Understanding the Relationship
+
+Coupling and cohesion are inversely related quality metrics that together determine the maintainability and reliability of software systems:
+- **Low Coupling + High Cohesion = Good Design**
+- **High Coupling + Low Cohesion = Poor Design**
+
+### Types of Coupling (Worst to Best)
+
+| Coupling Type | Description | Example | Coupling Level |
+|---------------|-------------|---------|----------------|
+| **Content Coupling** | One module modifies another's internal data | Direct access to private variables | Highest (Worst) |
+| **Common Coupling** | Modules share global data | Global variables | Very High |
+| **External Coupling** | Modules depend on external formats | File format dependencies | High |
+| **Control Coupling** | One module controls another's flow | Passing control flags | Medium-High |
+| **Data Coupling** | Modules share data through parameters | Method parameters only | Low (Best) |
+
+### Types of Cohesion (Worst to Best)
+
+| Cohesion Type | Description | Example | Cohesion Level |
+|---------------|-------------|---------|----------------|
+| **Coincidental** | Elements grouped arbitrarily | Utility class with unrelated methods | Lowest (Worst) |
+| **Logical** | Elements perform similar operations | All I/O operations in one class | Low |
+| **Temporal** | Elements executed at same time | Initialization routines | Medium-Low |
+| **Procedural** | Elements follow execution sequence | Sequential processing steps | Medium |
+| **Communicational** | Elements operate on same data | CRUD operations for same entity | Medium-High |
+| **Sequential** | Output of one is input to next | Data processing pipeline | High |
+| **Functional** | Elements contribute to single task | Calculate tax for order | Highest (Best) |
+
+### 💡 **Vibe Coding Prompt: Coupling and Cohesion Improvement**
+
+**Scenario**: You have modules or classes with poor coupling and cohesion that need restructuring for better maintainability.
+
+**Your Task - Use this prompt with your actual code**:
+
+```
+I have code with poor coupling and cohesion that's making it difficult to maintain and test. Here's my situation:
+
+Problematic code structure: [PASTE YOUR CODE WITH COUPLING/COHESION ISSUES HERE]
+
+Current problems I'm experiencing: [DESCRIBE SPECIFIC ISSUES - hard to test, difficult to change, unclear responsibilities, etc.]
+
+System requirements and constraints: [LIST FUNCTIONAL REQUIREMENTS AND TECHNICAL CONSTRAINTS]
+
+Please help me:
+
+1. **Coupling Analysis**:
+   - Analyze my code and identify all coupling issues and their types
+   - Explain why the current coupling creates problems for maintenance and testing
+   - Classify the coupling types (content, common, external, control, data coupling)
+   - Prioritize which coupling issues should be addressed first
+
+2. **Cohesion Analysis**:
+   - Identify cohesion problems in my code and classify them
+   - Explain why low cohesion makes the code harder to understand and maintain
+   - Suggest how to group related functionality for better cohesion
+   - Recommend which elements belong together and which should be separated
+
+3. **Architecture Redesign**:
+   - Design a better structure with high cohesion within modules and low coupling between modules
+   - Suggest appropriate module boundaries and responsibilities
+   - Recommend abstractions and interfaces that reduce coupling
+   - Show how to organize code for better separation of concerns
+
+4. **Dependency Management**:
+   - Design clear interfaces and contracts between modules
+   - Suggest dependency injection or inversion patterns where appropriate
+   - Recommend how to handle shared dependencies and resources
+   - Show how modules should interact without tight coupling
+
+5. **Restructuring Implementation**:
+   - Provide a step-by-step plan to restructure the code safely
+   - Show how to extract cohesive modules from the existing code
+   - Suggest how to introduce interfaces and abstractions gradually
+   - Recommend testing strategies during the restructuring process
+
+6. **Testing and Validation Strategy**:
+   - Demonstrate how improved coupling and cohesion enhances testability
+   - Show how to test modules in isolation after restructuring
+   - Suggest mocking strategies for dependencies
+   - Recommend integration testing approaches for the new structure
+
+Please provide specific, actionable guidance that results in a more modular, maintainable, and testable codebase.
+```
+
+**How to Use**: Replace the placeholders with your actual code and specific coupling/cohesion problems to get customized guidance on improving your module structure.
+
+---
+
+## 2.7 Refactoring with AI Assistance
+
+Refactoring is the process of restructuring existing code without changing its external behavior. With AI assistance, refactoring becomes more systematic, comprehensive, and less risky, allowing developers to improve code quality continuously.
+
+### AI-Powered Refactoring Strategies
+
+#### **Code Smell Detection and Resolution**
+
+AI can identify and suggest fixes for common code smells that violate design principles:
+
+```typescript
+// Before: Code with multiple violations
+class OrderProcessor {
+  private logger: Logger;
+  private emailService: EmailService;
+  private paymentGateway: PaymentGateway;
+  private inventoryService: InventoryService;
+  private discountCalculator: DiscountCalculator;
+  
+  processOrder(order: Order, customerEmail: string, paymentInfo: PaymentInfo): boolean {
+    // Violation: Long method with multiple responsibilities
+    console.log(`Processing order ${order.id}`);
+    
+    // Violation: Hardcoded values
+    const taxRate = 0.08;
+    const shippingCost = 15.99;
+    
+    // Violation: Complex conditional logic
+    let discount = 0;
+    if (order.items.length > 5 && order.totalAmount > 100) {
+      if (order.customer.isPremium) {
+        discount = order.totalAmount * 0.15;
+      } else {
+        discount = order.totalAmount * 0.10;
+      }
+    } else if (order.items.length > 3) {
+      discount = order.totalAmount * 0.05;
+    }
+    
+    // Violation: Scattered data manipulation
+    order.discount = discount;
+    order.tax = order.totalAmount * taxRate;
+    order.shipping = shippingCost;
+    order.finalAmount = order.totalAmount - discount + order.tax + order.shipping;
+    
+    // Violation: Mixed abstraction levels
+    try {
+      for (const item of order.items) {
+        const available = this.inventoryService.checkAvailability(item.productId, item.quantity);
+        if (!available) {
+          console.log(`Item ${item.productId} not available`);
+          return false;
+        }
+      }
+      
+      const paymentResult = this.paymentGateway.processPayment(
+        order.finalAmount,
+        paymentInfo
+      );
+      
+      if (paymentResult.success) {
+        this.emailService.sendConfirmation(customerEmail, order);
+        return true;
+      }
+    } catch (error) {
+      console.error('Order processing failed:', error);
+      return false;
+    }
+    
+    return false;
+  }
+}
+```
+
+#### **💡 Vibe Coding Prompt: Systematic Code Refactoring**
+
+```
+I have legacy code that violates multiple design principles and has accumulated technical debt. Help me systematically refactor it to follow SOLID principles and improve maintainability.
+
+**Current Code Issues**:
+Code with problems: [PASTE YOUR PROBLEMATIC CODE HERE]
+
+Specific problems identified: [LIST KNOWN ISSUES LIKE LONG METHODS, GOD CLASSES, TIGHT COUPLING]
+
+Current testing coverage: [DESCRIBE EXISTING TESTS AND COVERAGE LEVEL]
+
+Business constraints: [TIMELINE, RISK TOLERANCE, BACKWARDS COMPATIBILITY REQUIREMENTS]
+
+Please help me:
+
+1. **Code Smell Analysis**:
+   - Identify all design principle violations in my code
+   - Categorize problems by type and severity
+   - Estimate the impact of each violation on maintainability
+   - Prioritize refactoring tasks by business value and risk
+
+2. **Refactoring Strategy Design**:
+   - Create a step-by-step refactoring plan that maintains functionality
+   - Suggest intermediate states that are better than current but not final
+   - Design the target architecture that follows design principles
+   - Recommend testing strategies to ensure safety during refactoring
+
+3. **SOLID Principles Application**:
+   - Show how to apply Single Responsibility Principle (break up god classes)
+   - Demonstrate Open/Closed Principle (make code extensible)
+   - Apply Interface Segregation (create focused interfaces)
+   - Implement Dependency Inversion (reduce coupling)
+   - Ensure Liskov Substitution Principle compliance
+
+4. **Code Quality Improvements**:
+   - Eliminate code duplication (DRY principle)
+   - Simplify complex conditionals and algorithms (KISS principle)
+   - Remove unnecessary features and complexity (YAGNI principle)
+   - Improve naming, structure, and readability
+
+5. **Testing and Validation Strategy**:
+   - Create comprehensive tests for current behavior before refactoring
+   - Design characterization tests for legacy behavior
+   - Implement unit tests for new components
+   - Set up integration tests to verify system behavior
+
+6. **Implementation Approach**:
+   - Provide refactored code with clear separation of concerns
+   - Show incremental refactoring steps with working code at each stage
+   - Include proper error handling and edge case management
+   - Document decisions and trade-offs made during refactoring
+
+Generate production-ready, well-tested refactored code that demonstrates proper application of design principles.
+```
+
+#### **AI-Generated Refactored Solution**
+
+```typescript
+// After: Refactored code following design principles
+
+// Single Responsibility: Configuration management
+class OrderConfiguration {
+  readonly TAX_RATE = 0.08;
+  readonly SHIPPING_COST = 15.99;
+}
+
+// Single Responsibility: Discount calculation logic
+interface DiscountStrategy {
+  calculateDiscount(order: Order): number;
+}
+
+class TieredDiscountStrategy implements DiscountStrategy {
+  calculateDiscount(order: Order): number {
+    const itemCount = order.items.length;
+    const totalAmount = order.totalAmount;
+    const isPremium = order.customer.isPremium;
+    
+    if (itemCount > 5 && totalAmount > 100) {
+      return totalAmount * (isPremium ? 0.15 : 0.10);
+    } else if (itemCount > 3) {
+      return totalAmount * 0.05;
+    }
+    
+    return 0;
+  }
+}
+
+// Single Responsibility: Order calculation
+class OrderCalculator {
+  constructor(
+    private config: OrderConfiguration,
+    private discountStrategy: DiscountStrategy
+  ) {}
+  
+  calculateOrderTotals(order: Order): OrderTotals {
+    const discount = this.discountStrategy.calculateDiscount(order);
+    const tax = order.totalAmount * this.config.TAX_RATE;
+    const shipping = this.config.SHIPPING_COST;
+    const finalAmount = order.totalAmount - discount + tax + shipping;
+    
+    return {
+      discount,
+      tax,
+      shipping,
+      finalAmount
+    };
+  }
+}
+
+// Single Responsibility: Inventory validation
+class InventoryValidator {
+  constructor(private inventoryService: InventoryService) {}
+  
+  async validateOrderInventory(order: Order): Promise<InventoryValidationResult> {
+    const unavailableItems: string[] = [];
+    
+    for (const item of order.items) {
+      const available = await this.inventoryService.checkAvailability(
+        item.productId, 
+        item.quantity
+      );
+      
+      if (!available) {
+        unavailableItems.push(item.productId);
+      }
+    }
+    
+    return {
+      isValid: unavailableItems.length === 0,
+      unavailableItems
+    };
+  }
+}
+
+// Single Responsibility: Payment processing
+class PaymentProcessor {
+  constructor(private paymentGateway: PaymentGateway) {}
+  
+  async processPayment(amount: number, paymentInfo: PaymentInfo): Promise<PaymentResult> {
+    try {
+      return await this.paymentGateway.processPayment(amount, paymentInfo);
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message,
+        transactionId: null
+      };
+    }
+  }
+}
+
+// Single Responsibility: Order processing orchestration
+class OrderProcessor {
+  constructor(
+    private orderCalculator: OrderCalculator,
+    private inventoryValidator: InventoryValidator,
+    private paymentProcessor: PaymentProcessor,
+    private emailService: EmailService,
+    private logger: Logger
+  ) {}
+  
+  async processOrder(
+    order: Order, 
+    customerEmail: string, 
+    paymentInfo: PaymentInfo
+  ): Promise<OrderProcessingResult> {
+    try {
+      this.logger.info(`Processing order ${order.id}`);
+      
+      // Validate inventory
+      const inventoryResult = await this.inventoryValidator.validateOrderInventory(order);
+      if (!inventoryResult.isValid) {
+        return this.createFailureResult(
+          `Items not available: ${inventoryResult.unavailableItems.join(', ')}`,
+          'INVENTORY_UNAVAILABLE'
+        );
+      }
+      
+      // Calculate order totals
+      const totals = this.orderCalculator.calculateOrderTotals(order);
+      const processedOrder = { ...order, ...totals };
+      
+      // Process payment
+      const paymentResult = await this.paymentProcessor.processPayment(
+        totals.finalAmount,
+        paymentInfo
+      );
+      
+      if (!paymentResult.success) {
+        return this.createFailureResult(
+          paymentResult.error || 'Payment processing failed',
+          'PAYMENT_FAILED'
+        );
+      }
+      
+      // Send confirmation
+      await this.emailService.sendConfirmation(customerEmail, processedOrder);
+      
+      this.logger.info(`Order ${order.id} processed successfully`);
+      return {
+        success: true,
+        order: processedOrder,
+        paymentTransactionId: paymentResult.transactionId
+      };
+      
+    } catch (error) {
+      this.logger.error('Order processing failed:', error);
+      return this.createFailureResult(
+        'Unexpected error during order processing',
+        'SYSTEM_ERROR'
+      );
+    }
+  }
+  
+  private createFailureResult(message: string, errorCode: string): OrderProcessingResult {
+    return {
+      success: false,
+      error: message,
+      errorCode
+    };
+  }
+}
+
+// Dependency injection configuration
+class OrderProcessingFactory {
+  static createOrderProcessor(): OrderProcessor {
+    const config = new OrderConfiguration();
+    const discountStrategy = new TieredDiscountStrategy();
+    const orderCalculator = new OrderCalculator(config, discountStrategy);
+    
+    // These would typically be injected from a DI container
+    const inventoryService = new InventoryService();
+    const paymentGateway = new PaymentGateway();
+    const emailService = new EmailService();
+    const logger = new Logger();
+    
+    const inventoryValidator = new InventoryValidator(inventoryService);
+    const paymentProcessor = new PaymentProcessor(paymentGateway);
+    
+    return new OrderProcessor(
+      orderCalculator,
+      inventoryValidator,
+      paymentProcessor,
+      emailService,
+      logger
+    );
+  }
+}
+
+// Usage with improved error handling and testability
+async function handleOrderSubmission(
+  order: Order,
+  customerEmail: string,
+  paymentInfo: PaymentInfo
+): Promise<void> {
+  const orderProcessor = OrderProcessingFactory.createOrderProcessor();
+  const result = await orderProcessor.processOrder(order, customerEmail, paymentInfo);
+  
+  if (result.success) {
+    console.log(`Order processed successfully. Transaction: ${result.paymentTransactionId}`);
+  } else {
+    console.error(`Order processing failed: ${result.error} (${result.errorCode})`);
+    // Handle specific error cases
+    switch (result.errorCode) {
+      case 'INVENTORY_UNAVAILABLE':
+        // Redirect to waitlist or suggest alternatives
+        break;
+      case 'PAYMENT_FAILED':
+        // Redirect to payment retry flow
+        break;
+      case 'SYSTEM_ERROR':
+        // Show generic error message and contact support
+        break;
+    }
+  }
+}
+```
+
+### Advanced Refactoring Patterns
+
+#### **Legacy Code Modernization**
+
+```typescript
+// AI-generated pattern for safely modernizing legacy code
+
+class LegacyModernizationWrapper<TLegacy, TModern> {
+  private useModern = false;
+  private comparisonMetrics = {
+    modernCalls: 0,
+    legacyCalls: 0,
+    discrepancies: 0
+  };
+  
+  constructor(
+    private legacyImplementation: TLegacy,
+    private modernImplementation: TModern,
+    private comparisonEnabled: boolean = true
+  ) {}
+  
+  async execute<TInput, TOutput>(
+    method: keyof TLegacy & keyof TModern,
+    input: TInput
+  ): Promise<TOutput> {
+    if (!this.useModern) {
+      // Use legacy implementation
+      this.comparisonMetrics.legacyCalls++;
+      const legacyResult = await (this.legacyImplementation[method] as any)(input);
+      
+      if (this.comparisonEnabled) {
+        // Run modern implementation in parallel for comparison
+        this.compareImplementations(method, input, legacyResult);
+      }
+      
+      return legacyResult;
+    } else {
+      // Use modern implementation
+      this.comparisonMetrics.modernCalls++;
+      return await (this.modernImplementation[method] as any)(input);
+    }
+  }
+  
+  private async compareImplementations<TInput, TOutput>(
+    method: keyof TLegacy & keyof TModern,
+    input: TInput,
+    legacyResult: TOutput
+  ): Promise<void> {
+    try {
+      const modernResult = await (this.modernImplementation[method] as any)(input);
+      
+      if (!this.deepEqual(legacyResult, modernResult)) {
+        this.comparisonMetrics.discrepancies++;
+        console.warn(`Discrepancy detected in ${String(method)}:`, {
+          input,
+          legacyResult,
+          modernResult
+        });
+      }
+    } catch (error) {
+      console.error(`Modern implementation failed for ${String(method)}:`, error);
+    }
+  }
+  
+  enableModernImplementation(): void {
+    this.useModern = true;
+  }
+  
+  getMetrics() {
+    return { ...this.comparisonMetrics };
+  }
+  
+  private deepEqual(a: any, b: any): boolean {
+    return JSON.stringify(a) === JSON.stringify(b);
+  }
+}
+```
+
+### 💡 **Vibe Coding Prompt: Technical Debt Management**
+
+```
+I need to create a comprehensive technical debt management system that can identify, prioritize, and systematically address technical debt in our codebase. Help me build this system.
+
+**Current Technical Debt Situation**:
+Codebase size: [LINES OF CODE, NUMBER OF FILES, TEAM SIZE]
+Known debt areas: [LIST SPECIFIC TECHNICAL DEBT ISSUES]
+Business impact: [HOW DEBT AFFECTS PRODUCTIVITY AND QUALITY]
+Available resources: [TIME, BUDGET, PEOPLE FOR DEBT REDUCTION]
 
 Please generate:
 
-1. **Automated Legacy Code Analysis System**:
-   - Static analysis tools that identify code smells and refactoring opportunities
-   - Dependency mapping to understand component relationships
-   - Complexity metrics and technical debt assessment
-   - Risk analysis for different refactoring approaches
+1. **Technical Debt Detection System**:
+   - Automated code analysis tools that identify debt patterns
+   - Metrics collection for code quality trends over time
+   - Integration with static analysis tools and linters
+   - Custom rules for detecting domain-specific debt patterns
 
-2. **Safe Refactoring Framework**:
-   - Automated test generation for legacy code without existing tests
-   - Incremental refactoring tools with rollback capabilities
-   - Behavior preservation verification through automated testing
-   - Parallel implementation strategy for high-risk changes
+2. **Debt Prioritization Framework**:
+   - Scoring system based on business impact and remediation cost
+   - Risk assessment for different types of technical debt
+   - ROI calculations for debt reduction initiatives
+   - Integration with business priorities and development roadmaps
 
-3. **Modular Architecture Migration Tool**:
-   - Automated extraction of business logic into separate modules
-   - Service layer generation with proper separation of concerns
-   - Database access layer abstraction and optimization
-   - API design for clean interfaces between components
+3. **Systematic Refactoring Workflows**:
+   - Step-by-step refactoring guides for common debt patterns
+   - Safety nets and testing strategies for risky refactoring
+   - Incremental improvement approaches that don't block feature work
+   - Rollback strategies and risk mitigation plans
 
-4. **Continuous Refactoring Pipeline**:
-   - CI/CD integration for safe, automated refactoring
-   - Performance monitoring to ensure refactoring doesn't degrade performance
-   - Automated code quality metrics and improvement tracking
-   - Feature flag integration for gradual rollout of refactored components
+4. **Team Processes and Guidelines**:
+   - Code review checklists that prevent new debt introduction
+   - Definition of done criteria that include debt considerations
+   - Time allocation strategies (debt vs feature work balance)
+   - Training and knowledge sharing for debt prevention
 
-5. **Legacy Code Documentation Generator**:
-   - Automated generation of documentation from existing code
-   - Business rule extraction and documentation
-   - API documentation for newly created interfaces
-   - Migration guides for team members working with refactored code
+5. **Measurement and Tracking System**:
+   - Dashboards showing debt trends and improvement progress
+   - KPIs for code quality and maintainability
+   - Regular debt assessment and review processes
+   - Cost-benefit analysis of debt reduction efforts
 
-6. **Modernization Roadmap and Planning Tool**:
-   - Prioritization framework for refactoring efforts based on business impact
-   - Resource estimation and timeline planning for refactoring projects
-   - Risk assessment and mitigation strategies
-   - Success metrics and progress tracking
+Include tools, processes, and cultural changes needed to make technical debt management a sustainable part of the development workflow.
+```
 
-Include integration with modern Python tools (Black, mypy, pytest), monitoring systems (Sentry, DataDog), and development workflows. Show how to make legacy code refactoring a systematic, low-risk process that delivers continuous value.
-``` 
+---
+
+## Chapter Summary
+
+Design principles provide the foundation for creating maintainable, extensible software systems. The principles covered in this chapter work together synergistically:
+
+- **SOLID principles** provide object-oriented design guidelines that promote modularity and flexibility
+- **DRY** eliminates knowledge duplication to reduce maintenance burden
+- **KISS** keeps solutions simple and understandable
+- **YAGNI** prevents over-engineering and premature optimization
+- **Separation of Concerns** creates clear boundaries between different aspects of the system
+- **Coupling and Cohesion** metrics help evaluate and improve modular design
+
+### Key Principles Integration
+
+| Scenario | Primary Principles | Secondary Principles |
+|----------|-------------------|---------------------|
+| **Adding new features** | OCP, YAGNI | SRP, DIP |
+| **Refactoring legacy code** | SRP, DRY | SoC, Coupling/Cohesion |
+| **Designing new components** | SRP, ISP, DIP | KISS, SoC |
+| **Code review** | All principles | Focus on violations |
+
+### Practical Application Guidelines
+
+1. **Start with SRP**: Ensure each class has a single, clear responsibility
+2. **Apply DRY judiciously**: Eliminate knowledge duplication, not code duplication
+3. **Design for extension**: Use OCP and DIP to create flexible architectures
+4. **Keep it simple**: Apply KISS and YAGNI to avoid unnecessary complexity
+5. **Measure and improve**: Use coupling and cohesion metrics to guide refactoring
+
+---
+
+## Further Reading
+
+- **Next Chapter**: Understanding Software Architecture - Learn how design principles scale to system-level decisions
+- **Recommended Books**:
+  - *Clean Code* by Robert C. Martin
+  - *Refactoring* by Martin Fowler
+  - *Design Patterns* by Gang of Four
+  - *The Pragmatic Programmer* by Andy Hunt and David Thomas 

@@ -1,585 +1,134 @@
-# Chapter 12: Leveraging Vibe Coding Components
+# Chapter 12: Secure Coding Practices
 
-## Learning Objectives
-- Understand how to effectively leverage existing components and services in vibe coding
-- Identify various service categories including document processing, information extraction, and AI coding tools
-- Learn methods to improve development productivity through component integration
-- Master practical vibe coding prompt techniques
+Secure coding practices are indispensable for building software that is resilient against vulnerabilities and attacks. Security must be an inherent part of the development process, not an afterthought.
 
-## 12.1 Vibe Coding Component Philosophy
+## 8.1 Security by Design: Integrating Security Early
 
-### Don't Build, Compose
+"Security by Design" emphasizes integrating security as a core priority from the very beginning of the code development process, rather than treating it as a separate, later-stage concern. While this might initially appear to conflict with rapid development, a security-by-design approach ultimately yields significant long-term benefits by reducing future costs associated with technical debt and risk mitigation.
 
-One of the core philosophies of vibe coding is "Don't build everything from scratch." Instead, we combine existing proven services and components to build solutions quickly and efficiently.
+This proactive stance involves conducting source code analysis throughout the entire Software Development Life Cycle (SDLC) and implementing security automation to identify and address vulnerabilities early. The integration of security practices throughout the SDLC signifies a fundamental shift from reactive "fix-it-later" security to proactive, embedded security.
 
-#### Advantages of Component-First Thinking
+**Vibe Coding Prompt:**
 ```
-Traditional Development    vs    Vibe Coding Approach
-─────────────────────           ────────────────────
-Build PDF parser        →       Use Upstage Document Parse API
-Build vector database   →       Use Pinecone/Weaviate service
-Train AI models         →       Use OpenAI/Claude API
-Build search engine     →       Use Tavily/Exa Search API
-```
+I'm building a new User Profile feature and need to implement security by design from the ground up. Help me create a comprehensive security framework before writing any code.
 
-```mermaid
-graph TD
-    A["Traditional Development"] --> B["Build PDF Parser<br/>📄 Custom OCR Engine"]
-    A --> C["Build Vector DB<br/>🗄️ Custom Database"]
-    A --> D["Train AI Models<br/>🤖 Custom ML Pipeline"]
-    A --> E["Build Search Engine<br/>🔍 Custom Indexing"]
-    
-    F["Vibe Coding Approach"] --> G["Upstage Document Parse<br/>📄 API Integration"]
-    F --> H["Pinecone/Weaviate<br/>🗄️ Managed Service"]
-    F --> I["OpenAI/Claude API<br/>🤖 Pre-trained Models"]
-    F --> J["Tavily/Exa Search<br/>🔍 Search API"]
-    
-    B -.->|"Weeks of Development"| B1["❌ High Complexity"]
-    C -.->|"Database Expertise"| C1["❌ Infrastructure Overhead"]
-    D -.->|"ML Expertise Required"| D1["❌ Training Costs"]
-    E -.->|"Search Algorithms"| E1["❌ Maintenance Burden"]
-    
-    G -.->|"Hours to Integrate"| G1["✅ Simple API Calls"]
-    H -.->|"Managed Scaling"| H1["✅ Zero Maintenance"]
-    I -.->|"Instant Access"| I1["✅ State-of-the-art"]
-    J -.->|"Ready to Use"| J1["✅ Global Coverage"]
+Requirements:
+- User profile creation, editing, and viewing
+- Profile picture uploads
+- Privacy settings (public/private profiles)
+- Social connections and messaging
+- Admin moderation capabilities
+
+Please generate:
+1. Comprehensive threat model identifying all potential security risks
+2. Security controls for each identified threat (access control, input validation, etc.)
+3. Authentication and authorization framework
+4. Secure file upload handling for profile pictures
+5. Privacy controls and data access patterns
+6. Security testing strategy and automated security checks
+7. Incident response procedures for security breaches
+
+Use Python/FastAPI with JWT authentication. Include OWASP Top 10 considerations, secure coding guidelines, and automated security scanning integration. Show how to build security into every layer from the start.
 ```
 
-### LEGO Block Approach
+## 8.2 Input Validation and Output Encoding
 
-Think of vibe coding components as LEGO blocks. Each component has:
-- **Clear interfaces** (APIs, SDKs)
-- **Specific functionality** (document parsing, information extraction)
-- **Easy integration** (REST APIs, webhooks)
-- **Scalable architecture** (cloud-based services)
+A critical secure coding practice involves identifying all data inputs and sources, particularly those classified as untrusted, and rigorously validating them. Input validation ensures that data entering the system conforms to expected formats, types, and ranges, preventing common attacks like SQL injection and cross-site scripting (XSS).
 
-## 12.2 Essential Component Categories
+Similarly, applying a standard routine for output encoding is crucial. Output encoding transforms data before it is rendered or displayed to users, neutralizing any malicious code that might have been injected, thereby preventing XSS and other client-side vulnerabilities.
 
-```mermaid
-graph TD
-    subgraph "Component Categories"
-        A[Document Processing<br/>📄]
-        B[Information Extraction<br/>🔍]
-        C[Vector Databases<br/>🗄️]
-        D[AI Coding Assistants<br/>🤖]
-        E[Authentication<br/>🔐]
-        F[Real-time Communication<br/>💬]
-        G[Workflow Automation<br/>⚙️]
-        H[MCP Servers<br/>🔌]
-    end
-    
-    subgraph "Services"
-        A1[Upstage Document Parse<br/>Azure Document AI<br/>Google Document AI]
-        B1[Upstage Agentic IE<br/>spaCy NER<br/>OpenAI GPT-4]
-        C1[Pinecone<br/>Weaviate<br/>Chroma]
-        D1[GitHub Copilot<br/>Codeium<br/>Tabnine]
-        E1[Auth0<br/>Firebase Auth<br/>Supabase Auth]
-        F1[Pusher<br/>Socket.IO<br/>Firebase Realtime]
-        G1[Zapier<br/>Make.com<br/>n8n]
-        H1[Database MCP<br/>Search MCP<br/>File System MCP]
-    end
-    
-    A --> A1
-    B --> B1
-    C --> C1
-    D --> D1
-    E --> E1
-    F --> F1
-    G --> G1
-    H --> H1
-    
-    style A fill:#e8f5e8
-    style B fill:#e8f5e8
-    style C fill:#e8f5e8
-    style D fill:#e8f5e8
-    style E fill:#ffe8e8
-    style F fill:#ffe8e8
-    style G fill:#fff8e1
-    style H fill:#f3e5f5
+**Vibe Coding Prompt:**
+```
+I need to secure a comment submission system that's currently vulnerable to SQL injection and XSS attacks. Help me implement comprehensive input validation and output encoding.
+
+Current Vulnerabilities:
+- User comments are directly inserted into database queries
+- Comment text is rendered without HTML encoding
+- No input validation on comment length or content
+- File attachments accepted without validation
+
+Security Requirements:
+- Prevent SQL injection attacks
+- Mitigate XSS vulnerabilities
+- Validate all user inputs
+- Secure file upload handling
+- Rate limiting for comment submission
+
+Please generate:
+1. Comprehensive input validation framework
+2. Parameterized queries and ORM usage
+3. HTML encoding and sanitization for output
+4. File upload validation and scanning
+5. Rate limiting and abuse prevention
+6. Content Security Policy (CSP) headers
+7. Security testing for injection vulnerabilities
+
+Use Python with SQLAlchemy ORM and include automated security testing. Show how to validate, sanitize, and encode data at every boundary. Include examples of malicious inputs and how they're handled.
 ```
 
-### 12.2.1 Document Processing & OCR
+## 8.3 Access Control and Password Management
 
-#### Upstage Document Parse
-**Service**: https://www.upstage.ai/products/document-parse
+Robust access control mechanisms are essential for protecting sensitive data. A "default deny" approach should be adopted, meaning access to secure data is explicitly denied unless a user can demonstrate proper authorization. Privileges should be limited, restricting access only to users who absolutely need it for their roles. All requests for sensitive information must be thoroughly verified to confirm user authorization.
 
-**What it does**: Advanced document parsing with OCR capabilities
-- Extracts text from PDFs, images, and scanned documents
-- Maintains document structure and formatting
-- Supports multiple languages and complex layouts
+Password management is another critical area, as passwords often represent a weak point in many software systems. Secure coding practices dictate that passwords should never be stored in plain text; instead, only salted cryptographic hashes of passwords should be stored. Systems should enforce password length and complexity requirements and implement policies such as disabling password entry after multiple incorrect login attempts to mitigate brute-force attacks.
 
-**Vibe Coding Prompt**:
+**Vibe Coding Prompt:**
 ```
-"Create a Python script that uses Upstage Document Parse API to:
-1. Upload a PDF document
-2. Extract all text content while preserving structure
-3. Save the extracted text to a structured JSON format
-4. Handle API errors gracefully with retry logic
-5. Include progress tracking for large documents"
-```
+I need to implement a secure role-based access control system for an admin dashboard with proper password management. Help me build a comprehensive authentication and authorization system.
 
-#### Alternative Document Processing Services
-- **Azure Document Intelligence**: Microsoft's OCR and document analysis
-- **Google Document AI**: Google Cloud's document processing
-- **Amazon Textract**: AWS document analysis service
-- **Tesseract OCR**: Open-source OCR engine
+Requirements:
+- Role-based access control (admin, moderator, user roles)
+- Secure password storage and validation
+- Multi-factor authentication support
+- Session management and token handling
+- Account lockout and brute force protection
+- Password reset functionality
 
-### 12.2.2 Information Extraction
+Please generate:
+1. Role-based access control (RBAC) system with permissions
+2. Secure password hashing using Argon2 or bcrypt
+3. JWT token management with refresh tokens
+4. Multi-factor authentication (TOTP/SMS)
+5. Account lockout and rate limiting mechanisms
+6. Secure password reset flow with email verification
+7. Session management and security headers
+8. Audit logging for security events
 
-#### Upstage Agentic IE (Information Extraction)
-**Service**: https://www.upstage.ai/products/information-extract
-
-**What it does**: AI-powered information extraction from documents
-- Identifies key entities, relationships, and structured data
-- Supports custom extraction schemas
-- Provides confidence scores for extracted information
-
-**Vibe Coding Prompt**:
-```
-"Build a document analysis pipeline using Upstage Agentic IE that:
-1. Defines custom extraction schema for invoice processing
-2. Extracts vendor names, amounts, dates, and line items
-3. Validates extracted data against business rules
-4. Exports results to both JSON and CSV formats
-5. Includes data quality metrics and confidence scores"
+Use Python/FastAPI with proper cryptographic libraries. Include password strength validation, secure session handling, and comprehensive security logging. Show how to implement principle of least privilege and defense in depth.
 ```
 
-#### Other Information Extraction Tools
-- **spaCy NER**: Named entity recognition
-- **Stanford CoreNLP**: Natural language processing suite
-- **OpenAI GPT-4**: For custom extraction tasks
-- **Hugging Face Transformers**: Pre-trained extraction models
+## 8.4 Threat Modeling and Vulnerability Management
 
-### 12.2.3 Model Context Protocol (MCP) Servers
+Threat modeling is a structured, multi-stage process that should be integrated throughout the software lifecycle—from development to testing and production. It involves four key steps: documenting the application, locating potential threats and vulnerabilities, addressing these threats with appropriate countermeasures, and validating the effectiveness of those countermeasures. This systematic examination helps identify areas susceptible to attack.
 
-#### What are MCP Servers?
-Model Context Protocol servers provide standardized interfaces for AI models to access external tools and data sources.
+Vulnerability management complements threat modeling by ensuring that all working software is updated with current versions and patches, as outdated software is a major source of vulnerabilities and security breaches. Furthermore, encrypting data with modern cryptographic algorithms and following secure key management best practices significantly increases the security of code in the event of a breach.
 
-**Key MCP Servers from Awesome MCP List**:
-- **Database MCP**: PostgreSQL, MySQL, SQLite connections
-- **Web Search MCP**: Tavily, Exa, Google Search integration
-- **File System MCP**: Local and cloud file operations
-- **API Integration MCP**: REST API connectors
-- **Browser MCP**: Web scraping and automation
-
-**Vibe Coding Prompt for MCP Integration**:
+**Vibe Coding Prompt:**
 ```
-"Set up a comprehensive MCP server configuration that:
-1. Connects to a PostgreSQL database for data storage
-2. Integrates Tavily search for web information retrieval
-3. Includes file system access for document management
-4. Provides secure API authentication
-5. Implements proper error handling and logging
-6. Create a sample workflow that demonstrates all integrations"
-```
+Our security scanner flagged a critical vulnerability in our log4j dependency, and we need to implement a comprehensive vulnerability management system. Help me build an automated security pipeline.
 
-**MCP Integration Architecture**:
-```mermaid
-graph LR
-    subgraph "AI Model"
-        A[Claude/GPT<br/>🤖]
-    end
-    
-    subgraph "MCP Protocol Layer"
-        B[MCP Client<br/>🔌]
-    end
-    
-    subgraph "MCP Servers"
-        C[Database MCP<br/>🗄️ PostgreSQL]
-        D[Search MCP<br/>🔍 Tavily API]
-        E[File System MCP<br/>📁 Local/Cloud]
-        F[Browser MCP<br/>🌐 Web Scraping]
-        G[API MCP<br/>🔗 REST Connectors]
-    end
-    
-    subgraph "External Services"
-        H[Database<br/>PostgreSQL]
-        I[Search Engine<br/>Tavily]
-        J[File Storage<br/>S3/Local]
-        K[Web Pages<br/>Internet]
-        L[Third-party APIs<br/>Various Services]
-    end
-    
-    A <--> B
-    B <--> C
-    B <--> D
-    B <--> E
-    B <--> F
-    B <--> G
-    
-    C <--> H
-    D <--> I
-    E <--> J
-    F <--> K
-    G <--> L
-    
-    style A fill:#e3f2fd
-    style B fill:#f1f8e9
-    style C fill:#fff3e0
-    style D fill:#fff3e0
-    style E fill:#fff3e0
-    style F fill:#fff3e0
-    style G fill:#fff3e0
-```
+Current Issues:
+- Outdated dependencies with known vulnerabilities
+- No automated vulnerability scanning
+- Manual security updates are slow and error-prone
+- No security monitoring in production
 
-### 12.2.4 AI Coding Assistants
+Requirements:
+- Automated dependency vulnerability scanning
+- Security patch management pipeline
+- Runtime security monitoring
+- Incident response automation
+- Security compliance reporting
 
-#### GitHub Copilot & Alternatives
-- **GitHub Copilot**: AI pair programmer
-- **Amazon CodeWhisperer**: AWS-integrated coding assistant
-- **Tabnine**: AI code completion
-- **Codeium**: Free AI coding assistant
-- **Sourcegraph Cody**: Code intelligence platform
+Please generate:
+1. Automated dependency scanning with tools like Snyk or OWASP Dependency Check
+2. CI/CD pipeline integration for security checks
+3. Automated security patch deployment system
+4. Runtime Application Self-Protection (RASP) implementation
+5. Security incident detection and alerting
+6. Vulnerability assessment and remediation workflow
+7. Security compliance dashboard and reporting
+8. Emergency security patch deployment procedures
 
-**Vibe Coding Prompt for AI Assistant Integration**:
-```
-"Create a development workflow that maximizes AI coding assistant effectiveness:
-1. Set up multiple AI assistants (Copilot, Codeium)
-2. Configure custom prompts for different coding tasks
-3. Implement code quality checks and validation
-4. Create templates for common development patterns
-5. Set up automated testing with AI-generated test cases"
-```
-
-### 12.2.5 Vector Databases & Embeddings
-
-#### Popular Vector Database Services
-- **Pinecone**: Managed vector database
-- **Weaviate**: Open-source vector search engine
-- **Chroma**: Open-source embedding database
-- **Qdrant**: Vector similarity search engine
-- **Milvus**: Open-source vector database
-
-**Vibe Coding Prompt for Vector Database Setup**:
-```
-"Build a semantic search system using Pinecone that:
-1. Integrates with OpenAI embeddings API
-2. Implements document chunking strategies
-3. Provides similarity search with metadata filtering
-4. Includes batch processing for large document sets
-5. Implements caching for frequently accessed vectors
-6. Creates a REST API for search functionality"
-```
-
-### 12.2.6 API Integration & Workflow Automation
-
-#### Zapier & Make.com
-- **Zapier**: No-code automation platform
-- **Make.com**: Visual automation builder
-- **n8n**: Open-source workflow automation
-- **Pipedream**: Serverless integration platform
-
-**Vibe Coding Prompt for Workflow Automation**:
-```
-"Design an automated workflow using Make.com that:
-1. Monitors email attachments for new documents
-2. Processes documents using Upstage Document Parse
-3. Extracts key information using Agentic IE
-4. Stores results in a Notion database
-5. Sends Slack notifications for important documents
-6. Includes error handling and retry mechanisms"
-```
-
-### 12.2.7 Real-time Communication
-
-#### WebSocket & Real-time Services
-- **Pusher**: Real-time messaging service
-- **Socket.IO**: Real-time bidirectional communication
-- **Firebase Realtime Database**: Google's real-time sync
-- **Supabase Realtime**: Open-source Firebase alternative
-
-**Vibe Coding Prompt for Real-time Integration**:
-```
-"Build a real-time collaboration system using Pusher that:
-1. Enables live document editing and commenting
-2. Broadcasts AI processing status updates
-3. Implements user presence indicators
-4. Includes message history and replay functionality
-5. Provides offline synchronization capabilities"
-```
-
-### 12.2.8 Authentication & Security
-
-#### Auth0 & Firebase Auth
-- **Auth0**: Identity platform
-- **Firebase Authentication**: Google's auth service
-- **Supabase Auth**: Open-source authentication
-- **Clerk**: Developer-first authentication
-
-**Vibe Coding Prompt for Secure Integration**:
-```
-"Implement a secure authentication system using Auth0 that:
-1. Supports multiple social login providers
-2. Implements role-based access control (RBAC)
-3. Provides JWT token management
-4. Includes API route protection
-5. Implements secure session management
-6. Adds audit logging for security events"
-```
-
-## 12.3 Component Integration Strategies
-
-### 12.3.1 API-First Architecture
-
-**Design Principles**:
-- **Loose Coupling**: Components interact through well-defined APIs
-- **Fault Tolerance**: Handle service failures gracefully
-- **Async Processing**: Use queues for long-running operations
-- **Caching Strategy**: Implement intelligent caching layers
-
-### 12.3.2 Error Handling & Resilience
-
-**Vibe Coding Prompt for Resilient Integration**:
-```
-"Create a resilient API integration framework that:
-1. Implements exponential backoff for retries
-2. Provides circuit breaker patterns for failing services
-3. Includes comprehensive logging and monitoring
-4. Implements fallback mechanisms for critical services
-5. Provides health checks for all integrated components
-6. Creates alerting for service degradation"
-```
-
-**Error Handling & Resilience Flow**:
-```mermaid
-flowchart TD
-    A[API Request] --> B{Service Available?}
-    B -->|Yes| C[Execute Request]
-    B -->|No| D[Circuit Breaker Open?]
-    D -->|No| E[Attempt with Exponential Backoff]
-    D -->|Yes| F[Use Fallback Service]
-    
-    C --> G{Success?}
-    G -->|Yes| H[Return Response]
-    G -->|No| I{Retry Limit Reached?}
-    I -->|No| J[Wait & Retry<br/>Exponential Backoff]
-    I -->|Yes| K[Log Error & Alert]
-    
-    E --> G
-    F --> L{Fallback Success?}
-    L -->|Yes| M[Return Fallback Response]
-    L -->|No| N[Return Error with Graceful Degradation]
-    
-    J --> C
-    K --> N
-    
-    H --> O[Update Success Metrics]
-    M --> P[Update Fallback Metrics]
-    N --> Q[Update Error Metrics]
-    
-    style B fill:#e3f2fd
-    style D fill:#fff3e0
-    style G fill:#e8f5e8
-    style I fill:#fff3e0
-    style L fill:#f3e5f5
-```
-
-### 12.3.3 Cost Optimization
-
-**Strategies**:
-- **Usage Monitoring**: Track API calls and costs
-- **Caching**: Reduce redundant API calls
-- **Batch Processing**: Combine multiple operations
-- **Tier Management**: Use appropriate service tiers
-
-## 12.4 Practical Integration Examples
-
-### 12.4.1 Document Processing Pipeline
-
-**Vibe Coding Prompt**:
-```
-"Build a complete document processing pipeline that:
-1. Accepts documents via drag-and-drop interface
-2. Uses Upstage Document Parse for text extraction
-3. Applies Upstage Agentic IE for information extraction
-4. Stores results in Pinecone vector database
-5. Provides semantic search capabilities
-6. Includes progress tracking and error handling
-7. Implements user authentication and document ownership
-8. Creates a responsive web interface using React/Next.js"
-```
-
-**Complete Document Processing Architecture**:
-```mermaid
-graph TB
-    subgraph "Document Processing Layer"
-        A[Document Upload] --> B[Upstage Document Parse]
-        B --> C[Text Extraction]
-        B --> D[Structure Preservation]
-    end
-    
-    subgraph "Information Extraction Layer"
-        C --> E[Upstage Agentic IE]
-        D --> E
-        E --> F[Entity Recognition]
-        E --> G[Relationship Mapping]
-        E --> H[Schema Validation]
-    end
-    
-    subgraph "Storage & Search Layer"
-        F --> I[Vector Embeddings]
-        G --> I
-        H --> J[Structured Data Store]
-        I --> K[Pinecone Vector DB]
-        J --> L[PostgreSQL/MongoDB]
-    end
-    
-    subgraph "Application Layer"
-        K --> M[Semantic Search]
-        L --> N[Metadata Queries]
-        M --> O[User Interface]
-        N --> O
-        O --> P[Results & Analytics]
-    end
-    
-    style A fill:#e1f5fe
-    style B fill:#f3e5f5
-    style E fill:#f3e5f5
-    style K fill:#e8f5e8
-    style O fill:#fff3e0
-```
-
-### 12.4.2 AI-Powered Knowledge Base
-
-**Vibe Coding Prompt**:
-```
-"Create an AI-powered knowledge base system that:
-1. Integrates multiple MCP servers for data sources
-2. Uses vector embeddings for semantic search
-3. Implements RAG (Retrieval-Augmented Generation) with Claude/GPT
-4. Provides real-time collaboration features
-5. Includes document version control
-6. Implements smart categorization and tagging
-7. Creates analytics dashboard for usage insights
-8. Supports multiple file formats and data sources"
-```
-
-### 12.4.3 Automated Content Analysis
-
-**Vibe Coding Prompt**:
-```
-"Develop an automated content analysis platform that:
-1. Monitors multiple content sources (RSS, APIs, uploads)
-2. Processes content using document parsing services
-3. Extracts entities and relationships using AI
-4. Performs sentiment analysis and topic modeling
-5. Generates automated summaries and insights
-6. Implements content similarity detection
-7. Provides customizable dashboards and reports
-8. Includes automated alerting for important content"
-```
-
-## 12.5 Best Practices for Component Integration
-
-### 12.5.1 Configuration Management
-
-**Environment Variables**:
-```bash
-# API Keys and Secrets
-UPSTAGE_API_KEY=your_api_key
-PINECONE_API_KEY=your_pinecone_key
-OPENAI_API_KEY=your_openai_key
-
-# Service Endpoints
-UPSTAGE_DOCUMENT_PARSE_URL=https://api.upstage.ai/v1/document-parse
-AGENTIC_IE_URL=https://api.upstage.ai/v1/information-extract
-
-# Configuration
-MAX_RETRIES=3
-TIMEOUT_SECONDS=30
-CACHE_TTL=3600
-```
-
-### 12.5.2 Monitoring & Observability
-
-**Key Metrics to Track**:
-- API response times and success rates
-- Component availability and health
-- Cost per operation and usage trends
-- Error rates and failure patterns
-- User engagement and satisfaction metrics
-
-### 12.5.3 Documentation & Testing
-
-**Vibe Coding Prompt for Documentation**:
-```
-"Create comprehensive documentation for the component integration that:
-1. Includes API reference with examples
-2. Provides step-by-step integration guides
-3. Documents error codes and troubleshooting
-4. Includes performance benchmarks and limits
-5. Provides code examples in multiple languages
-6. Creates interactive API documentation
-7. Includes video tutorials for complex workflows"
-```
-
-## 12.6 Advanced Integration Patterns
-
-### 12.6.1 Event-Driven Architecture
-
-**Implementing Event Streams**:
-- **Kafka**: Distributed event streaming
-- **AWS EventBridge**: Serverless event bus
-- **Google Pub/Sub**: Message queuing service
-- **Redis Streams**: Lightweight event streaming
-
-### 12.6.2 Microservices with Components
-
-**Service Mesh Integration**:
-- **Istio**: Service mesh for microservices
-- **Consul Connect**: Service discovery and configuration
-- **Envoy Proxy**: Edge and service proxy
-
-### 12.6.3 Serverless Integration
-
-**Serverless Platforms**:
-- **AWS Lambda**: Function-as-a-Service
-- **Vercel Functions**: Edge computing
-- **Netlify Functions**: JAMstack functions
-- **Google Cloud Functions**: Event-driven compute
-
-## 12.7 Future-Proofing Your Integration
-
-### 12.7.1 Version Management
-
-**API Versioning Strategies**:
-- Semantic versioning for breaking changes
-- Backward compatibility considerations
-- Migration paths for deprecated features
-- Feature flags for gradual rollouts
-
-### 12.7.2 Scaling Considerations
-
-**Horizontal Scaling**:
-- Load balancing across multiple instances
-- Database sharding and replication
-- CDN integration for global distribution
-- Auto-scaling based on demand
-
-## 12.8 Summary
-
-Vibe coding components transform the development process by:
-
-1. **Accelerating Development**: Leverage existing services instead of building from scratch
-2. **Improving Reliability**: Use battle-tested components and services
-3. **Reducing Costs**: Pay only for what you use with cloud services
-4. **Enhancing Scalability**: Built-in scaling with managed services
-5. **Focusing on Value**: Spend time on unique business logic, not infrastructure
-
-### Key Takeaways
-
-- **Composition over Creation**: Combine existing components rather than building everything
-- **API-First Design**: Design for integration from the beginning
-- **Resilience Planning**: Implement proper error handling and fallback mechanisms
-- **Cost Awareness**: Monitor usage and optimize for cost-effectiveness
-- **Documentation First**: Maintain comprehensive documentation for all integrations
-
-### Next Steps
-
-1. Identify components relevant to your project
-2. Create proof-of-concept integrations
-3. Implement proper error handling and monitoring
-4. Scale gradually based on usage patterns
-5. Continuously optimize for performance and cost
-
-The future of development lies in intelligent composition of existing services and components. By mastering these integration patterns, you'll be well-equipped to build powerful, scalable applications with minimal effort and maximum impact. 
+Use Python with security scanning tools and include integration with GitHub Security Advisories. Show how to automate the entire vulnerability lifecycle from detection to remediation. Include rollback procedures and security testing automation.
+``` 
