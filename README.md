@@ -23,15 +23,15 @@ A comprehensive guide to **Vibe Software Engineering** - AI-assisted software de
 
 ### **English Chapters**
 1. [Introduction to Vibe Software Engineering](chapters/chapter-01.md)
-2. [Core Design Principles](chapters/chapter-02.md)
-3. [Understanding Software Architecture](chapters/chapter-03.md)
-4. [Common Architectural Patterns](chapters/chapter-04.md)
-5. [Writing Readable Code](chapters/chapter-05.md)
-6. [Error Handling and Logging](chapters/chapter-06.md)
-7. [Performance Optimization](chapters/chapter-07.md)
-8. [Secure Coding Practices](chapters/chapter-08.md)
-9. [Test-Driven Development](chapters/chapter-09.md)
-10. [CI/CD](chapters/chapter-10.md)
+2. [Software Development Processes for Vibe Coding](chapters/chapter-02.md)
+3. [Design Patterns for AI-Assisted Development](chapters/chapter-03.md)
+4. [Requirements Engineering for Vibe Coding](chapters/chapter-04.md)
+5. [Core Design Principles](chapters/chapter-05.md)
+6. [Testing in the Vibe Coding Era](chapters/chapter-06.md)
+7. [Understanding Software Architecture](chapters/chapter-07.md)
+8. [Common Architectural Patterns and Styles](chapters/chapter-08.md)
+9. [Writing Readable and Maintainable Code](chapters/chapter-09.md)
+10. [Robust Error Handling and Logging](chapters/chapter-10.md)
 11. [Collaboration & Version Control](chapters/chapter-11.md)
 12. [Journey to Mastery](chapters/chapter-12.md)
 13. [Advanced Topics](chapters/chapter-13.md)
@@ -46,9 +46,9 @@ Available chapters: [ko/chapter-01](chapters/ko/chapter-01.md) through [ko/chapt
 ## 🚀 Getting Started
 
 1. **Begin with Foundations**: Start with [Chapter 1](chapters/chapter-01.md)
-2. **Master the Principles**: Work through [Chapter 2](chapters/chapter-02.md)  
-3. **Think Architecturally**: Dive into [Chapter 3](chapters/chapter-03.md)
-4. **Choose Your Path**: Focus on areas relevant to your needs
+2. **Learn Development Processes**: Work through [Chapter 2](chapters/chapter-02.md)  
+3. **Understand Design Patterns**: Explore [Chapter 3](chapters/chapter-03.md)
+4. **Master Core Principles**: Study [Chapter 5](chapters/chapter-05.md)
 
 ## 💡 Features
 
